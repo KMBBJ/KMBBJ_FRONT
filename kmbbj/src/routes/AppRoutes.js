@@ -16,14 +16,14 @@ import NotificationRoutes from './NotificationRoutes';
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/auth" component={AuthRoutes} /> 
-      <Route path="/admin" component={AdminRoutes} />
-      <Route path="/charts" component={ChartRoutes} />
-      <Route path="/matching" component={MatchingRoutes} />
-      <Route path="/games" component={GameRoutes} />
-      <Route path="/trading" component={TradingRoutes} />
-      <Route path="/ranking" component={RankingRoutes} />
-      <Route path="/notifications" component={NotificationRoutes} />
+      <Route path="/auth/*" element={<AuthRoutes />} />
+      <Route path="/admin/*" element={<AdminRoutes />} />
+      <Route path="/charts/*" element={<ChartRoutes />} />
+      <Route path="/matching/*" element={<MatchingRoutes />} />
+      <Route path="/games/*" element={<GameRoutes />} />
+      <Route path="/trading/*" element={<TradingRoutes />} />
+      <Route path="/ranking/*" element={<RankingRoutes />} />
+      <Route path="/notifications/*" element={<NotificationRoutes />} />
     </Routes>
   );
 };
