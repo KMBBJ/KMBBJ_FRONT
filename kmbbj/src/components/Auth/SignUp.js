@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/Auth/AuthContext';
+import Modal from '../common/Modal'; // 모달 컴포넌트 임포트
 import '../../assets/styles/Auth/AuthForm.css';
 
 const SignUp = () => {
-  const { handleJoin } = useAuth();
+  const { handleJoin, isModalOpen, modalMessage } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
@@ -29,6 +30,9 @@ const SignUp = () => {
         <input type="password" value={passwordCheck} onChange={(e) => setPasswordCheck(e.target.value)} />
         <button type="submit" className="auth-button">회원 가입</button>
       </form>
+      <Modal isOpen={isModalOpen} onClose={() => {}} title="회원가입">
+        <p>{modalMessage}</p>
+      </Modal>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { login, join, logout, refreshTokens, setAccessToken, clearAccessToken } from '../../services/Auth/authService';
+import { login, join, logout, refreshTokens} from '../../services/Auth/authService';
 
 const useAuth = () => {
   const [user, setUser] = useState(null);

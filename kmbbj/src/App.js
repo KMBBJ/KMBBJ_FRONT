@@ -9,13 +9,13 @@ import Footer from './components/common/Footer';
 
 const App = () => {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Header />
         <AppRoutes />
         <Footer />
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+  </Router>
   );
 };
 
