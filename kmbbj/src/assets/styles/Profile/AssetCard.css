@@ -1,0 +1,19 @@
+.asset-card {
+  text-align: left;
+  width: 100%;
+}
+
+.asset-card h2 {
+  margin-bottom: 10px;
+}
+
+.asset-card p {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.asset-card ul {
+  list-style-type: disc;
+  margin: 0;
+  padding: 0;
+}

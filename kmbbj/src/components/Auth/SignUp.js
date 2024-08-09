@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/Auth/AuthContext';
-import Modal from '../common/Modal'; // 모달 컴포넌트 임포트
+import { useNavigate } from 'react-router-dom'; // useNavigate import 추가
+import Modal from '../common/Modal';
 import '../../assets/styles/Auth/AuthForm.css';
 
 const SignUp = () => {
-  const { handleJoin, isModalOpen, modalMessage } = useAuth();
+  const { handleJoin, isModalOpen, modalMessage, handleModalClose } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
+  const navigate = useNavigate(); // useNavigate 훅 초기화
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -15,6 +17,15 @@ const SignUp = () => {
       await handleJoin(email, password, passwordCheck);
     } catch (error) {
       console.error(error.message);
+    }
+  };
+
+  // 모달 확인 버튼 클릭 시 호출되는 함수
+  const handleConfirmClick = () => {
+    if (modalMessage === '회원가입에 성공했습니다.') { // 성공 메시지를 확인
+      navigate('/auth/login'); // 성공 시 로그인 페이지로 이동
+    } else {
+      handleModalClose(); // 실패 시 모달 닫기
     }
   };
 
@@ -30,8 +41,9 @@ const SignUp = () => {
         <input type="password" value={passwordCheck} onChange={(e) => setPasswordCheck(e.target.value)} />
         <button type="submit" className="auth-button">회원 가입</button>
       </form>
-      <Modal isOpen={isModalOpen} onClose={() => {}} title="회원가입">
+      <Modal isOpen={isModalOpen} onClose={handleConfirmClick} title="회원가입"> {/* handleConfirmClick를 onClose에 전달 */}
         <p>{modalMessage}</p>
+        <button onClick={handleConfirmClick} className="modal-action-button" style={{ display: 'none' }}>확인</button>
       </Modal>
     </div>
   );

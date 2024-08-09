@@ -1,0 +1,9 @@
+.game-rank h2 {
+  margin-bottom: 10px;
+}
+
+.game-rank ul {
+  list-style-type: disc;
+  margin: 0;
+  padding: 0;
+}

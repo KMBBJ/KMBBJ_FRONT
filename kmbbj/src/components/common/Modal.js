@@ -8,14 +8,18 @@ const Modal = ({ isOpen, onClose, title, children }) => {
     <div className="modal-overlay">
       <div className="modal-container">
         <div className="modal-header">
-          <h3>{title}</h3>
-          <button className="modal-close-button" onClick={onClose}>×</button>
+          <button className="modal-close-button" onClick={onClose}>
+            &times;
+          </button>
         </div>
         <div className="modal-content">
+          {title && <h2>{title}</h2>}
           {children}
         </div>
         <div className="modal-footer">
-          <button className="modal-action-button" onClick={onClose}>확인</button>
+          <button className="modal-action-button" onClick={onClose}>
+            확인
+          </button>
         </div>
       </div>
     </div>
