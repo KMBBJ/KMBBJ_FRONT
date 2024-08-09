@@ -20,28 +20,30 @@ const Header = () => {
   return (
     <header>
       <div className="logo">
-      <img src={logo} alt="Logo" /> {/* 로고 이미지 추가 */}
+        <img src={logo} alt="Logo" /> {/* 로고 이미지 추가 */}
       </div>
       <nav>
         <ul>
-          <li>
-            <Link to="/games/start">게임 시작</Link>
-          </li>
-          <li>
-            <Link to="/charts/coin">코인 차트</Link>
-          </li>
-          <li>
-            <Link to="/friends/list">친구 목록</Link>
-          </li>
-          <li>
-            <Link to="/profile/myinfo">내 정보</Link>
-          </li>
           {user ? (
-            <li>
-              <button className="logout-button" onClick={logout}>
-                Log Out
-              </button>
-            </li>
+            <>
+              <li>
+                <Link to="/games/start">게임 시작</Link>
+              </li>
+              <li>
+                <Link to="/charts/coin">코인 차트</Link>
+              </li>
+              <li>
+                <Link to="/friends/list">친구 목록</Link>
+              </li>
+              <li>
+                <Link to="/">내 정보</Link>
+              </li>
+              <li>
+                <button className="logout-button" onClick={logout}>
+                  Log Out
+                </button>
+              </li>
+            </>
           ) : (
             <>
               <li>
