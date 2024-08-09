@@ -1,0 +1,12 @@
+/* 페이지네이션 추가 스타일 */
+button:disabled {
+  background-color: #919191; /* 선택될 때 약간 더 진한 초록색 */
+}
+
+button:hover:not(:disabled) {
+  background-color: #555; /* 활성 버튼에 대한 호버시 약간 더 밝은 색 */
+}
+
+.page-button {
+  margin-left: 5px;
+}

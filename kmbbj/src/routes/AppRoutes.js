@@ -3,25 +3,24 @@
 인증이 필요하지 않은 경로는 /auth 링크로 타고가는데 저한테 말해주면됨
 */
 
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import AuthRoutes from './AuthRoutes';
-import AdminRoutes from './AdminRoutes';
-import ChartRoutes from './ChartRoutes';
-import MatchingRoutes from './MatchingRoutes';
-import GameRoutes from './GameRoutes';
-import TradingRoutes from './TradingRoutes';
-import RankingRoutes from './RankingRoutes';
-import NotificationRoutes from './NotificationRoutes';
-import ProfileRoutes from './ProfileRoutes';
-import PrivateRoute from './PrivateRoutes';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import AuthRoutes from "./AuthRoutes";
+import AdminRoutes from "./AdminRoutes";
+import ChartRoutes from "./ChartRoutes";
+import MatchingRoutes from "./MatchingRoutes";
+import GameRoutes from "./GameRoutes";
+import TradingRoutes from "./TradingRoutes";
+import RankingRoutes from "./RankingRoutes";
+import NotificationRoutes from "./NotificationRoutes";
+import ProfileRoutes from "./ProfileRoutes";
+import PrivateRoute from "./PrivateRoutes";
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* 인증이 필요하지 않은 경로 */}
       <Route path="/auth/*" element={<AuthRoutes />} />
-
       {/* 인증이 필요한 경로 */}
       <Route element={<PrivateRoute />}>
         <Route path="/admin/*" element={<AdminRoutes />} />
@@ -31,7 +30,7 @@ const AppRoutes = () => {
         <Route path="/trading/*" element={<TradingRoutes />} />
         <Route path="/ranking/*" element={<RankingRoutes />} />
         <Route path="/notifications/*" element={<NotificationRoutes />} />
-        <Route path='*' element={<ProfileRoutes />} />
+        <Route path="*" element={<ProfileRoutes />} />
       </Route>
     </Routes>
   );
