@@ -3,7 +3,7 @@ import "../../assets/styles/Matching/Pagination.css";
 
 function Pagination({ currentPage, totalPages, onPageChange }) {
   return (
-    <div>
+    <div className="pagination-container">
       {Array.from({ length: totalPages }, (_, index) => (
         <button
           key={index}

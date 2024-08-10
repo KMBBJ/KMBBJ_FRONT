@@ -30,7 +30,7 @@ function RoomList({ rooms }) {
         {rooms.map((room) => (
           <tr key={room.roomId} className="room-row-container">
             <td colSpan="6" className="room-cell">
-              <Link to={`/room/enter/${room.roomId}`} className="room-link">
+              <Link to={`/matching/enter/${room.roomId}`} className="room-link">
                 <div className="room-row">
                   <div>{room.roomId}</div>
                   <div>{room.title}</div>
