@@ -1,0 +1,141 @@
+.dashboard {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+tr:hover {
+  background-color: #f9f9f9;
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.1em;
+}
+
+.search-button,
+.asc-button,
+.page-button {
+  background-color: #333;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px; /* 페이지 버튼의 폰트 크기 조정 */
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 13px; /* 버튼의 모서리를 더 동그랗게 */
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input[type="text"],
+select {
+  padding: 8px;
+  margin-top: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 1px; /* 입력 필드와 선택 드롭다운도 약간 둥글게 */
+}
+
+select {
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-div {
+  text-align: left;
+  margin-left: 50px;
+}
+
+.dropdown {
+  text-align: right;
+}
+
+.room-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.room-table th,
+.room-table td {
+  padding: 12px 15px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.room-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.room-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.room-row div {
+  flex: 1;
+  text-align: center;
+}
+
+.room-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.room-row-container {
+  border-bottom: 1px solid #ddd;
+}
+
+.room-row-container:hover {
+  background-color: #f5f5f5;
+}
+
+.room-cell {
+  padding: 0;
+}
+
+.search-button {
+  margin-left: 10px;
+}
+.room-cell .room-row {
+  padding: 12px 15px;
+}
+
+.room-table thead th,
+.room-row div {
+  width: 16.66%; /* 각각의 셀이 동일한 너비를 가지도록 설정 */
+}
+
+.sort-option {
+  float: right;
+  margin-right: 30px;
+}
+
+.dropdown {
+  text-align: center;
+  padding-left: 5px;
+}
