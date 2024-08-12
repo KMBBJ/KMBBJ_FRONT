@@ -1,12 +1,12 @@
 import React from 'react';
 import '../../assets/styles/Profile/UserInfo.css';
 
-const UserInfo = () => {
+const UserInfo = ({ nickName, email }) => {
   return (
     <div className="user-info">
       <h2>사용자 정보</h2>
-      <p>김창섭</p>
-      <p>chang@gmail.com</p>
+      <p>{nickName}</p>
+      <p>{email}</p>
     </div>
   );
 };
