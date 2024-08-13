@@ -1,9 +1,13 @@
 import React from 'react';
-import { Routes } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+
+
+import UserListPage from '../pages/Admin/UserListPage';
 
 const AdminRoutes = () => {
   return (
     <Routes>
+       <Route path="user_search" element={<UserListPage />} />
     </Routes>
   );
 };
