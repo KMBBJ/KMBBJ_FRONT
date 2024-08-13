@@ -1,61 +1,121 @@
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .logo img {
-    height: 40px;
-  }
-  
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-    padding: 0;
-    margin: 0;
-  }
-  
-  nav ul li {
-    display: inline;
-  }
-  
-  nav ul li a,
-  nav ul li button {
-    color: #333;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 3px;
-    transition: background-color 0.3s;
-  }
-  
-  nav ul li a:hover,
-  nav ul li button:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .logout-button {
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .logout-button:hover {
-    background-color: #555;
-  }
-  
-  .signup-button {
-    background-color: #555;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 3px;
-  }
-  
-  .signup-button:hover {
-    background-color: #777;
-  }  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo img {
+  height: 40px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  position: relative; /* 드롭다운 메뉴 위치 설정을 위해 position: relative 추가 */
+}
+
+nav ul li a,
+nav ul li button {
+  color: #333;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+nav ul li a:hover,
+nav ul li button:hover {
+  background-color: #f0f0f0;
+}
+
+.logout-button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #555;
+}
+
+.signup-button {
+  background-color: #555;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 3px;
+}
+
+.signup-button:hover {
+  background-color: #777;
+}
+
+/* 드롭다운 메뉴 스타일 */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 0;
+  list-style: none;
+  margin: 0;
+  width: 150px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  display: none; /* 기본적으로 드롭다운 메뉴는 숨겨둡니다 */
+}
+
+/* 드롭다운 메뉴 항목 스타일 */
+.dropdown-menu li {
+  margin: 0;
+  border-bottom: 1px solid #eee;
+  display: block; /* 항목을 블록으로 설정해 세로로 나열되도록 합니다 */
+}
+
+.dropdown-menu li:last-child {
+  border-bottom: none;
+}
+
+.dropdown-menu li a {
+  color: #333;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: block;
+  white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 합니다 */
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f0f0f0;
+}
+
+/* 드롭다운 메뉴를 보여줄 때 */
+.nav-item:hover .dropdown-menu,
+.nav-item.show-dropdown .dropdown-menu {
+  display: block; /* 드롭다운 메뉴를 표시 */
+}
+
+/* 네모 칸이 없는 버튼 스타일 */
+.no-border-button {
+  background-color: transparent;
+  border: none;
+  color: #333;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.no-border-button:hover {
+  background-color: #f0f0f0;
+}
