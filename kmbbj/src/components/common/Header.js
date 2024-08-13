@@ -1,20 +1,51 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/Auth/AuthContext';
-import '../../assets/styles/common/Header.css';
-import logo from '../../assets/images/logo.png';
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/Auth/AuthContext";
+import "../../assets/styles/common/Header.css";
+import logo from "../../assets/images/logo.png";
 
 const Header = () => {
   const { user, handleLogout } = useAuth();
   const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const toggleDropdown = () => {
+    setShowDropdown((prev) => !prev);
+  };
+
+  const closeDropdown = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", closeDropdown);
+    return () => {
+      document.removeEventListener("mousedown", closeDropdown);
+    };
+  }, []);
 
   const logout = async () => {
     try {
       await handleLogout();
-      navigate('/auth/login'); // 로그아웃 후 로그인 페이지로 리디렉션
+      navigate("/auth/login"); // 로그아웃 후 로그인 페이지로 리디렉션
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error("Logout failed:", error);
     }
+  };
+
+  const coin = async () => {
+    navigate("/charts/coin"); // 코인 차트 이동
+  };
+
+  const friends = async () => {
+    navigate("/friends/list");
+  };
+
+  const information = async () => {
+    navigate("/");
   };
 
   return (
@@ -26,17 +57,47 @@ const Header = () => {
         <ul>
           {user ? (
             <>
-              <li>
-                <Link to="/games/start">게임 시작</Link>
+              <li ref={dropdownRef} className="nav-item">
+                <button
+                  className="nav-button no-border-button"
+                  onClick={toggleDropdown}
+                >
+                  게임 시작
+                </button>
+                {showDropdown && (
+                  <ul className="dropdown-menu">
+                    <li>
+                      <Link to="/matching/create">방 생성하기</Link>
+                    </li>
+                    <li>
+                      <Link to="/matching/list">방 목록보기</Link>
+                    </li>
+                    <li>
+                      <Link to="/matching/random">랜덤 매칭</Link>
+                    </li>
+                  </ul>
+                )}
               </li>
               <li>
-                <Link to="/charts/coin">코인 차트</Link>
+                <button className="nav-button no-border-button" onClick={coin}>
+                  코인 차트
+                </button>
               </li>
               <li>
-                <Link to="/friends/list">친구 목록</Link>
+                <button
+                  className="nav-button no-border-button"
+                  onClick={friends}
+                >
+                  친구 목록
+                </button>
               </li>
               <li>
-                <Link to="/">내 정보</Link>
+                <button
+                  className="nav-button no-border-button"
+                  onClick={information}
+                >
+                  내 정보
+                </button>
               </li>
               <li>
                 <button className="logout-button" onClick={logout}>
@@ -50,7 +111,9 @@ const Header = () => {
                 <Link to="/auth/login">Sign in</Link>
               </li>
               <li>
-                <Link to="/auth/signup" className="signup-button">Sign Up</Link>
+                <Link to="/auth/signup" className="signup-button">
+                  Sign Up
+                </Link>
               </li>
             </>
           )}
