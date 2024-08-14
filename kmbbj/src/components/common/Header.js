@@ -37,7 +37,7 @@ const Header = () => {
   };
 
   const coin = async () => {
-    navigate("/charts/coin"); // 코인 차트 이동
+    navigate("/charts/list"); // 코인 리스트로 이동
   };
 
   const friends = async () => {
@@ -80,7 +80,7 @@ const Header = () => {
               </li>
               <li>
                 <button className="nav-button no-border-button" onClick={coin}>
-                  코인 차트
+                  코인 목록
                 </button>
               </li>
               <li>
