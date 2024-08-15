@@ -7,7 +7,7 @@ const ChartRoutes = () => {
   return (
     <Routes>
       <Route path='list' element={<CoinListPage/>} />
-      <Route path="detail/:symbol" element={<ChartPage />} />
+      <Route path='detail' element={<ChartPage/>} />
     </Routes>
   );
 };
