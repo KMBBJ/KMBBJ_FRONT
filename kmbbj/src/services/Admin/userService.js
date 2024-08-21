@@ -18,7 +18,6 @@ export const fetchUsers = async (page, size, email = '') => {
   }
 };
 
-
 // 사용자 상세 정보 가져오기
 export const fetchUserDetails = async (id) => {
   try {
@@ -97,14 +96,12 @@ export const addAnnouncement = async (announcement) => {
   }
 };
 
-
-
 // 기본 export 추가
 const userService = {
   fetchUsers,
   fetchUserDetails,
   fetchAdminAnnouncements,
-  fetchAdminAnnouncementsAndUserInfo,
+  fetchAdminAnnouncementsAndUserInfo,   
   addAnnouncement
 };
 

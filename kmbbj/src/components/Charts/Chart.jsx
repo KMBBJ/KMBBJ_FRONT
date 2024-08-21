@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Highcharts from 'highcharts/highstock';
+// import Highcharts from 'highcharts/highstock';
 import "../../assets/styles/Charts/ChartComponent.css";
 
 const Chart = () => {
