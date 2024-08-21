@@ -101,7 +101,7 @@ const userService = {
   fetchUsers,
   fetchUserDetails,
   fetchAdminAnnouncements,
-  fetchAdminAnnouncementsAndUserInfo,   
+  fetchAdminAnnouncementsAndUserInfo,
   addAnnouncement
 };
 
