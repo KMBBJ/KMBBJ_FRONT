@@ -1,3 +1,5 @@
+/* UserListPage.css */
+
 .user-list-container {
   width: 80%;
   margin: 0 auto;
@@ -19,16 +21,6 @@
   border-radius: 5px;
 }
 
-.search-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #000;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 .user-table {
   width: 100%;
   border-collapse: collapse;
@@ -36,8 +28,7 @@
   table-layout: fixed;
 }
 
-.user-table th,
-.user-table td {
+.user-table th, .user-table td {
   padding: 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -73,4 +64,8 @@
 .pagination button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.suspended-user {
+  color: #f29f9f !important; /* 빨간색 글자 색상 */
 }
