@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react'; // useCallback을 추가
 import { useNavigate } from 'react-router-dom';
 import { fetchUsers } from '../../services/Admin/userService';
 import '../../assets/styles/Admin/UserListPage.css';
@@ -11,23 +11,23 @@ const UserListPage = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        loadUsers(searchEmail);
-    }, [page]);
-
-    useEffect(() => {
-        setPage(0);
-        loadUsers(searchEmail);
-    }, [searchEmail]);
-
-    const loadUsers = async (email = '') => {
+    const loadUsers = useCallback(async (email = '') => {
         try {
             const data = await fetchUsers(page, size, email);
             setUsers(data.userList || []);
         } catch (error) {
             console.error('유저 목록을 가져오는 중 오류 발생:', error);
         }
-    };
+    }, [page, size]);
+
+    useEffect(() => {
+        loadUsers(searchEmail);
+    }, [page, searchEmail, loadUsers]);
+
+    useEffect(() => {
+        setPage(0);
+        loadUsers(searchEmail);
+    }, [searchEmail, loadUsers]);
 
     const handlePageChange = (newPage) => {
         if (newPage >= 0) {
@@ -37,6 +37,10 @@ const UserListPage = () => {
 
     const handleNicknameClick = (userId) => {
         navigate(`/admin/user/${userId}`);
+    };
+
+    const handleGoToAdmin = () => {
+        navigate('/admin');
     };
 
     return (
@@ -66,6 +70,7 @@ const UserListPage = () => {
                                 <td>{index + 1 + page * size}</td>
                                 <td>
                                     <a 
+                                        href={`/admin/user/${user.id}`} // href 속성을 추가
                                         onClick={(e) => {
                                             e.preventDefault();
                                             handleNicknameClick(user.id);
@@ -97,6 +102,14 @@ const UserListPage = () => {
                     disabled={users.length < size}
                 >
                     Next
+                </button>
+            </div>
+            <div className="admin-button-container">
+                <button 
+                    onClick={handleGoToAdmin}
+                    className="admin-button"
+                >
+                    Go to Admin
                 </button>
             </div>
         </div>
