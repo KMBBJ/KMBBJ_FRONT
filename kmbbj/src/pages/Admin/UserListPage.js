@@ -1,4 +1,8 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
+
+
+
 import { useNavigate } from 'react-router-dom';
 import { fetchUsers } from '../../services/Admin/userService';
 import '../../assets/styles/Admin/UserListPage.css';
@@ -22,6 +26,7 @@ const UserListPage = () => {
 
     useEffect(() => {
         loadUsers(searchEmail);
+
     }, [page, searchEmail, loadUsers]); // 'loadUsers' 추가
 
     const handlePageChange = (newPage) => {
@@ -32,6 +37,10 @@ const UserListPage = () => {
 
     const handleNicknameClick = (userId) => {
         navigate(`/admin/${userId}`);
+    };
+
+    const handleGoToAdmin = () => {
+        navigate('/admin');
     };
 
     return (
@@ -59,8 +68,10 @@ const UserListPage = () => {
                             <tr key={user.id}>
                                 <td>{index + 1 + page * size}</td>
                                 <td>
+
                                     <button
                                         onClick={() => handleNicknameClick(user.id)}
+
                                         className="nickname-link"
                                     >
                                         {user.nickname}
@@ -93,6 +104,14 @@ const UserListPage = () => {
                     onClick={() => navigate('/admin')}
                 >
                     Back to Admin
+                </button>
+            </div>
+            <div className="admin-button-container">
+                <button 
+                    onClick={handleGoToAdmin}
+                    className="admin-button"
+                >
+                    Go to Admin
                 </button>
             </div>
         </div>
