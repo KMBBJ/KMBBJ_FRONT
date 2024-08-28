@@ -1,0 +1,21 @@
+/* src/assets/styles/Profile/UserInfo.css */
+.user-info {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.user-info h2 {
+  margin-bottom: 10px;
+}
+
+.user-info p {
+  margin: 5px 0;
+}
+
+/* 정지 상태일 때 적용될 스타일 */
+.suspended-info {
+  color: #f29f9f !important; /* 빨간색 글자 색상 */
+  border: 1px solid #ddd4d4 !important; /* 빨간색 테두리 */
+  background-color: #f4f4f4cf !important; /* 연한 빨간색 배경 */
+}
