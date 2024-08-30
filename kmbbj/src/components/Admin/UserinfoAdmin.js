@@ -12,8 +12,7 @@ const UserinfoAdmin = ({ userId }) => {
       try {
         setLoading(true);
         const data = await fetchUserDetails(userId);
-        console.log('Fetched user info:', data); // 데이터를 확인
-        setUserInfo(data); // 사용자 정보 설정
+        setUserInfo(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -40,13 +39,18 @@ const UserinfoAdmin = ({ userId }) => {
 
   const { nickname, authority, email, suspensionEndDate } = userInfo;
 
-  const isSuspended = suspensionEndDate && suspensionEndDate !== 'null' && suspensionEndDate.trim() !== '';
+  const isSuspended = suspensionEndDate && suspensionEndDate.trim() !== '';
 
   return (
     <div className={`user-info ${isSuspended ? 'suspended-info' : ''}`}>
       <h2>{authority}</h2>
       <p>{nickname}</p>
       <p>{email}</p>
+      {isSuspended && (
+        <p className="suspension-date">
+          Suspended until: {new Date(suspensionEndDate).toLocaleDateString()}
+        </p>
+      )}
     </div>
   );
 };

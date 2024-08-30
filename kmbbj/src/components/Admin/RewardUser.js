@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { rewardUser } from '../../services/Admin/userService';
+import '../../assets/styles/Admin/ProfileEdit.css';
 
 const RewardUser = ({ userId }) => {
   const [amount, setAmount] = useState('');
