@@ -19,10 +19,10 @@ const CreateRoomModal = ({ onClose, onCreateRoom }) => {
         seedMoneyValue = "TEN_MILLION";
         break;
       case '2000만':
-        seedMoneyValue = "TWO_MILLION";
+        seedMoneyValue = "TWENTY_MILLION";
         break;
       case '3000만':
-        seedMoneyValue = "THREE_MILLION";
+        seedMoneyValue = "THIRTY_MILLION";
         break;
       default:
         alert("시드머니를 선택하세요.");
