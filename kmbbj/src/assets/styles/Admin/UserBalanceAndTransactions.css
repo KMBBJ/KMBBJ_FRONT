@@ -1,0 +1,26 @@
+/* src/assets/styles/Admin/UserBalanceAndTransactions.css */
+.balance-and-transactions {
+    margin: 20px 0;
+  }
+  
+  .total-balance {
+    font-size: 2em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+  
+  .transaction-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .transaction-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    font-size: 1.1em;
+  }
+  
+  .transaction-item span {
+    margin-right: 15px;
+  }
+  
