@@ -133,7 +133,6 @@ const Header = () => {
                 )}
               </li>
               {isModalOpen && <CreateRoomModal onClose={closeModal} />}
-              {isModalOpen && <CreateRoomModal onClose={closeModal} />}
               {isMatching && (
                 <div>
                   <p>매칭 중... ({elapsedTime}초 경과)</p>
