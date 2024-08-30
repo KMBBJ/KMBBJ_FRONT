@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/Auth/AuthContext";
+import CreateRoomModal from "../../components/Matching/CreateRoomModal"
 import "../../assets/styles/common/Header.css";
 import logo from "../../assets/images/logo.png";
 
@@ -8,6 +9,7 @@ const Header = () => {
   const { user, handleLogout } = useAuth();
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const toggleDropdown = () => {
@@ -19,6 +21,12 @@ const Header = () => {
       setShowDropdown(false);
     }
   };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
     document.addEventListener("mousedown", closeDropdown);
@@ -67,7 +75,7 @@ const Header = () => {
                 {showDropdown && (
                   <ul className="dropdown-menu">
                     <li>
-                      <Link to="/matching/create">방 생성하기</Link>
+                    <button className="no-border-button" onClick={toggleModal}>방 생성하기</button>
                     </li>
                     <li>
                       <Link to="/matching/list">방 목록보기</Link>
@@ -78,6 +86,7 @@ const Header = () => {
                   </ul>
                 )}
               </li>
+              {isModalOpen && <CreateRoomModal onClose={closeModal} />}
               <li>
                 <button className="nav-button no-border-button" onClick={coin}>
                   코인 목록

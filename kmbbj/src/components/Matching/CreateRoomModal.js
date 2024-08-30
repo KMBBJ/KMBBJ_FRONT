@@ -11,10 +11,27 @@ const CreateRoomModal = ({ onClose, onCreateRoom }) => {
   const navigate = useNavigate(); // useNavigate 훅 사용
 
   const handleCreateRoom = async () => {
-    const createDate = new Date().toISOString(); // 현재 시간을 ISO 형식으로 변환
+    const createDate = new Date().toISOString();
+    let seedMoneyValue = "";
+
+    switch (startSeedMoney) {
+      case '1000만':
+        seedMoneyValue = "TEN_MILLION";
+        break;
+      case '2000만':
+        seedMoneyValue = "TWO_MILLION";
+        break;
+      case '3000만':
+        seedMoneyValue = "THREE_MILLION";
+        break;
+      default:
+        alert("시드머니를 선택하세요.");
+        return;
+    }
+
     const payload = {
       title,
-      startSeedMoney: parseInt(startSeedMoney, 10),
+      startSeedMoney: seedMoneyValue,
       end: parseInt(end, 10),
       createDate,
       isDeleted: false,
@@ -22,13 +39,18 @@ const CreateRoomModal = ({ onClose, onCreateRoom }) => {
       delay: parseInt(delay, 10),
     };
 
+    if (end <= 0 || delay <= 0) {
+      alert("라운드 수와 딜레이는 0보다 커야 합니다.");
+      return;
+    }
+
     try {
       const response = await api.post("/room/create", payload);
       if (response.data.status === "OK") {
-        alert(`${response.data.message}`); // 성공 메시지 알림
-        onClose(); // 모달 닫기
+        alert(`${response.data.message}`);
+        onClose();
         const { roomId } = response.data.data;
-        navigate(`/matching/enter/${roomId}`); // 생성된 방의 상세 페이지로 이동
+        navigate(`/matching/enter/${roomId}`);
       } else {
         alert("방 생성에 실패했습니다.");
       }
@@ -53,12 +75,16 @@ const CreateRoomModal = ({ onClose, onCreateRoom }) => {
         </div>
         <div className="form-group">
           <label>초기 자산</label>
-          <input
-            type="number"
+          <select
             value={startSeedMoney}
             onChange={(e) => setStartSeedMoney(e.target.value)}
             required
-          />
+          >
+            <option value="">선택하세요</option>
+            <option value="1000만">1000만</option>
+            <option value="2000만">2000만</option>
+            <option value="3000만">3000만</option>
+          </select>
         </div>
         <div className="form-group">
           <label>라운드 수</label>
@@ -66,6 +92,7 @@ const CreateRoomModal = ({ onClose, onCreateRoom }) => {
             type="number"
             value={end}
             onChange={(e) => setEnd(e.target.value)}
+            min="1"
             required
           />
         </div>
@@ -75,6 +102,7 @@ const CreateRoomModal = ({ onClose, onCreateRoom }) => {
             type="number"
             value={delay}
             onChange={(e) => setDelay(e.target.value)}
+            min="1"
             required
           />
         </div>
