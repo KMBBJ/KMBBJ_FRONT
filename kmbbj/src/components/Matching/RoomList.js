@@ -4,8 +4,22 @@ import moment from "moment"; // 날짜 포매팅을 위해 moment.js 사용
 import "../../assets/styles/Matching/RoomList.css";
 
 function RoomList({ rooms }) {
-  // 시드머니 값을 "만원" 또는 "억" 단위로 포맷하는 함수
-  const formatSeedMoney = (money) => {
+  // 서버로부터 받은 문자열 값을 숫자로 변환
+  const convertSeedMoneyValue = (moneyStr) => {
+    switch (moneyStr) {
+      case "TEN_MILLION":
+        return 1000;
+      case "TWENTY_MILLION":
+        return 2000;
+      case "THIRTY_MILLION":
+        return 3000;
+      default:
+        return 0; // 혹은 유효하지 않은 값 처리
+    }
+  };
+
+  const formatSeedMoney = (moneyStr) => {
+    const money = convertSeedMoneyValue(moneyStr); // 문자열을 숫자로 변환
     if (money >= 10000) {
       const billion = Math.floor(money / 10000);
       const thousand = money % 10000;
