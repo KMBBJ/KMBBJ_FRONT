@@ -1,26 +1,66 @@
-/* src/assets/styles/Admin/UserBalanceAndTransactions.css */
-.balance-and-transactions {
-    margin: 20px 0;
-  }
-  
-  .total-balance {
-    font-size: 2em;
-    color: #2c3e50;
-    margin-bottom: 10px;
-  }
-  
-  .transaction-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .transaction-item {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    font-size: 1.1em;
-  }
-  
-  .transaction-item span {
-    margin-right: 15px;
-  }
-  
+/* UserBalanceAndTransactions.css */
+
+/* General styles for the component */
+.user-balance {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  margin-top: 0px;
+  width: 200%; /* Full width of its container */
+  max-width: 1200px; /* Adjust as needed */
+  box-sizing: border-box;
+  height: 700px; /* Adjust as needed */
+  overflow: auto; /* Allow scrolling if needed */
+}
+
+/* Ensure the table fits within the screen width */
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; /* Adjust margin as needed */
+  table-layout: fixed; /* Ensure fixed column widths */
+}
+
+.transactions-table th, .transactions-table td {
+  padding: 10px;
+  text-align: left;
+  word-wrap: break-word; /* Break long words to prevent overflow */
+}
+
+/* Set a fixed width for each column */
+.transactions-table th, .transactions-table td {
+  width: 33%; /* Adjust as needed for equal width */
+}
+
+.transactions-table th {
+  background-color: #f4f4f4;
+}
+
+.no-transactions {
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  background-color: #007bff;
+  color: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #d6d6d6;
+  cursor: not-allowed;
+}
