@@ -3,113 +3,99 @@
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    max-width: 500px;
-    margin: 0 auto;
     font-family: Arial, sans-serif;
-  }
-  
-  .card-title {
+    max-width: 100%;
+}
+
+.card-title {
     font-size: 1.2rem;
     color: #495057;
     margin-bottom: 10px;
     text-align: center;
-  }
-  
-  .total-balance {
+}
+
+.total-balance {
     font-size: 2rem;
     font-weight: bold;
     color: #212529;
     text-align: center;
     margin-bottom: 5px;
-  }
-  
-  .average-rate {
+}
+
+.average-rate {
     font-size: 1.2rem;
     text-align: center;
     margin-bottom: 20px;
-    font-weight: bold;
-  }
-  
-  .profit {
-    color: #dc3545;  /* 빨간색 */
-  }
-  
-  .loss {
-    color: #007bff;  /* 파란색 */
-  }
-  
-  .balance-grid {
+    color: #007bff;
+}
+
+.balance-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 10px;
     margin-bottom: 20px;
-  }
-  
-  .balance-column {
+}
+
+.balance-column {
     text-align: center;
-  }
-  
-  .balance-label {
+}
+
+.balance-label {
     font-size: 0.9rem;
     color: #6c757d;
     margin-bottom: 5px;
-  }
-  
-  .balance-value {
+}
+
+.balance-value {
     font-size: 1.2rem;
     font-weight: bold;
     color: #212529;
-  }
-  
-  .profit-loss-grid {
+}
+
+.profit-loss-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 10px;
     margin-bottom: 20px;
-  }
-  
-  .profit-loss-column {
+}
+
+.profit-loss-column {
     text-align: center;
-  }
-  
-  .profit-loss-label {
+}
+
+.profit-loss-label {
     font-size: 0.9rem;
     color: #6c757d;
     margin-bottom: 5px;
-  }
-  
-  .profit-loss-value, .profit-value, .loss-value {
+}
+
+.profit-loss-value {
     font-size: 1.2rem;
     font-weight: bold;
-  }
-  
-  .profit-value {
-    color: #dc3545;  /* 평가 수익을 빨간색으로 */
-  }
-  
-  .loss-value {
-    color: #007bff;  /* 평가 손실을 파란색으로 */
-  }
-  
-  .order-amount {
+    color: #212529;
+}
+
+.profit-value {
+    color: #dc3545;
+}
+
+.loss-value {
+    color: #007bff;
+}
+
+.order-amount {
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
     border-top: 1px solid #e9ecef;
     margin-bottom: 10px;
-  }
-  
-  .order-amount span:first-child {
+}
+
+.order-amount span:first-child {
     color: #6c757d;
-  }
-  
-  .order-amount span:last-child {
+}
+
+.order-amount span:last-child {
     font-weight: bold;
     color: #212529;
-  }
-  
-  .error-message {
-    color: #dc3545;
-    text-align: center;
-    font-weight: bold;
-  }
+}

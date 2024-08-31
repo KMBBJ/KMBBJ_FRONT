@@ -47,6 +47,28 @@ function GameRound() {
     }
   }, []);
 
+  const startNewRound = useCallback(async (gameId) => {
+    try {
+      const response = await api.post(`/rounds/${gameId}/end-newRound`);
+      const data = response.data.data;
+
+      if (typeof data.durationMinutes === "number") {
+        setGameStatus((prevStatus) => ({
+          ...prevStatus,
+          ...data,
+        }));
+        setRemainingSeconds(data.durationMinutes * 60);
+        localStorage.setItem(`remainingSeconds_${gameId}`, (data.durationMinutes * 60).toString());
+        localStorage.setItem(`timestamp_${gameId}`, Date.now().toString());
+      } else {
+        setError("Invalid data received from server when starting a new round");
+      }
+    } catch (error) {
+      console.error("Failed to start a new round:", error);
+      setError("Failed to start a new round");
+    }
+  }, []);
+
   useEffect(() => {
     const storedGameId = localStorage.getItem('encryptedGameId');
     
@@ -67,7 +89,8 @@ function GameRound() {
           localStorage.setItem(`timestamp_${gameId}`, Date.now().toString());
           return prevSeconds - 1;
         } else if (prevSeconds === 1) {
-          fetchGameStatus(localStorage.getItem('encryptedGameId'));
+          const gameId = localStorage.getItem('encryptedGameId');
+          startNewRound(gameId);  // 새로운 라운드 시작
           return 0;
         } else {
           return 0;
@@ -78,7 +101,7 @@ function GameRound() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [encryptedGameId, fetchGameStatus, navigate]);
+  }, [encryptedGameId, fetchGameStatus, startNewRound, navigate]);
 
   if (loading) return <p>Loading game status...</p>;
   if (error) return <p>Error loading game status: {error}</p>;
@@ -92,6 +115,9 @@ function GameRound() {
   const progressPercentage = (remainingSeconds / totalSeconds) * 100;
 
   const isLastHour = remainingSeconds <= 3600;
+
+  // 최근 4개의 라운드 데이터만 사용
+  const recentRounds = gameStatus.results.slice(-4);
 
   return (
     <div className="game-status">
@@ -131,7 +157,7 @@ function GameRound() {
           </tr>
         </thead>
         <tbody>
-          {gameStatus.results.map((result) => (
+          {recentRounds.map((result) => (
             <tr key={result.roundId}>
               <td>라운드 {result.roundNumber}</td>
               <td>
@@ -149,6 +175,14 @@ function GameRound() {
                   ? `${result.topLossCoin} (${result.topLossPercent})` 
                   : '-'}
               </td>
+            </tr>
+          ))}
+          {Array(Math.max(0, 4 - recentRounds.length)).fill().map((_, index) => (
+            <tr key={`empty-${index}`}>
+              <td>라운드 -</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
             </tr>
           ))}
         </tbody>
