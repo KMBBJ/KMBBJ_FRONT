@@ -1,0 +1,114 @@
+.game-status {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    color: #495057;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .game-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .game-info-item {
+    text-align: center;
+  }
+  
+  .game-info-item span:first-child {
+    font-size: 0.9rem;
+    color: #6c757d;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .game-status-value, .current-round, .remaining-time {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #212529;
+  }
+  
+  .game-status-value.active {
+    color: #28a745;
+  }
+  
+  .remaining-time.last-hour {
+    color: #dc3545;
+  }
+  
+  .progress-bar-container {
+    background-color: #e9ecef;
+    border-radius: 5px;
+    height: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    background-color: #007bff;
+    height: 100%;
+    transition: width 0.5s ease-in-out;
+  }
+  
+  .progress-bar-animation {
+    background-image: linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.15) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.15) 75%,
+      transparent 75%,
+      transparent
+    );
+    background-size: 40px 40px;
+    animation: stripes 1s linear infinite;
+  }
+  
+  @keyframes stripes {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 40px 0;
+    }
+  }
+  
+  .game-results {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .game-results th, .game-results td {
+    border: 1px solid #e9ecef;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .game-results th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #495057;
+  }
+  
+  .game-results td {
+    color: #212529;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    text-align: center;
+    font-weight: bold;
+  }
