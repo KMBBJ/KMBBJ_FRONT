@@ -14,8 +14,8 @@ const UserBalanceAndTransactions = ({ userId }) => {
       try {
         setLoading(true);
         const data = await fetchUserBalanceAndTransactions(userId, page, size);
-        console.log("Fetched data:", data);
-        setBalanceData(data);
+        console.log("Fetched data:", data); // 데이터 구조를 확인하기 위한 콘솔 로그
+        setBalanceData(data); // 데이터 설정
       } catch (err) {
         setError(err.message);
       } finally {
@@ -46,12 +46,12 @@ const UserBalanceAndTransactions = ({ userId }) => {
     return <div className="user-balance">오류: {error}</div>;
   }
 
-  const { totalBalance, assetTransactions } = balanceData || {};
+  const { totalBalance, transactions } = balanceData || {}; // transactions로 데이터를 매핑
 
   return (
     <div className="user-balance">
       <h2>총 잔액: {totalBalance?.asset.toLocaleString('ko-KR') || '0'} 원</h2>
-      {assetTransactions && assetTransactions.length > 0 ? (
+      {transactions && transactions.length > 0 ? (
         <table className="transactions-table">
           <thead>
             <tr>
@@ -61,7 +61,7 @@ const UserBalanceAndTransactions = ({ userId }) => {
             </tr>
           </thead>
           <tbody>
-            {assetTransactions.map((transaction) => (
+            {transactions.map((transaction) => (
               <tr key={transaction.assetTransactionId}>
                 <td>{transaction.changeType}</td>
                 <td>{transaction.changeAmount.toLocaleString('ko-KR')}</td>
@@ -77,7 +77,7 @@ const UserBalanceAndTransactions = ({ userId }) => {
         <button onClick={handlePreviousPage} disabled={page === 0}>
           이전
         </button>
-        <button onClick={handleNextPage} disabled={assetTransactions?.length < size}>
+        <button onClick={handleNextPage} disabled={transactions?.length < size}>
           다음
         </button>
       </div>
