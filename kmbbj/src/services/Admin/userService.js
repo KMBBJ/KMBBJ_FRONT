@@ -1,12 +1,14 @@
+// src/services/Admin/userService.js
 import api from '../../api/api';
 
-// 사용자 검색 기능 
+
+// 유저 리스트 함수
 export const fetchUsers = async (page, size, email = '') => {
   try {
     const params = { page, size };
     if (email) params.email = email;
     const response = await api.get('/admin/user_search', { params });
-    
+
     if (response.data && response.data.data) {
       return response.data.data;
     } else {
@@ -18,30 +20,11 @@ export const fetchUsers = async (page, size, email = '') => {
   }
 };
 
-// 사용자 상세 정보 가져오기
-export const fetchUserDetails = async (id) => {
-  try {
-    if (!id) throw new Error('User ID is required');
-    
-    const response = await api.get(`/admin/${id}`);
-    
-    if (response.data && response.data.data) {
-      return response.data.data; // 반환 데이터 구조 확인
-    } else {
-      throw new Error('Invalid response structure for fetchUserDetails');
-    }
-  } catch (error) {
-    console.error('Error fetching user details:', error);
-    throw error;
-  }
-};
-
-// 유저 정지 요청
+// 유저 정지 메서드 
 export const suspendUser = async (id, suspendDate) => {
   try {
-    // ISO 8601 형식으로 변환
     const formattedDate = new Date(suspendDate).toISOString();
-    console.log('Sending endDate:', formattedDate); // endDate를 콘솔에 출력하여 확인
+    console.log('Sending endDate:', formattedDate);
     const response = await api.post(`/admin/suspend/${id}`, { endDate: formattedDate });
     return response.data;
   } catch (error) {
@@ -50,7 +33,7 @@ export const suspendUser = async (id, suspendDate) => {
   }
 };
 
-// 유저 정지 해제 요청
+// 유저 정지 해제 메서드 0
 export const unsuspendUser = async (id) => {
   try {
     const response = await api.post(`/admin/unsuspend/${id}`);
@@ -61,13 +44,130 @@ export const unsuspendUser = async (id) => {
   }
 };
 
+// 사용자 보상 지급 요청 0
+export const rewardUser = async (id, amount) => {
+  try {
+    const response = await api.post(`/admin/rewards/${id}`, { amount }); // changeType 제거
+    return response.data;
+  } catch (error) {
+    console.error('Error rewarding user:', error.response ? error.response.data : error.message);
+    throw error;
+  }
+};
 
-// userService 객체를 정의하고 fetchUsers 함수를 포함시킵니다.
+// 사용자 상세 정보 가져오기 0
+export const fetchUserDetails = async (id) => {
+  try {
+    if (!id) throw new Error('User ID is required');
+
+    const response = await api.get(`/admin/${id}`);
+
+    // response.data만 반환하도록 수정
+    if (response.data) {
+      console.log('User details fetched:', response.data);
+      return response.data; // userInfo 객체를 반환
+    } else {
+      throw new Error('Invalid response structure for fetchUserDetails');
+    }
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    throw error;
+  }
+};
+
+
+
+// 자산 및 거래 내역을 가져오는 함수 0
+export const fetchUserBalanceAndTransactions = async (userId) => {
+  try {
+    const response = await api.get(`/admin/balance/${userId}`);
+    
+    if (response.data) {
+      console.log('Balance and transactions fetched:', response.data);
+      return response.data;
+    } else {
+      throw new Error('Invalid response structure for fetchUserBalanceAndTransactions');
+    }
+  } catch (error) {
+    console.error('Error fetching user balance and transactions:', error);
+    throw error;
+  }
+};
+
+
+// 관리자 공지사항 가져오기
+export const fetchAdminAnnouncements = async () => {
+  try {
+    const response = await api.get('/admin');
+    
+    if (response.data && response.data.data && response.data.data.alarms) {
+      return response.data.data.alarms;
+    } else {
+      throw new Error('Invalid response structure for fetchAdminAnnouncements');
+    }
+  } catch (error) {
+    console.error('Error fetching announcements:', error);
+    throw error;
+  }
+};
+
+// 관리자 공지사항 및 로그인된 사용자 정보 가져오기
+export const fetchAdminAnnouncementsAndUserInfo = async () => {
+  try {
+    const response = await api.get('/admin');
+    
+    if (response.data && response.data.data) {
+      return {
+        alarms: response.data.data.alarms,
+        userInfo: response.data.data.userInfo
+      };
+    } else {
+      throw new Error('Invalid response structure for fetchAdminAnnouncementsAndUserInfo');
+    }
+  } catch (error) {
+    console.error('Error fetching announcements and user info:', error);
+    throw error;
+  }
+};
+
+
+// 공지사항 저장 
+export const addAnnouncement = async (announcement) => {
+  try {
+    if (!announcement || typeof announcement !== 'object' || !announcement.title || !announcement.content) {
+      throw new Error('Invalid announcement data');
+    }
+
+    const response = await api.post('/admin/add', announcement);
+
+    if (response.data && response.data.data) {
+      return response.data.data;
+    } else {
+      throw new Error('Invalid response structure for addAnnouncement');
+    }
+  } catch (error) {
+    // 응답 상태에 따른 에러 메시지 출력
+    if (error.response) {
+      console.error('Error status:', error.response.status);
+      console.error('Error data:', error.response.data);
+    } else {
+      console.error('Error message:', error.message);
+    }
+    throw error;
+  }
+};
+
+
 const userService = {
   fetchUsers,
   fetchUserDetails,
   suspendUser,
   unsuspendUser,
+  rewardUser, 
+  fetchUserBalanceAndTransactions,
+  fetchAdminAnnouncementsAndUserInfo,
+  fetchAdminAnnouncements,
+  addAnnouncement,
 };
 
 export default userService;

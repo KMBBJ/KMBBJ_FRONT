@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import api from "../../api/api";
 import SearchAndSort from "./SearchAndSort";
 import RoomList from "./RoomList";
@@ -15,11 +15,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchRooms();
-  }, [currentPage, sortOrder, sortField, searchTerm]);
-
-  const fetchRooms = async () => {
+  const fetchRooms = useCallback(async () => {
     setLoading(true);
     try {
       const endpoint = searchTerm ? "/room/searching" : "/room/list";
@@ -45,19 +41,21 @@ function Dashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchTerm, currentPage, sortField, sortOrder]);
+
+  useEffect(() => {
+    fetchRooms();
+  }, [fetchRooms]); // useCallback에서 반환된 fetchRooms 함수를 의존성 배열에 포함시킵니다.
 
   const handleSearch = (term) => {
     setSearchTerm(term);
     setCurrentPage(1);
-    fetchRooms();
   };
 
   const handleSort = (order, field) => {
     setSortOrder(order);
     setSortField(field);
     setCurrentPage(1);
-    fetchRooms();
   };
 
   return (

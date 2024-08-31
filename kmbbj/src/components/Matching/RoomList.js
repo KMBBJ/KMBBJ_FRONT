@@ -18,7 +18,6 @@ function RoomList({ rooms }) {
     }
   };
 
-  // 시드머니 값을 "만원" 또는 "억" 단위로 포맷하는 함수
   const formatSeedMoney = (moneyStr) => {
     const money = convertSeedMoneyValue(moneyStr); // 문자열을 숫자로 변환
     if (money >= 10000) {
