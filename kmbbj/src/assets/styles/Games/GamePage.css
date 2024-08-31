@@ -125,3 +125,27 @@
     padding: 5px 0;
     margin-bottom: 5px;
 }
+
+.game-page__order {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .game-page__order-balance {
+    flex: 3.7;
+    margin-right: 10px;
+  }
+  
+  .game-page__order-buttons {
+    flex: 0.3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .order-button {
+    margin: 5px 0;
+    padding: 10px;
+    font-size: 5px;
+    cursor: pointer;
+  }

@@ -22,7 +22,13 @@ const GamePage = () => {
           <GameRound encryptedGameId={encryptedGameId} />
         </div>
         <div className="game-page__order">
-          <GameBalance userId={userId} />
+          <div className="game-page__order-balance">
+            <GameBalance userId={userId} />
+          </div>
+          <div className="game-page__order-buttons">
+            <button className="order-button">A</button>
+            <button className="order-button">B</button>
+          </div>
         </div>
         <div className="game-page__orders">
           <h2>주문 입력</h2>
