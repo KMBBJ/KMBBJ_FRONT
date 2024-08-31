@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserBalanceAndTransactions } from '../../services/Admin/userService';
+import '../../assets/styles/Admin/UserBalanceAndTransactions.css';
 
 const UserBalanceAndTransactions = ({ userId }) => {
   const [balanceData, setBalanceData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(0);
+  const [size] = useState(10);
 
   useEffect(() => {
     const loadBalanceData = async () => {
       try {
         setLoading(true);
-        const data = await fetchUserBalanceAndTransactions(userId);
-        setBalanceData(data); // 자산 및 거래 내역 설정
+        const data = await fetchUserBalanceAndTransactions(userId, page, size);
+        console.log("Fetched data:", data);
+        setBalanceData(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -22,33 +26,61 @@ const UserBalanceAndTransactions = ({ userId }) => {
     if (userId) {
       loadBalanceData();
     }
-  }, [userId]);
+  }, [userId, page, size]);
+
+  const handleNextPage = () => {
+    setPage(prevPage => prevPage + 1);
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 0) {
+      setPage(prevPage => prevPage - 1);
+    }
+  };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="user-balance">로딩 중...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="user-balance">오류: {error}</div>;
   }
 
-  if (!balanceData || !balanceData.totalBalance || !balanceData.transactions) {
-    return <div>No data available.</div>;
-  }
-
-  const { totalBalance, transactions } = balanceData;
+  const { totalBalance, assetTransactions } = balanceData || {};
 
   return (
-    <div>
-      <h2>Total Balance: {totalBalance.asset}</h2>
-      <ul>
-        {transactions.map((transaction) => (
-          <li key={transaction.assetTransactionId}>
-            {transaction.changeType}: {transaction.changeAmount} - 
-            {transaction.createTime ? new Date(transaction.createTime).toLocaleString() : 'No Date'}
-          </li>
-        ))}
-      </ul>
+    <div className="user-balance">
+      <h2>총 잔액: {totalBalance?.asset.toLocaleString('ko-KR') || '0'} 원</h2>
+      {assetTransactions && assetTransactions.length > 0 ? (
+        <table className="transactions-table">
+          <thead>
+            <tr>
+              <th>유형</th>
+              <th>금액</th>
+              <th>날짜</th>
+            </tr>
+          </thead>
+          <tbody>
+            {assetTransactions.map((transaction) => (
+              <tr key={transaction.assetTransactionId}>
+                <td>{transaction.changeType}</td>
+                <td>{transaction.changeAmount.toLocaleString('ko-KR')}</td>
+                <td>{transaction.createTime ? new Date(transaction.createTime).toLocaleString('ko-KR') : '날짜 없음'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div className="no-transactions">거래 내역이 없습니다.</div>
+      )}
+      <div className="pagination">
+        <button onClick={handlePreviousPage} disabled={page === 0}>
+          이전
+        </button>
+        <button onClick={handleNextPage} disabled={assetTransactions?.length < size}>
+          다음
+        </button>
+      </div>
     </div>
   );
 };

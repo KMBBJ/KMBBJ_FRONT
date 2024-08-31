@@ -1,8 +1,4 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
-
-
-
 import { useNavigate } from 'react-router-dom';
 import { fetchUsers } from '../../services/Admin/userService';
 import '../../assets/styles/Admin/UserListPage.css';
@@ -26,7 +22,6 @@ const UserListPage = () => {
 
     useEffect(() => {
         loadUsers(searchEmail);
-
     }, [page, searchEmail, loadUsers]); // 'loadUsers' 추가
 
     const handlePageChange = (newPage) => {
@@ -35,12 +30,8 @@ const UserListPage = () => {
         }
     };
 
-    const handleNicknameClick = (userId) => {
+    const handleRowClick = (userId) => {
         navigate(`/admin/${userId}`);
-    };
-
-    const handleGoToAdmin = () => {
-        navigate('/admin');
     };
 
     return (
@@ -65,18 +56,13 @@ const UserListPage = () => {
                 <tbody>
                     {users.length > 0 ? (
                         users.map((user, index) => (
-                            <tr key={user.id}>
+                            <tr 
+                                key={user.id} 
+                                onClick={() => handleRowClick(user.id)}
+                                className={user.isSuspended ? 'suspended-user' : ''}
+                            >
                                 <td>{index + 1 + page * size}</td>
-                                <td>
-
-                                    <button
-                                        onClick={() => handleNicknameClick(user.id)}
-
-                                        className="nickname-link"
-                                    >
-                                        {user.nickname}
-                                    </button>
-                                </td>
+                                <td>{user.nickname}</td>
                                 <td>{user.email}</td>
                             </tr>
                         ))
@@ -103,15 +89,7 @@ const UserListPage = () => {
                 <button 
                     onClick={() => navigate('/admin')}
                 >
-                    Back to Admin
-                </button>
-            </div>
-            <div className="admin-button-container">
-                <button 
-                    onClick={handleGoToAdmin}
-                    className="admin-button"
-                >
-                    Go to Admin
+                    관리자 페이지
                 </button>
             </div>
         </div>

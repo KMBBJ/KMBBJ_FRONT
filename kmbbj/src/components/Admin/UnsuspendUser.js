@@ -1,7 +1,7 @@
 // src/components/Admin/UnsuspendUser.js
 import React from 'react';
 import { unsuspendUser } from '../../services/Admin/userService'; // 서비스 모듈 가져오기
-import '../../assets/styles/Profile/UserInfo.css'; // 스타일 관련 코드
+import '../../assets/styles/Admin/RewardUser.css'; // 스타일 관련 코드
 
 const UnsuspendUser = ({ userId }) => {
   const handleUnsuspend = async () => {
@@ -14,7 +14,7 @@ const UnsuspendUser = ({ userId }) => {
   };
 
   return (
-    <div className="user-info">
+    <div className="reward-user">
       <h2>유저 정지 해제</h2>
       <button onClick={handleUnsuspend}>Unsuspend</button>
     </div>
