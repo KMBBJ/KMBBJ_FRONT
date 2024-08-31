@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Announcement from '../../components/Admin/Announcement';
 import UserInfo1 from '../../components/Admin/Userinfo1';
-import '../../assets/styles/Profile/ProfilePage.css';
+import '../../assets/styles/Admin/ProfileAdminPage.css';
 import ProfileEdit from '../../components/Admin/ProfileEdit';
 import SuspendUser from '../../components/Admin/SuspendUser';
 import RewardUser from '../../components/Admin/RewardUser';

@@ -1,0 +1,79 @@
+.profile-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100vh;
+}
+
+.left-column, .middle-column, .right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.asset-card, .profile-edit, .user-info, .game-rank {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.asset-card {
+  flex: 1;
+}
+
+.profile-edit {
+  flex: 1;
+}
+
+.user-info, .game-rank {
+  flex: 1;
+}
+
+.asset-card h2, .profile-edit h2, .user-info h2, .game-rank h2 {
+  margin-top: 0;
+}
+
+.asset-card ul, .game-rank ul {
+  padding-left: 20px;
+}
+
+.profile-edit form {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-edit label {
+  margin-bottom: 5px;
+}
+
+.profile-edit input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.profile-edit button {
+  padding: 10px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.user-info p {
+  margin: 5px 0;
+}

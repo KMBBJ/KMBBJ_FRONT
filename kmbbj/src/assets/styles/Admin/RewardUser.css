@@ -1,0 +1,76 @@
+/* General styles for the RewardUser component */
+.reward-user {
+  padding: 10px; /* 위 아래 패딩을 줄임 */
+  border: 1px solid #ddd; /* 테두리 설정 */
+  border-radius: 5px; /* 테두리 반경 설정 */
+  margin-top: 10px; /* 상단 요소와의 간격 줄임 */
+  width: 100%;
+  max-width: 400px; /* 최대 너비 설정 */
+  box-sizing: border-box;
+}
+
+/* Input field styling */
+.reward-user input {
+  width: 100%;
+  padding: 8px; /* 입력 필드의 패딩 줄임 */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 0.9em;
+  margin-bottom: 8px; /* 입력 필드와 버튼 간의 간격 줄임 */
+}
+
+/* Button styling */
+.reward-user button {
+  width: 100%;
+  padding: 8px; /* 버튼의 패딩 줄임 */
+  font-size: 0.9em;
+  border: 1px solid #ddd; /* 기본 버튼 스타일을 유지 */
+  border-radius: 4px; /* 버튼 모서리 둥글게 설정 */
+  background-color: #f8f9fa; /* 기본 배경 색상 */
+  color: #333; /* 기본 텍스트 색상 */
+  cursor: pointer;
+}
+
+.reward-user button:hover {
+  background-color: #e2e6ea; /* 호버 시 배경 색상 변경 */
+}
+
+.reward-user button:disabled {
+  background-color: #e9ecef; /* 비활성화 시 배경 색상 */
+  color: #6c757d; /* 비활성화 시 텍스트 색상 */
+  cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .reward-user {
+    padding: 8px; /* 패딩을 줄임 */
+  }
+
+  .reward-user input {
+    padding: 6px;
+    font-size: 0.8em;
+  }
+
+  .reward-user button {
+    padding: 6px;
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  .reward-user {
+    padding: 6px; /* 패딩을 더 줄임 */
+  }
+
+  .reward-user input {
+    padding: 4px;
+    font-size: 0.7em;
+  }
+
+  .reward-user button {
+    padding: 4px;
+    font-size: 0.7em;
+  }
+}

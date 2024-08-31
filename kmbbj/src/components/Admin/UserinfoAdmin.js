@@ -1,50 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { fetchUserDetails } from '../../services/Admin/userService';
+import React from 'react';
 import '../../assets/styles/Admin/UserInfo.css';
 
-const UserinfoAdmin = ({ userId }) => {
-  const [userInfo, setUserInfo] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const UserinfoAdmin = ({ userInfo }) => {
+  const { name, type, email, suspensionEndDate } = userInfo; // name과 type으로 변경
 
-  useEffect(() => {
-    const loadUserInfo = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchUserDetails(userId);
-        setUserInfo(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (userId) {
-      loadUserInfo();
-    }
-  }, [userId]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!userInfo) {
-    return <div>No user data available.</div>;
-  }
-
-  const { nickname, authority, email, suspensionEndDate } = userInfo;
-
-  const isSuspended = suspensionEndDate && suspensionEndDate.trim() !== '';
+  const isSuspended = suspensionEndDate && suspensionEndDate.trim() !== '' && suspensionEndDate !== "null";
 
   return (
     <div className={`user-info ${isSuspended ? 'suspended-info' : ''}`}>
-      <h2>{authority}</h2>
-      <p>{nickname}</p>
+      <h2>{type}</h2>
+      <p>{name}</p>
       <p>{email}</p>
       {isSuspended && (
         <p className="suspension-date">
