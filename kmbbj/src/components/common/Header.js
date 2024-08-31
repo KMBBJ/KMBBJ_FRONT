@@ -5,6 +5,7 @@ import CreateRoomModal from "../../components/Matching/CreateRoomModal"
 import api from "../../api/api";
 import "../../assets/styles/common/Header.css";
 import logo from "../../assets/images/logo.png";
+import EventSourcePolyfill from 'eventsource-polyfill';
 
 const Header = () => {
   const { user, handleLogout } = useAuth();
@@ -20,11 +21,11 @@ const Header = () => {
     setShowDropdown((prev) => !prev);
   };
 
-  const closeDropdown = (e) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-      setShowDropdown(false);
-    }
-  };
+  // const closeDropdown = (e) => {
+  //   if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+  //     setShowDropdown(false);
+  //   }
+  // };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -32,12 +33,47 @@ const Header = () => {
 
   const closeModal = () => setIsModalOpen(false);
 
+  const cookies = document.cookie.split('; ');
+    const accessTokenCookie = cookies.find(cookie => cookie.startsWith('Access-Token='));
+    const accessToken = accessTokenCookie ? accessTokenCookie.split('=')[1] : null;
   useEffect(() => {
-    document.addEventListener("mousedown", closeDropdown);
-    return () => {
-      document.removeEventListener("mousedown", closeDropdown);
-    };
-  }, []);
+    if (user) {
+      const url = `http://localhost:8080/api/sse/subscribe/${user.id}`;
+      const newEventSource = new EventSourcePolyfill(url, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,  // 사용자 인증 토큰
+        }
+      });
+  
+      newEventSource.addEventListener("roomNotification", (event) => {
+        console.log("Event received:", event);
+        const data = JSON.parse(event.data);
+        console.log("Parsed data:", data);
+        if (data) {
+          setIsMatching(false);
+          console.log(isMatching);
+          setTimeout(() => {
+            navigate(`/matching/enter/${data}`);  // 자동 리디렉션
+          }, 100);
+          console.log("done");
+        }
+      });
+  
+      newEventSource.onerror = (error) => {
+        console.error('SSE Error:', error);
+        // Handle errors or connection issues here
+        newEventSource.close(); // Ensure the connection is closed properly
+      };
+  
+      return () => {
+        newEventSource.close();
+      };
+    }
+  }, [user, navigate, accessToken]);
+
+  useEffect(() => {
+    console.log("Matching state updated:", isMatching);
+  }, [isMatching]);  // isMatching 상태 변화 로깅
 
   useEffect(() => {
     let interval = null;
