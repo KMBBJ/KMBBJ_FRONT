@@ -1,0 +1,101 @@
+.profile-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100vh;
+}
+
+.left-column, .middle-column, .right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.asset-card, .profile-edit, .user-info, .game-rank {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.asset-card {
+  flex: 1;
+}
+
+.profile-edit {
+  flex: 1;
+}
+
+.user-info, .game-rank {
+  flex: 1;
+}
+
+.asset-card h2, .profile-edit h2, .user-info h2, .game-rank h2 {
+  margin-top: 0;
+}
+
+.asset-card ul, .game-rank ul {
+  padding-left: 20px;
+}
+
+.profile-edit form {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-edit label {
+  margin-bottom: 5px;
+}
+
+.profile-edit input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.profile-edit button {
+  padding: 10px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.user-info p {
+  margin: 5px 0;
+}
+
+.admin-navigation {
+  display: flex;
+}
+
+.admin-button {
+  text-decoration: none;
+  color: #161616f6; /* 버튼 텍스트 색상 */
+  background-color: #f8f9fa; /* 버튼 배경 색상 */
+  border: 1px solid #555050; /* 버튼 테두리 색상 */
+  border-radius: 5px; /* 버튼 모서리 둥글기 */
+  padding: 10px 15px; /* 버튼 안쪽 여백 */
+  margin-right: 10px; /* 버튼 사이 공백 설정 */
+}
+
+.admin-button:last-child {
+  margin-right: 0; /* 마지막 버튼에는 공백을 주지 않음 */
+}
+
+.admin-button:hover {
+  background-color: #e2e6ea; /* 호버 시 버튼 배경 색상 */
+}

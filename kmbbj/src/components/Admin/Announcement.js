@@ -28,7 +28,6 @@ const Announcement = () => {
   const handleSaveAnnouncement = async (announcement) => {
     try {
       await addAnnouncement(announcement);
-      // 알람이 성공적으로 추가된 후 다시 불러옴
       const updatedAnnouncements = await fetchAdminAnnouncements();
       setAnnouncements(Array.isArray(updatedAnnouncements) ? updatedAnnouncements.slice(0, 5) : []);
       setIsModalOpen(false);

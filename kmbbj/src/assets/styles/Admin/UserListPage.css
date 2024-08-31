@@ -33,6 +33,7 @@
   text-align: left;
   border-bottom: 1px solid #ddd;
   word-wrap: break-word;
+  cursor: pointer; /* 행에 클릭 가능한 커서 추가 */
 }
 
 .user-table th {
@@ -43,6 +44,10 @@
 
 .user-table td {
   text-align: center;
+}
+
+.user-table tr:hover {
+  background-color: #f5f5f5; /* 마우스 오버 시 배경색 */
 }
 
 .pagination {
@@ -66,6 +71,9 @@
   cursor: not-allowed;
 }
 
+/* 정지된 유저의 행에 적용할 스타일 */
 .suspended-user {
   color: #f29f9f !important; /* 빨간색 글자 색상 */
+  background-color: #fef0f0 !important; /* 연한 빨간색 배경 */
+  border-bottom: 1px solid #f29f9f !important; /* 빨간색 경계선 */
 }

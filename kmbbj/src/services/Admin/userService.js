@@ -77,22 +77,36 @@ export const fetchUserDetails = async (id) => {
 
 
 
-// 자산 및 거래 내역을 가져오는 함수 0
-export const fetchUserBalanceAndTransactions = async (userId) => {
+// 자산 및 거래 내역을 가져오는 함수
+export const fetchUserBalanceAndTransactions = async (userId, page = 0, size = 10) => {
   try {
-    const response = await api.get(`/admin/balance/${userId}`);
-    
-    if (response.data) {
+    const response = await api.get(`/admin/balance/${userId}`, {
+      params: { page, size }
+    });
+
+    if (response && response.data) {
       console.log('Balance and transactions fetched:', response.data);
       return response.data;
     } else {
       throw new Error('Invalid response structure for fetchUserBalanceAndTransactions');
     }
   } catch (error) {
-    console.error('Error fetching user balance and transactions:', error);
+    // 에러 정보 로깅
+    if (error.response) {
+      // 서버가 응답을 했지만 에러 상태 코드를 포함하는 경우
+      console.error(`Error ${error.response.status}: ${error.response.statusText}`);
+      console.error('Error data:', error.response.data);
+    } else if (error.request) {
+      // 요청은 했지만 응답이 없는 경우
+      console.error('Error request:', error.request);
+    } else {
+      // 다른 오류
+      console.error('Error message:', error.message);
+    }
     throw error;
   }
 };
+
 
 
 // 관리자 공지사항 가져오기

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../assets/styles/Profile/UserInfo.css';
+import '../../assets/styles/Admin/UserInfo.css';
 
 const UserInfo1 = ({ user }) => {
   if (!user) {
