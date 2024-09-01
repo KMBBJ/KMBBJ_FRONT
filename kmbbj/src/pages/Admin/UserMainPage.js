@@ -5,13 +5,14 @@ import '../../assets/styles/Admin/ProfileAdminPage.css';
 import ProfileEdit from '../../components/Admin/ProfileEdit';
 import SuspendUser from '../../components/Admin/SuspendUser';
 import RewardUser from '../../components/Admin/RewardUser';
-import { fetchAdminAnnouncementsAndUserInfo } from '../../services/Admin/userService';
+import { fetchAdminAnnouncementsAndUserInfo, fetchUserIdByEmail } from '../../services/Admin/userService';
 
 const UserMainPage = () => {
   const [user, setUser] = useState(null);
   const [announcements, setAnnouncements] = useState([]);
   const [selectedUserEmail, setSelectedUserEmail] = useState('');
   const [action, setAction] = useState(null); // 'suspend' 또는 'reward'
+  const [userId, setUserId] = useState(null); // 유저 ID 상태 추가
 
   useEffect(() => {
     const loadData = async () => {
@@ -26,6 +27,22 @@ const UserMainPage = () => {
 
     loadData();
   }, []); 
+
+  // 이메일로 유저 ID 가져오는 함수
+  useEffect(() => {
+    const loadUserId = async () => {
+      if (selectedUserEmail) {
+        try {
+          const id = await fetchUserIdByEmail(selectedUserEmail);
+          setUserId(id); // 가져온 유저 ID를 상태로 설정
+        } catch (error) {
+          console.error('Error fetching user ID:', error);
+        }
+      }
+    };
+
+    loadUserId();
+  }, [selectedUserEmail]); // selectedUserEmail이 변경될 때마다 호출
 
   return (
     <div className="profile-page">
@@ -42,8 +59,8 @@ const UserMainPage = () => {
       </div>
       <div className="right-column">
         <UserInfo1 user={user} />
-        {action === 'suspend' && <SuspendUser userId={selectedUserEmail} />}
-        {action === 'reward' && <RewardUser userId={selectedUserEmail} />}
+        {action === 'suspend' && userId && <SuspendUser userId={userId} />}
+        {action === 'reward' && userId && <RewardUser userId={userId} />}
       </div>
     </div>
   );
