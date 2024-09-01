@@ -168,6 +168,21 @@ export const addAnnouncement = async (announcement) => {
   }
 };
 
+// 이메일로 유저 ID를 가져오는 함수
+export const fetchUserIdByEmail = async (email) => {
+  try {
+    const response = await api.get(`/admin/email/${email}`);
+    if (response.data && response.data.data) {
+      return response.data.data; // ID를 반환
+    } else {
+      throw new Error('Invalid response structure for fetchUserIdByEmail');
+    }
+  } catch (error) {
+    console.error('Error fetching user ID by email:', error);
+    throw error;
+  }
+};
+
 
 const userService = {
   fetchUsers,
@@ -179,6 +194,7 @@ const userService = {
   fetchAdminAnnouncementsAndUserInfo,
   fetchAdminAnnouncements,
   addAnnouncement,
+  fetchUserIdByEmail,
 };
 
 export default userService;
