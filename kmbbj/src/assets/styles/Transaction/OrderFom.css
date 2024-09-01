@@ -1,0 +1,167 @@
+.order-form-container {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 350px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .order-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .mode-switch {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .mode-switch button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .mode-switch button:disabled {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .mode-switch button:not(:disabled) {
+    background-color: #ddd;
+    color: #333;
+  }
+  
+  .order-details {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .order-form-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .order-form-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .order-form-container input[disabled] {
+    background-color: #f0f0f0;
+  }
+  
+  .price-quantity-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .price-quantity-container input {
+    width: calc(100% - 42px);
+  }
+  
+  .increment-decrement-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .increment-decrement-buttons button {
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .increment-decrement-buttons button:hover {
+    background-color: #ddd;
+  }
+  
+  .percentage-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .percentage-buttons button {
+    flex: 1;
+    margin: 0 2px;
+    padding: 8px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .percentage-buttons button:hover {
+    background-color: #ddd;
+  }
+  
+  .order-summary {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: right;
+  }
+  
+  .order-form-container .error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .order-form-container button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #fff;
+    background-color: #007bff;
+  }
+  
+  .order-form-container button[type="submit"].sell {
+    background-color: #dc3545;
+  }
+  
+  .order-form-container button[type="submit"]:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+  }
+  
+  .reset-button {
+    background-color: #eee;
+    color: #333;
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .reset-button:hover {
+    background-color: #ddd;
+  }  
