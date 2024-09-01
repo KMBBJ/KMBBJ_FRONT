@@ -68,10 +68,20 @@ const Header = () => {
         const data = JSON.parse(event.data);
         console.log("Parsed data:", data);
         if (data) {
-          setIsMatching(false);
-          console.log(isMatching);
           setTimeout(() => {
             navigate(`/games/start/${data}`); // 자동 리디렉션
+          }, 100);
+          console.log("done");
+        }
+      });
+
+      newEventSource.addEventListener("adminNotification", (event) => {
+        console.log("Event received:", event);
+        const data = JSON.parse(event.data);
+        console.log("Parsed data:", data);
+        if (data) {
+          setTimeout(() => {
+            // 모달창띄우기
           }, 100);
           console.log("done");
         }
