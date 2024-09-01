@@ -1,0 +1,59 @@
+* {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  
+}
+
+.game-coin-table-div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.game-coin-table {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+}
+
+.game-coin-table th, .game-coin-table td {
+    border: none;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 7px;
+}
+
+.game-coin-table th, td {
+    background-color: white;
+    font-weight: bold;
+}
+
+.game-coin-table th:nth-child(1), .game-coin-table td:nth-child(1) {
+    width: 20%; /* Name 열 */
+    text-align: left;
+    font-size: 8px;
+}
+
+.game-coin-table th:nth-child(2), .game-coin-table td:nth-child(2),
+.game-coin-table th:nth-child(3), .game-coin-table td:nth-child(3),
+.game-coin-table th:nth-child(4), .game-coin-table td:nth-child(4) {
+    width: 20%; /* 각 열 너비를 동일하게 설정 */
+    font-size: 8px;
+}
+
+.coinName {
+    color: black;
+    font-size: 7px;
+}
+
+p {
+    font-size: 7px;
+    color: gray;
+}
+
+.game-coin-pagination {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    font-size: 8px;
+}

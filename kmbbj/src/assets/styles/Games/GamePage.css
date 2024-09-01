@@ -14,7 +14,7 @@
         "coinlist chart order"
         "coinlist chart order"
         "coinlist orders chat";
-    grid-template-columns: 15% 55% 30%;
+    grid-template-columns: 20% 55% 25%;
     grid-template-rows: 5% 30% 5% 20% 40%;
     gap: 3px;
     width: 100%;
@@ -26,7 +26,6 @@
 .game-page__coin-list {
     grid-area: coinlist;
     background-color: white;
-    padding: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     overflow-y: auto;
 }
@@ -66,6 +65,11 @@
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     overflow-y: auto;
+}
+
+.search-bar {
+    width: 100%; /* 가로로 꽉 채움 */
+    margin-bottom: 10px; /* 아래 여백 추가 */
 }
 
 .game-page__order {
@@ -148,4 +152,8 @@
     padding: 10px;
     font-size: 5px;
     cursor: pointer;
+  }
+
+  .chart {
+    height: 300px;
   }

@@ -1,22 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import GameRound from '../../components/Games/GameRound';
 import GameBalance from '../../components/Games/GameBalance';
 import "../../assets/styles/Games/GamePage.css";
+import Chart from "../../components/Charts/Chart";
+import CoinChart from '../../components/Coin/CoinChart';
+import Pagination from '../../components/UserCoin/Pagination';
+import useCoinData from '../../hooks/Coin/useCoinListData';
+import GameCoinSearchBar from '../../components/Coin/GameCoinSearchBar';
+import CoinDetail from '../../components/Coin/CoinDetail'
 
 const GamePage = () => {
   const { encryptedGameId, userId } = useParams();
+  const { coins, currentPage, totalPages, setCurrentPage, handleSort, sortConfig, handleSearch } = useCoinData();
+
+  const [selectedSymbol, setSelectedSymbol] = useState('BTC');
+
+  const handleSelectSymbol = (symbol) => {
+    setSelectedSymbol(symbol);
+  };
 
   return (
     <div className="game-page">
       <div className="game-page__container">
         <div className="game-page__coin-list">
-          <h2>시장 목록</h2>
-          {/* 시장 목록 컴포넌트 삽입 */}
+        <div className="container">
+            <div className="search-bar">
+                <GameCoinSearchBar onSearch={handleSearch} />
+            </div>
+            <div className="coin-table">
+                <CoinChart
+                    coins={coins} 
+                    onSort={handleSort} 
+                    sortConfig={sortConfig}
+                    onSelectSymbol={handleSelectSymbol}
+                />
+            </div>
+            <div className="game-coin-pagination">
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage}/>
+            </div>
+        </div>
         </div>
         <div className="game-page__chart">
-          <h2>차트</h2>
-          {/* 차트 컴포넌트 삽입 */}
+          <div className="chart">
+            <CoinDetail symbol={selectedSymbol} />
+            <Chart symbol={selectedSymbol} />
+          </div>
         </div>
         <div className="game-page__round">
           <GameRound encryptedGameId={encryptedGameId} />
@@ -41,6 +70,6 @@ const GamePage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default GamePage;
