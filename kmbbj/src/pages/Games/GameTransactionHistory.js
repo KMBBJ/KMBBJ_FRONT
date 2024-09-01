@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import fetchGameTransactionHistory from "../Games/fetchGameTransactionHistory";
+import fetchGameTransactionHistory from "../../components/Games/fetchGameTransactionHistory";
 import "../../assets/styles/Games/GameTransactionHistory.css";
 
 function GameTransactionHistory() {
