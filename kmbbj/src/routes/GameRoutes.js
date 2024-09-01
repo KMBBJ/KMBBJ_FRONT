@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import GamePage from '../pages/Games/GamePage';
 import GameRanking from '../components/Games/GameRanking';
 import GameResult from '../components/Games/GameResult';
-import GameTransactionHistory from "../components/Games/GameTransactionHistory"
+import GameTransactionHistory from "../pages/Games/GameTransactionHistory"
 
 const GameRoutes = () => {
   return (
