@@ -1,0 +1,28 @@
+.searchbar {
+    justify-content: center;
+    text-align: center;
+    display: flex;
+}
+
+.input-wrapper {
+    justify-content: right;
+    display: flex;
+    text-align: right;
+    width: 80%;
+}
+
+.input-wrapper form input {
+    background-color: #eee;
+    border: none;
+    padding: 1rem;
+    font-size: 1rem;
+    width: 13em;
+    border-radius: 1rem;
+    color: #54A9B3;
+    box-shadow: 0 0.4rem #dfd9d9;
+    cursor: pointer;
+  }
+  
+  .input-wrapper input:focus {
+    outline-color: #E5F5F7;
+  }

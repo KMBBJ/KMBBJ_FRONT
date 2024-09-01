@@ -15,6 +15,7 @@ import RankingRoutes from "./RankingRoutes";
 import NotificationRoutes from "./NotificationRoutes";
 import ProfileRoutes from "./ProfileRoutes";
 import PrivateRoute from "./PrivateRoutes";
+import CoinRoutes from "./CoinRoutes";
 
 const AppRoutes = () => {
   return (
@@ -25,6 +26,7 @@ const AppRoutes = () => {
       <Route element={<PrivateRoute />}>
         <Route path="/admin/*" element={<AdminRoutes />} />
         <Route path="/charts/*" element={<ChartRoutes />} />
+        <Route path="/coins/*" element={<CoinRoutes />} />
         <Route path="/matching/*" element={<MatchingRoutes />} />
         <Route path="/games/*" element={<GameRoutes />} />
         <Route path="/trading/*" element={<TradingRoutes />} />

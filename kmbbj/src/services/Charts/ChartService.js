@@ -10,3 +10,14 @@ export const getKlineData = async (symbol, interval) => {
         throw error;
     }
 };
+
+// 최근 차트 데이터 가져오기
+export const getRecentKlineData = async (symbol) => {
+    try {
+        const response = await api.get(`/chart/${symbol}/latest`);
+        return await response.data;
+    } catch (error) {
+        console.error("코인 정보를 불러오는 데 실패했습니다.", error);
+        throw error;
+    }
+};

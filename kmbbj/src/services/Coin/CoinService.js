@@ -24,8 +24,12 @@ export const updateAllCoinsData = async () => {
 
 // 새로운 코인 등록
 export const addCoin = async (symbol, coinName) => {
+    const params = {
+        symbol: symbol, 
+        coinName: coinName
+    }
     try {
-        const response = await api.put('/coin/add', { symbol, coinName });
+        const response = await api.put('/coin/add', {}, { params });
         return response.data;
     } catch (error) {
         console.error("코인 등록에 실패했습니다.", error);
@@ -34,11 +38,28 @@ export const addCoin = async (symbol, coinName) => {
 };
 
 // 코인 리스트 가져오기 (페이지네이션)
-export const getCoinList = async (page, size) => {
+export const getCoinListPage = async (page, size, sortField, sortOrder, searchQuery) => {
+    const params = {
+        pageNo: page,
+        size: size,
+        orderBy: sortField,
+        sort: sortOrder,
+        searchQuery: searchQuery
+    };
+
     try {
-        const response = await api.get('/coin/list', {
-            params: { page, size }
-        });
+        const response = await api.get('/coin/listPage', { params });
+        return response.data;
+    } catch (error) {
+        console.error("코인 리스트를 가져오는 데 실패했습니다.", error);
+        throw error;
+    }
+};
+
+// 코인 리스트 가져오기
+export const getCoinList = async () => {
+    try {
+        const response = await api.get('/coin/list');
         return response.data;
     } catch (error) {
         console.error("코인 리스트를 가져오는 데 실패했습니다.", error);
@@ -49,7 +70,7 @@ export const getCoinList = async (page, size) => {
 // 코인 삭제
 export const deleteCoin = async (symbol) => {
     try {
-        const response = await api.delete(`/coin/delete/${symbol}`);
+        const response = await api.put(`/coin/delete/${symbol}`);
         return response.data;
     } catch (error) {
         console.error("코인 삭제에 실패했습니다.", error);
@@ -58,9 +79,12 @@ export const deleteCoin = async (symbol) => {
 };
 
 // 코인 상세 정보 업데이트
-export const updateCoinDetail = async (symbol, status, orderType) => {
+export const updateCoinStatus = async (symbol, status) => {
+    const params = {
+        status: status
+    }
     try {
-        const response = await api.put(`/coin/update/${symbol}`, { status, orderType });
+        const response = await api.put('/coin/update/' + symbol, {}, { params });
         return response.data;
     } catch (error) {
         console.error("코인 상세 정보를 업데이트하는 데 실패했습니다.", error);

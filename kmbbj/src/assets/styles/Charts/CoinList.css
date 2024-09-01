@@ -1,31 +1,38 @@
 * {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;  
 }
 
 .container {
-    padding: 20px;
+    padding: 10px;
+}
+
+.table-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .table {
-    width: 100%;
+    width: 80%;
+    table-layout: fixed;
     border-collapse: collapse;
 }
 
 .table th, .table td {
     padding: 12px 15px;
     border: none;
-    text-align: left;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
 }
 
 .table th, td {
     background-color: white;
     font-weight: bold;
-}
-
-.actions {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+    width: 25px;
+    height: 13px;
 }
 
 .pagination {
@@ -49,4 +56,30 @@
 
 .pagination a:hover {
     background-color: #f4f4f4;
+}
+
+.table th:nth-child(1), .table td:nth-child(1){
+    width: 20%; /* Name 열 */
+    text-align: left;
+}
+
+.link-detail p {
+    color: gray;
+    font-size: 11px;
+}
+
+.table th:nth-child(2), .table td:nth-child(2) {
+    width: 20%; /* Price 열 */
+}
+
+.table th:nth-child(3), .table td:nth-child(3) {
+    width: 20%; /* 24h Change 열 */
+}
+
+.table th:nth-child(4), .table td:nth-child(4) {
+    width: 20%; /* 24h Volume 열 */
+}
+
+.table th:nth-child(5), .table td:nth-child(5) {
+    width: 20%; /* 24h High 열 */
 }

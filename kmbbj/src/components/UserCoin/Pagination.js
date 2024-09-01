@@ -1,11 +1,12 @@
 import React from 'react';
+import "../../assets/styles/Charts/SearchBar.css";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     return (
-        <ul className={"pagination"}>
+        <ul className="pagination">
             <li>
                 <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 0}>
-                    Previous
+                    ⬅
                 </button>
             </li>
             {Array.from({ length: totalPages }, (_, i) => (
@@ -17,7 +18,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             ))}
             <li>
                 <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages - 1}>
-                    Next
+                    ➡
                 </button>
             </li>
         </ul>
