@@ -1,21 +1,43 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import GameRound from '../../components/Games/GameRound'; 
-import GameBalance from '../../components/Games/GameBalance'; 
+import GameRound from '../../components/Games/GameRound';
+import GameBalance from '../../components/Games/GameBalance';
+import "../../assets/styles/Games/GamePage.css";
 
 const GamePage = () => {
   const { encryptedGameId, userId } = useParams();
 
   return (
     <div className="game-page">
-      <h1>게임 정보</h1>
-      <div className="game-status-section">
-        <h2>게임 상태</h2>
-        <GameRound encryptedGameId={encryptedGameId} />
-      </div>
-      <div className="game-balance-section">
-        <h2>게임 잔액</h2>
-        <GameBalance userId={userId} />
+      <div className="game-page__container">
+        <div className="game-page__coin-list">
+          <h2>시장 목록</h2>
+          {/* 시장 목록 컴포넌트 삽입 */}
+        </div>
+        <div className="game-page__chart">
+          <h2>차트</h2>
+          {/* 차트 컴포넌트 삽입 */}
+        </div>
+        <div className="game-page__round">
+          <GameRound encryptedGameId={encryptedGameId} />
+        </div>
+        <div className="game-page__order">
+          <div className="game-page__order-balance">
+            <GameBalance userId={userId} />
+          </div>
+          <div className="game-page__order-buttons">
+            <button className="order-button">A</button>
+            <button className="order-button">B</button>
+          </div>
+        </div>
+        <div className="game-page__orders">
+          <h2>주문 입력</h2>
+          {/* 주문 입력 컴포넌트 삽입 */}
+        </div>
+        <div className="game-page__chat">
+          <h2>실시간 채팅</h2>
+          {/* 실시간 채팅 컴포넌트 삽입 */}
+        </div>
       </div>
     </div>
   );

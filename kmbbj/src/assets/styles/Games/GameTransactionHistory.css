@@ -1,0 +1,107 @@
+/* 전체 컨테이너 스타일 */
+.game-transaction-history {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 스타일 */
+.game-transaction-history h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+/* 필터 섹션 스타일 */
+.filter-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+}
+
+.filter-section label {
+    margin-right: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+.filter-section select {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+    background-color: #fff;
+    color: #333;
+}
+
+.filter-section button {
+    padding: 8px 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-section button:hover {
+    background-color: #555;
+}
+
+/* 테이블 스타일 */
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.transaction-table th,
+.transaction-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.transaction-table th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+}
+
+.transaction-table td {
+    background-color: #fff;
+    color: #555;
+}
+
+/* 테이블 행 호버 효과 */
+.transaction-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 매수(BUY)는 빨간색 */
+.transaction-buy {
+    color: red !important;
+    font-weight: bold;
+}
+
+/* 매도(SELL)는 파란색 */
+.transaction-sell {
+    color: blue !important;
+    font-weight: bold;
+}
+
+/* 반응형 테이블: 작은 화면에서 스크롤 가능 */
+.transaction-table-wrapper {
+    overflow-x: auto;
+}
+
+/* 테이블의 마지막 줄 테두리 제거 */
+.transaction-table tr:last-child td {
+    border-bottom: none;
+}

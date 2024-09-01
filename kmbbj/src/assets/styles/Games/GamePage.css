@@ -1,0 +1,151 @@
+.game-page {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-page__container {
+    display: grid;
+    grid-template-areas: 
+        "coinlist chart round"
+        "coinlist chart round"
+        "coinlist chart order"
+        "coinlist chart order"
+        "coinlist orders chat";
+    grid-template-columns: 15% 55% 30%;
+    grid-template-rows: 5% 30% 5% 20% 40%;
+    gap: 3px;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.game-page__coin-list {
+    grid-area: coinlist;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+.game-page__chart {
+    grid-area: chart;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+.game-page__round {
+    grid-area: round;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.game-page__order {
+    grid-area: order;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.game-page__orders {
+    grid-area: orders;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.game-page__chat {
+    grid-area: chat;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+.game-page__order {
+    grid-area: order;
+    background-color: white;
+    padding: 0; /* 패딩 제거 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden; /* 내용이 넘치지 않도록 */
+}
+
+.game-page__order .game-balance-card {
+    height: 100%; /* 높이를 100%로 설정 */
+    width: 100%; /* 너비를 100%로 설정 */
+    max-width: none; /* 최대 너비 제한 제거 */
+    margin: 0; /* 마진 제거 */
+    padding: 10px; /* 내부 여백 추가 */
+    box-sizing: border-box; /* 패딩을 너비/높이에 포함 */
+    border-radius: 0; /* 모서리 둥글기 제거 */
+    box-shadow: none; /* 그림자 제거 (이미 .game-page__order에 그림자가 있으므로) */
+}
+
+/* GameBalance 내부 요소들의 크기 조정 */
+.game-page__order .card-title {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.game-page__order .total-balance {
+    font-size: 1.5rem;
+    margin-bottom: 3px;
+}
+
+.game-page__order .average-rate {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.game-page__order .balance-grid,
+.game-page__order .profit-loss-grid {
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.game-page__order .balance-label,
+.game-page__order .profit-loss-label {
+    font-size: 0.8rem;
+}
+
+.game-page__order .balance-value,
+.game-page__order .profit-loss-value,
+.game-page__order .profit-value,
+.game-page__order .loss-value {
+    font-size: 1rem;
+}
+
+.game-page__order .order-amount {
+    padding: 5px 0;
+    margin-bottom: 5px;
+}
+
+.game-page__order {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .game-page__order-balance {
+    flex: 3.7;
+    margin-right: 10px;
+  }
+  
+  .game-page__order-buttons {
+    flex: 0.3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .order-button {
+    margin: 5px 0;
+    padding: 10px;
+    font-size: 5px;
+    cursor: pointer;
+  }

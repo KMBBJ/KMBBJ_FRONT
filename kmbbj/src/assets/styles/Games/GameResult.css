@@ -1,0 +1,47 @@
+.game-result {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .game-result h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .result-table th,
+  .result-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .result-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .result-table .profit {
+    color: #000dff;
+  }
+  
+  .result-table .loss {
+    color: #dc3545;
+  }
+  
+  @media (max-width: 600px) {
+    .result-table th,
+    .result-table td {
+      padding: 8px;
+      font-size: 14px;
+    }
+  }

@@ -1,0 +1,71 @@
+.game-ranking {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .game-ranking h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .round-ranking {
+    margin-bottom: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .round-ranking h3 {
+    color: #444;
+    margin-bottom: 10px;
+  }
+  
+  .ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .ranking-table th,
+  .ranking-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .ranking-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .ranking-table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .ranking-table tr:nth-child(even) {
+    background-color: #f8f8f8;
+  }
+  
+  .ranking-table .profit {
+    color: #2200ff;
+  }
+  
+  .ranking-table .loss {
+    color: #dc3545;
+  }
+  
+  @media (max-width: 600px) {
+    .game-ranking {
+      padding: 10px;
+    }
+  
+    .ranking-table th,
+    .ranking-table td {
+      padding: 8px;
+      font-size: 14px;
+    }
+  }
