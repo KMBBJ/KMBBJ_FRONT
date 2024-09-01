@@ -7,7 +7,6 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.5",
-    "highcharts": "^11.4.6",
     "eventsource": "^2.0.2",
     "eventsource-polyfill": "^0.9.6",
     "highcharts": "^11.4.8",
