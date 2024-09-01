@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/Auth/AuthContext";
-import CreateRoomModal from "../../components/Matching/CreateRoomModal"
+import CreateRoomModal from "../../components/Matching/CreateRoomModal";
 import api from "../../api/api";
 import "../../assets/styles/common/Header.css";
 import logo from "../../assets/images/logo.png";
-import EventSourcePolyfill from 'eventsource-polyfill';
+import EventSourcePolyfill from "eventsource-polyfill";
 
 const Header = () => {
   const { user, handleLogout } = useAuth();
@@ -33,18 +33,22 @@ const Header = () => {
 
   const closeModal = () => setIsModalOpen(false);
 
-  const cookies = document.cookie.split('; ');
-    const accessTokenCookie = cookies.find(cookie => cookie.startsWith('Access-Token='));
-    const accessToken = accessTokenCookie ? accessTokenCookie.split('=')[1] : null;
+  const cookies = document.cookie.split("; ");
+  const accessTokenCookie = cookies.find((cookie) =>
+    cookie.startsWith("Access-Token=")
+  );
+  const accessToken = accessTokenCookie
+    ? accessTokenCookie.split("=")[1]
+    : null;
   useEffect(() => {
     if (user) {
       const url = `http://localhost:8080/api/sse/subscribe/${user.id}`;
       const newEventSource = new EventSourcePolyfill(url, {
         headers: {
-          'Authorization': `Bearer ${accessToken}`,  // 사용자 인증 토큰
-        }
+          Authorization: `Bearer ${accessToken}`, // 사용자 인증 토큰
+        },
       });
-  
+
       newEventSource.addEventListener("roomNotification", (event) => {
         console.log("Event received:", event);
         const data = JSON.parse(event.data);
@@ -53,27 +57,41 @@ const Header = () => {
           setIsMatching(false);
           console.log(isMatching);
           setTimeout(() => {
-            navigate(`/matching/enter/${data}`);  // 자동 리디렉션
+            navigate(`/matching/enter/${data}`); // 자동 리디렉션
           }, 100);
           console.log("done");
         }
       });
-  
+
+      newEventSource.addEventListener("gameNotification", (event) => {
+        console.log("Event received:", event);
+        const data = JSON.parse(event.data);
+        console.log("Parsed data:", data);
+        if (data) {
+          setIsMatching(false);
+          console.log(isMatching);
+          setTimeout(() => {
+            navigate(`/games/start/${data}`); // 자동 리디렉션
+          }, 100);
+          console.log("done");
+        }
+      });
+
       newEventSource.onerror = (error) => {
-        console.error('SSE Error:', error);
+        console.error("SSE Error:", error);
         // Handle errors or connection issues here
         newEventSource.close(); // Ensure the connection is closed properly
       };
-  
+
       return () => {
         newEventSource.close();
       };
     }
-  }, [user, navigate, accessToken]);
+  }, [user, navigate, accessToken, isMatching]);
 
   useEffect(() => {
     console.log("Matching state updated:", isMatching);
-  }, [isMatching]);  // isMatching 상태 변화 로깅
+  }, [isMatching]); // isMatching 상태 변화 로깅
 
   useEffect(() => {
     let interval = null;
@@ -157,13 +175,23 @@ const Header = () => {
                 {showDropdown && (
                   <ul className="dropdown-menu">
                     <li>
-                    <button className="no-border-button" onClick={toggleModal}>방 생성하기</button>
+                      <button
+                        className="no-border-button"
+                        onClick={toggleModal}
+                      >
+                        방 생성하기
+                      </button>
                     </li>
                     <li>
                       <Link to="/matching/list">방 목록보기</Link>
                     </li>
                     <li>
-                    <button className="no-border-button" onClick={startRandomMatching}>랜덤 매칭</button>
+                      <button
+                        className="no-border-button"
+                        onClick={startRandomMatching}
+                      >
+                        랜덤 매칭
+                      </button>
                     </li>
                   </ul>
                 )}
