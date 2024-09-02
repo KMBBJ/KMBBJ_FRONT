@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../api/api";
+import GameRanking from "../../components/Games/GameRanking";
 import "../../assets/styles/Games/GameRound.css";
 
 function GameRound() {
@@ -10,6 +11,26 @@ function GameRound() {
   const [remainingSeconds, setRemainingSeconds] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showMidRanking, setShowMidRanking] = useState(false);
+
+  const checkGameOver = useCallback(async (gameStatus) => {
+    if (gameStatus && gameStatus.results.length > 0) {
+      const currentRound = gameStatus.results[0].roundNumber;
+      const totalRounds = gameStatus.totalRounds;
+      
+      if (currentRound > totalRounds) {
+        try {
+          // 게임 종료 API 호출
+          await api.post(`/games/${encryptedGameId}/end`);
+          // GameOver 페이지로 이동
+          navigate(`/gameOver/${encryptedGameId}`);
+        } catch (error) {
+          console.error("Failed to end game:", error);
+          setError("Failed to end game");
+        }
+      }
+    }
+  }, [encryptedGameId, navigate]);
 
   const fetchGameStatus = useCallback(async (gameId) => {
     if (!gameId) {
@@ -23,6 +44,7 @@ function GameRound() {
 
       if (typeof data.durationMinutes === "number") {
         setGameStatus(data);
+        await checkGameOver(data);
         
         const storedRemainingSeconds = localStorage.getItem(`remainingSeconds_${gameId}`);
         const storedTimestamp = localStorage.getItem(`timestamp_${gameId}`);
@@ -45,7 +67,7 @@ function GameRound() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [checkGameOver]);
 
   const startNewRound = useCallback(async (gameId) => {
     try {
@@ -53,10 +75,14 @@ function GameRound() {
       const data = response.data.data;
 
       if (typeof data.durationMinutes === "number") {
-        setGameStatus((prevStatus) => ({
-          ...prevStatus,
-          ...data,
-        }));
+        setGameStatus((prevStatus) => {
+          const newStatus = {
+            ...prevStatus,
+            ...data,
+          };
+          checkGameOver(newStatus);
+          return newStatus;
+        });
         setRemainingSeconds(data.durationMinutes * 60);
         localStorage.setItem(`remainingSeconds_${gameId}`, (data.durationMinutes * 60).toString());
         localStorage.setItem(`timestamp_${gameId}`, Date.now().toString());
@@ -67,7 +93,7 @@ function GameRound() {
       console.error("Failed to start a new round:", error);
       setError("Failed to start a new round");
     }
-  }, []);
+  }, [checkGameOver]);
 
   useEffect(() => {
     const storedGameId = localStorage.getItem('encryptedGameId');
@@ -90,7 +116,7 @@ function GameRound() {
           return prevSeconds - 1;
         } else if (prevSeconds === 1) {
           const gameId = localStorage.getItem('encryptedGameId');
-          startNewRound(gameId);  // 새로운 라운드 시작
+          startNewRound(gameId);
           return 0;
         } else {
           return 0;
@@ -102,6 +128,18 @@ function GameRound() {
       clearInterval(intervalId);
     };
   }, [encryptedGameId, fetchGameStatus, startNewRound, navigate]);
+
+  useEffect(() => {
+    if (gameStatus && gameStatus.results.length > 0) {
+      const currentRound = gameStatus.results[0].roundNumber;
+      const totalRounds = gameStatus.totalRounds;
+      const midRound = Math.floor(totalRounds / 2);
+
+      if (currentRound === midRound + 1) {
+        setShowMidRanking(true);
+      }
+    }
+  }, [gameStatus]);
 
   if (loading) return <p>Loading game status...</p>;
   if (error) return <p>Error loading game status: {error}</p>;
@@ -187,6 +225,16 @@ function GameRound() {
           ))}
         </tbody>
       </table>
+
+      {showMidRanking && (
+        <div className="mid-ranking-popup">
+          <div className="popup-content">
+            <h3>중간 순위</h3>
+            <GameRanking encryptedGameId={encryptedGameId} />
+            <button onClick={() => setShowMidRanking(false)}>닫기</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
