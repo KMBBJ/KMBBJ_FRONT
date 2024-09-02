@@ -1,0 +1,8 @@
+/* LoginPage.css */
+.auth-page {
+    display: flex;
+    justify-content: center;  /* 가로 중앙 정렬 */
+    align-items: center;       /* 세로 중앙 정렬 */
+    height: 100vh;             /* 뷰포트 높이를 100% 사용 */
+    background-color: #f5f5f5; /* 배경색 (선택사항) */
+  }
