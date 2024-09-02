@@ -1,0 +1,29 @@
+.game-searchbar {
+    width: 100%;
+}
+
+.game-input-wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.game-input-wrapper form input {
+    background-color: #eee;
+    border: none;
+    font-size: 9px;
+    width: 100%;
+    border-radius: 1rem;
+    color: #54A9B3;
+    box-shadow: 0 0.4rem #dfd9d9;
+    cursor: pointer;
+  }
+
+  .game-input-wrapper form {
+    width: 95%;
+  }
+  
+  .game-input-wrapper input:focus {
+    outline-color: #E5F5F7;
+  }
+
+  

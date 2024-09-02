@@ -8,10 +8,13 @@ const CoinTable = ({ coins, onSort, sortConfig }) => {
     };
 
     return (
-        <table className={"table"}>
+        <div className="table-div">
+        <table className="table">
             <thead>
                 <tr>
-                    <th onClick={() => onSort('coinName')}>Name</th>
+                    <th onClick={() => onSort('coinName')}>
+                        Name {getSortDirection('coinName') === 'asc' ? '↑' : '↓'}
+                    </th>
                     <th onClick={() => onSort('price')}>
                         Price {getSortDirection('price') === 'asc' ? '↑' : '↓'}
                     </th>
@@ -21,36 +24,32 @@ const CoinTable = ({ coins, onSort, sortConfig }) => {
                     <th onClick={() => onSort('volume')}>
                         24h Volume {getSortDirection('volume') === 'asc' ? '↑' : '↓'}
                     </th>
-                    <th onClick={() => onSort('highPrice')}>
-                        24h High {getSortDirection('highPrice') === 'asc' ? '↑' : '↓'}
+                    <th onClick={() => onSort('totalValue')}>
+                        Market Cap {getSortDirection('totalValue') === 'asc' ? '↑' : '↓'}
                     </th>
-                    <th onClick={() => onSort('lowPrice')}>
-                        24h Low {getSortDirection('lowPrice') === 'asc' ? '↑' : '↓'}
-                    </th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {coins.map(coin => (
                     <tr key={coin.symbol}>
-                        <td class="link-detail">
-                            <Link to={`/charts/detail/${coin.symbol}`}>
-                                {coin.coinName} ({coin.symbol})
+                        <td className="link-detail">
+                            <p>
+                            <Link to={`/coins/coinDetail/${coin.symbol}`} style={{ textDecoration: "none", color: 'black', fontSize: '13px', paddingRight: '5px'}}>
+                                {coin.symbol}
                             </Link>
+                            {coin.coinName}</p>
                         </td>
-                        <td>{coin.price}</td>
-                        <td>{coin.priceChange}%</td>
+                        <td>${coin.price}</td>
+                        <td style={{ color: coin.priceChange >= 0 ? 'palegreen' : 'salmon' }}>
+                            {coin.priceChange}%
+                        </td>
                         <td>{coin.volume}</td>
-                        <td>{coin.highPrice}</td>
-                        <td>{coin.lowPrice}</td>
-                        <td className={"actions"}>
-                            <button>✏️</button>
-                            <button>🗑️</button>
-                        </td>
+                        <td>{coin.totalValue}</td>
                     </tr>
                 ))}
             </tbody>
         </table>
+        </div>
     );
 };
 

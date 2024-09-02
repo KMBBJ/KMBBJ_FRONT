@@ -27,7 +27,7 @@ export const useCoinData = () => {
 
     const loadCoinList = useCallback(async (page, sortConfig, searchQuery) => {
         try {
-            const response = await getCoinListPage(page, 10, sortConfig.key, sortConfig.direction, searchQuery);
+            const response = await getCoinListPage(page, 13, sortConfig.key, sortConfig.direction, searchQuery);
             
             if (response && response.data && response.data.content) {
                 const formattedCoins = response.data.content.map(coin => ({

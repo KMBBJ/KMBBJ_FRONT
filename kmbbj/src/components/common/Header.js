@@ -155,7 +155,7 @@ const Header = () => {
   };
 
   const coin = async () => {
-    navigate("/charts/list"); // 코인 리스트로 이동
+    navigate("/coins/list"); // 코인 리스트로 이동
   };
 
   const friends = async () => {
