@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import transactionService from '../services/transactionService';  // 경로는 프로젝트 구조에 맞게 수정하세요
-import './TransactionHistory.css';
+import * as transactionService from '../../services/Transaction/transactionService';  // 경로는 프로젝트 구조에 맞게 수정하세요
+import '../../assets/styles/Transaction/TransactionHistory.css';
 
 const TransactionHistory = () => {
   const [transactions, setTransactions] = useState([]);

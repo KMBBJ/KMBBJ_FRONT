@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import transactionService from '../../services/Transaction/transactionService';
+import * as transactionService from '../../services/Transaction/transactionService';
 import '../../assets/styles/Transaction/UserAsset.css';
 
 const UserAsset = () => {

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import "../../assets/styles/GameCharts/CoinChart.css";
 
-
 const CoinChart = ({ coins, onSort, sortConfig, onSelectSymbol }) => {
     const [selectedSymbol, setSelectedSymbol] = useState(null);
     
@@ -38,7 +37,9 @@ const CoinChart = ({ coins, onSort, sortConfig, onSelectSymbol }) => {
                 {coins.map(coin => (
                     <tr key={coin.symbol} onClick={() => handleSymbolClick(coin.symbol)}>
                         <td>
-                            <p><h3 className='coinName'>{coin.coinName}</h3> {coin.symbol}</p>
+                            <div>
+                                <span className='coinName'>{coin.coinName}</span> <span className='coinSymbol'>{coin.symbol}</span>
+                            </div>
                         </td>
                         <td>${coin.price}</td>
                         <td style={{ color: coin.priceChange >= 0 ? 'palegreen' : 'salmon' }}>
