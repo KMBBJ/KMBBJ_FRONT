@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/Auth/AuthContext";
 import CreateRoomModal from "../../components/Matching/CreateRoomModal";
+import AdminNotificationModal from "../../components/Admin/AdminNotificationModal"; // 새로 만든 모달 컴포넌트 임포트
 import api from "../../api/api";
 import "../../assets/styles/common/Header.css";
 import logo from "../../assets/images/logo.png";
@@ -12,6 +13,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [adminNotification, setAdminNotification] = useState(null); // 공지사항 상태 추가
   const dropdownRef = useRef(null);
   const [isMatching, setIsMatching] = useState(false);
   const [matchStartTime, setMatchStartTime] = useState(null);
@@ -21,17 +23,13 @@ const Header = () => {
     setShowDropdown((prev) => !prev);
   };
 
-  // const closeDropdown = (e) => {
-  //   if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-  //     setShowDropdown(false);
-  //   }
-  // };
-
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
   const closeModal = () => setIsModalOpen(false);
+
+  const closeAdminModal = () => setAdminNotification(null); // 공지사항 모달 닫기
 
   const cookies = document.cookie.split("; ");
   const accessTokenCookie = cookies.find((cookie) =>
@@ -40,6 +38,7 @@ const Header = () => {
   const accessToken = accessTokenCookie
     ? accessTokenCookie.split("=")[1]
     : null;
+
   useEffect(() => {
     if (user) {
       const url = `http://localhost:8080/api/sse/subscribe/${user.id}`;
@@ -50,46 +49,33 @@ const Header = () => {
       });
 
       newEventSource.addEventListener("roomNotification", (event) => {
-        console.log("Event received:", event);
         const data = JSON.parse(event.data);
-        console.log("Parsed data:", data);
         if (data) {
           setIsMatching(false);
-          console.log(isMatching);
           setTimeout(() => {
             navigate(`/matching/enter/${data}`); // 자동 리디렉션
           }, 100);
-          console.log("done");
         }
       });
 
       newEventSource.addEventListener("gameNotification", (event) => {
-        console.log("Event received:", event);
         const data = JSON.parse(event.data);
-        console.log("Parsed data:", data);
         if (data) {
           setTimeout(() => {
             navigate(`/games/start/${data}`); // 자동 리디렉션
           }, 100);
-          console.log("done");
         }
       });
 
       newEventSource.addEventListener("adminNotification", (event) => {
-        console.log("Event received:", event);
         const data = JSON.parse(event.data);
-        console.log("Parsed data:", data);
         if (data) {
-          setTimeout(() => {
-            // 모달창띄우기
-          }, 100);
-          console.log("done");
+          setAdminNotification(data); // 공지사항 데이터를 상태에 저장
         }
       });
 
       newEventSource.onerror = (error) => {
         console.error("SSE Error:", error);
-        // Handle errors or connection issues here
         newEventSource.close(); // Ensure the connection is closed properly
       };
 
@@ -239,6 +225,14 @@ const Header = () => {
                   Log Out
                 </button>
               </li>
+              {/* 공지사항 모달 */}
+              {adminNotification && (
+                <AdminNotificationModal
+                  title={adminNotification.title}
+                  content={adminNotification.content}
+                  onClose={closeAdminModal}
+                />
+              )}
             </>
           ) : (
             <>
