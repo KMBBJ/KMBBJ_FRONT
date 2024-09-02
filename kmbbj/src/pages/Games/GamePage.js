@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import GameRound from '../../components/Games/GameRound';
 import GameBalance from '../../components/Games/GameBalance';
 import "../../assets/styles/Games/GamePage.css";
@@ -8,38 +8,48 @@ import CoinChart from '../../components/Coin/CoinChart';
 import Pagination from '../../components/UserCoin/Pagination';
 import useCoinData from '../../hooks/Coin/useCoinListData';
 import GameCoinSearchBar from '../../components/Coin/GameCoinSearchBar';
-import CoinDetail from '../../components/Coin/CoinDetail'
+import CoinDetail from '../../components/Coin/CoinDetail';
+import OrderForm from '../../components/Transaction/OrderForm';
 
 const GamePage = () => {
+  const navigate = useNavigate();
   const { encryptedGameId, userId } = useParams();
   const { coins, currentPage, totalPages, setCurrentPage, handleSort, sortConfig, handleSearch } = useCoinData();
 
-  const [selectedSymbol, setSelectedSymbol] = useState('BTC');
+  const [selectedSymbol, setSelectedSymbol] = useState('BTC'); // selectedSymbol이 coinId 역할
 
   const handleSelectSymbol = (symbol) => {
     setSelectedSymbol(symbol);
+  };
+
+  const navigateToUserAssets = () => {
+    navigate(`/user-assets`, { state: { userId } }); // UserAssetPage로 이동
+  };
+
+  const navigateToTransactionHistory = () => {
+    navigate(`/transaction-history`, { state: { userId } }); // TransactionHistoryPage로 이동
   };
 
   return (
     <div className="game-page">
       <div className="game-page__container">
         <div className="game-page__coin-list">
-        <div className="container">
+          <div className="container">
             <div className="search-bar">
-                <GameCoinSearchBar onSearch={handleSearch} />
+              <GameCoinSearchBar onSearch={handleSearch} />
             </div>
             <div className="coin-table">
-                <CoinChart
-                    coins={coins} 
-                    onSort={handleSort} 
-                    sortConfig={sortConfig}
-                    onSelectSymbol={handleSelectSymbol}
-                />
+              <CoinChart
+                coins={coins} 
+                onSort={handleSort} 
+                sortConfig={sortConfig}
+                onSelectSymbol={handleSelectSymbol}
+              />
             </div>
             <div className="game-coin-pagination">
-                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage}/>
+              <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage}/>
             </div>
-        </div>
+          </div>
         </div>
         <div className="game-page__chart">
           <div className="chart">
@@ -55,13 +65,18 @@ const GamePage = () => {
             <GameBalance userId={userId} />
           </div>
           <div className="game-page__order-buttons">
-            <button className="order-button">A</button>
-            <button className="order-button">B</button>
+            <button className="order-button" onClick={navigateToUserAssets}>자산 조회</button> {/* UserAssetPage로 이동 */}
+            <button className="order-button" onClick={navigateToTransactionHistory}>거래 내역</button> {/* TransactionHistoryPage로 이동 */}
           </div>
         </div>
         <div className="game-page__orders">
-          <h2>주문 입력</h2>
-          {/* 주문 입력 컴포넌트 삽입 */}
+          <div className="game-page__orders-half">
+            <OrderForm userId={userId} coinId={selectedSymbol} />
+          </div>
+          <div className="game-page__orders-half">
+            <h2>추가 정보</h2>
+            {/* 추가 정보 또는 기능 컴포넌트 삽입 */}
+          </div>
         </div>
         <div className="game-page__chat">
           <h2>실시간 채팅</h2>
