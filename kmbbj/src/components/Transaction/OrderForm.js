@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import transactionService from '../services/transactionService';
-import './OrderForm.css';
+import * as transactionService from '../../services/Transaction/transactionService';
+import '../../assets/styles/Transaction/OrderFom.css';
 
 const OrderForm = () => {
   const [mode, setMode] = useState('buy'); // 'buy' 또는 'sell'
