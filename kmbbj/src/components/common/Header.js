@@ -172,6 +172,17 @@ const Header = () => {
     navigate("/coins/list"); // 코인 리스트로 이동
   };
 
+  const enterGame = () => {
+    const gameId = localStorage.getItem('gameId');
+    const userId = localStorage.getItem('userId');
+
+    if (gameId && userId) {
+      navigate(`/games/status/${gameId}/balance/${userId}`);
+    } else {
+      alert("게임 ID 또는 사용자 ID가 없습니다.");
+    }
+  };
+
   const friends = async () => {
     navigate("/friends/list");
   };
@@ -215,6 +226,14 @@ const Header = () => {
                         onClick={startRandomMatching}
                       >
                         랜덤 매칭
+                      </button>
+                    </li>
+                    <li>
+                    <button
+                        className="no-border-button"
+                        onClick={enterGame}
+                      >
+                        게임 입장
                       </button>
                     </li>
                   </ul>
