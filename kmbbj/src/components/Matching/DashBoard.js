@@ -13,7 +13,7 @@ function Dashboard() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [sortField, setSortField] = useState("roomId");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
 
   const fetchRooms = useCallback(async () => {
     setLoading(true);
@@ -36,10 +36,20 @@ function Dashboard() {
       setRooms(content);
       setTotalPages(totalPages);
     } catch (error) {
-      console.error("Failed to fetch rooms:", error);
-      setError("Failed to load data");
-    } finally {
-      setLoading(false);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.exception
+      ) {
+        // 백엔드에서 전달된 오류 메시지를 표시
+        alert(`${error.response.data.exception.errorMessage}`);
+      } else {
+        // 기타 네트워크 또는 예상치 못한 오류 메시지 표시
+        searchTerm
+          ? alert("검색 도중 오류가 발생했습니다.")
+          : alert("방 목록을 불러오지 못했습니다.");
+      }
+      console.error("Failed to create room:", error);
     }
   }, [searchTerm, currentPage, sortField, sortOrder]);
 
