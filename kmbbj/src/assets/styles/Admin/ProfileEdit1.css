@@ -1,0 +1,14 @@
+.profile-edit button {
+  background-color: transparent; /* 버튼의 배경색을 투명하게 설정 */
+  color: black; /* 버튼의 글자색을 검은색으로 설정 */
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: 1px solid rgb(199, 190, 190); /* 검은색 테두리를 추가 */
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.profile-edit button:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* 호버 시 살짝 어두워지는 효과 */
+}

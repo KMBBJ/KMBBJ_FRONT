@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../assets/styles/Admin/ProfileEdit.css';
+import '../../assets/styles/Admin/ProfileEdit1.css';
 
 const ProfileEdit = ({ onAction }) => {
   const [email, setEmail] = useState('');
@@ -26,6 +26,11 @@ const ProfileEdit = ({ onAction }) => {
     navigate('/coins/manageCoin');
   };
 
+  const handleAddAdminClick = (event) => {
+    event.preventDefault();
+    navigate('/admin/addAdmin');
+  };
+
   return (
     <div className="profile-edit">
       <h2>설정</h2>
@@ -45,6 +50,10 @@ const ProfileEdit = ({ onAction }) => {
 
       <form onSubmit={handleManageCoinClick}>
         <button type="submit">코인 관리</button>
+      </form>
+
+      <form onSubmit={handleAddAdminClick}>
+        <button type="submit">관리자 추가</button>
       </form>
 
       <form onSubmit={handleUserListClick}>
