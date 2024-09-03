@@ -10,15 +10,17 @@ function RoomDetail() {
   const [room, setRoom] = useState(null);
   const [error, setError] = useState(null);
   const [countdown, setCountdown] = useState("");
+  const [gameStarted, setGameStarted] = useState(false); // 게임 시작 상태
 
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
         const response = await api.post(`/room/enter/${roomId}`);
         setRoom(response.data.data);
-        const gameStartTime = new Date(Date.now() + response.data.data * 60000);
-        localStorage.setItem("gameStartTime", gameStartTime);
-        initializeCountdown(gameStartTime);
+        const storedGameStartTime = localStorage.getItem("gameStartTime");
+        if (storedGameStartTime && new Date(storedGameStartTime) > new Date()) {
+          initializeCountdown(new Date(storedGameStartTime));
+        }
       } catch (error) {
         if (
           error.response &&
@@ -39,6 +41,30 @@ function RoomDetail() {
     fetchRoomData();
   }, [roomId]);
 
+  const initializeGameStarted = () => {
+    const storedGameStarted = localStorage.getItem("gameStarted");
+    if (storedGameStarted) {
+      setGameStarted(storedGameStarted === "true");
+    }
+  };
+
+  useEffect(() => {
+    initializeGameStarted();
+    checkGameStartTime();
+  }, [roomId]);
+
+  const checkGameStartTime = () => {
+    const storedGameStartTime = localStorage.getItem("gameStartTime");
+    if (storedGameStartTime) {
+      const gameStartTime = new Date(storedGameStartTime);
+      if (gameStartTime > new Date()) {
+        initializeCountdown(gameStartTime);
+      } else {
+        localStorage.removeItem("gameStartTime"); // 시간이 지났으면 정보 삭제
+      }
+    }
+  };
+
   const initializeCountdown = (gameStartTime) => {
     const timer = setInterval(() => {
       const now = new Date();
@@ -53,17 +79,12 @@ function RoomDetail() {
       } else {
         setCountdown("게임이 시작되었습니다.");
         clearInterval(timer);
+        localStorage.removeItem("gameStartTime"); // 게임 시작 후 카운트다운 삭제
       }
     }, 1000);
+
     return () => clearInterval(timer);
   };
-
-  useEffect(() => {
-    const storedStartTime = localStorage.getItem("gameStartTime");
-    if (storedStartTime) {
-      initializeCountdown(new Date(storedStartTime));
-    }
-  }, []);
 
   if (error) {
     return <div>{error}</div>;
@@ -102,8 +123,13 @@ function RoomDetail() {
     try {
       const response = await api.post(`/room/start/${roomId}`);
       if (response.data.status === "OK" && response.data.data !== 0) {
+        setGameStarted(true);
+        localStorage.setItem("gameStarted", "true");
         console.log("Game started successfully");
         const currentTime = moment().format("HH:mm");
+        const gameStartTime = new Date(Date.now() + response.data.data * 60000);
+        localStorage.setItem("gameStartTime", gameStartTime);
+        initializeCountdown(gameStartTime);
         alert(
           `현재 시간: ${currentTime}을 기준으로 ${response.data.data}분 뒤에 게임이 시작됩니다.`
         );
@@ -176,7 +202,7 @@ function RoomDetail() {
           <h2>{room.roomTitle}</h2>
         </div>
         <div className="room-stats">
-          <div>매칭 시작까지 남은 시간: {countdown}</div>
+          {gameStarted && <div>매칭 시작: {countdown}</div>}
           <p>참가인원: {room.userCount}/10</p>
           <p>시드 머니: {formatStartSeedMoney(room.startSeedMoney)}</p>
           <p>딜레이: {room.delay}분</p>
