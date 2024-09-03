@@ -1,72 +1,73 @@
-// src/components/Admin/AdminSignup.js
+// src/components/Admin/AddAdmin.js
 import React, { useState } from 'react';
 import { join } from '../../services/Admin/userService';
+import '../../assets/styles/Admin//AddAdmin.css';
 
-const AdminSignup = () => {
+const AddAdmin = ({ onSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-  const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    setError('');
     setSuccess('');
 
     if (password !== passwordCheck) {
-      setError('비밀번호가 일치하지 않습니다.');
-      return;
+      return; // 패스워드가 일치하지 않으면 함수 종료
     }
 
     try {
       await join(email, password, passwordCheck);
-      setSuccess('관리자 회원가입이 완료되었습니다.');
+      setSuccess('Admin successfully added.');
       setEmail('');
       setPassword('');
       setPasswordCheck('');
+      if (onSuccess) onSuccess(); // 성공 시 콜백 실행
     } catch (err) {
-      setError(err.message || '회원가입에 실패했습니다.');
+      // 에러 발생 시 아무 메시지도 표시하지 않음
     }
   };
 
   return (
-    <div className="admin-signup">
-      <h2>관리자 회원가입</h2>
-      <form onSubmit={handleSignup}>
-        <div>
-          <label>이메일</label>
+    <div className="add-admin-container">
+      <h3 className="add-admin-heading">Add New Admin</h3>
+      <form onSubmit={handleSignup} className="add-admin-form">
+        <div className="form-group">
+          <label>Email</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="form-input"
           />
         </div>
-        <div>
-          <label>비밀번호</label>
+        <div className="form-group">
+          <label>Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="form-input"
           />
         </div>
-        <div>
-          <label>비밀번호 확인</label>
+        <div className="form-group">
+          <label>Confirm Password</label>
           <input
             type="password"
             value={passwordCheck}
             onChange={(e) => setPasswordCheck(e.target.value)}
             required
+            className="form-input"
           />
         </div>
-        {error && <div className="error-message">{error}</div>}
         {success && <div className="success-message">{success}</div>}
-        <button type="submit">회원가입</button>
+        <button type="submit" className="submit-button">Add Admin</button>
       </form>
     </div>
   );
 };
 
-export default AdminSignup;
+export default AddAdmin;

@@ -117,7 +117,8 @@ export const fetchAdminAnnouncements = async () => {
 // 관리자 공지사항 및 로그인된 사용자 정보 가져오기
 export const fetchAdminAnnouncementsAndUserInfo = async () => {
   try {
-    const response = await api.get('/announcements'); // 수정된 경로로 호출
+    const response = await api.get('/admin');
+    
     if (response.data && response.data.data) {
       return {
         alarms: response.data.data.alarms,
@@ -182,18 +183,38 @@ export const join = async (email, password, passwordCheck) => {
   }
 };
 
+// ROLE_ADMIN 권한을 가진 사용자 목록 조회 함수
+export const fetchAdmins = async (page = 0, size = 10) => {
+  try {
+    const response = await api.get('/admin/role_admin', {
+      params: { page, size }
+    });
+
+    if (response.data && response.data.data) {
+      return response.data.data;
+    } else {
+      throw new Error('Invalid response structure for fetchAdmins');
+    }
+  } catch (error) {
+    console.error('Error fetching admins:', error);
+    throw error;
+  }
+};
+
+// 기존 userService 내보내기에서 추가
 const userService = {
   fetchUsers,
   fetchUserDetails,
   suspendUser,
   unsuspendUser,
-  rewardUser, 
+  rewardUser,
   fetchUserBalanceAndTransactions,
   fetchAdminAnnouncements,
   fetchAdminAnnouncementsAndUserInfo,
   addAnnouncement,
   fetchUserIdByEmail,
   join,
+  fetchAdmins, // 추가된 부분
 };
 
 export default userService;

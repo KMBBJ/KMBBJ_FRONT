@@ -1,0 +1,82 @@
+/* src/assets/styles/Admin/AdminSignupPage.css */
+.admin-signup-page {
+    margin: 20px;
+  }
+  
+  .admin-signup-page h2 {
+    margin-bottom: 20px;
+  }
+  
+  .add-admin {
+    margin-bottom: 40px;
+  }
+  
+  .add-admin form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-admin form div {
+    margin-bottom: 10px;
+  }
+  
+  .add-admin form label {
+    margin-bottom: 5px;
+  }
+  
+  .add-admin form input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .add-admin form .error-message,
+  .add-admin form .success-message {
+    margin-top: 10px;
+    font-size: 14px;
+    color: red;
+  }
+  
+  .add-admin form .success-message {
+    color: green;
+  }
+  
+  .admin-list {
+    margin-top: 20px;
+  }
+  
+  .admin-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .admin-list th, .admin-list td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .pagination {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .pagination button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .pagination button:disabled {
+    background-color: #ccc;
+  }
+  
+  .pagination span {
+    line-height: 32px;
+  }
+  
