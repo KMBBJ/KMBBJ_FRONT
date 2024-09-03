@@ -7,8 +7,16 @@ function RoomList({ rooms }) {
   // 서버로부터 받은 문자열 값을 숫자로 변환
   const convertSeedMoneyValue = (moneyStr) => {
     switch (moneyStr) {
+      case "THREE_MILLION":
+        return 300;
+      case "FIVE_MILLION":
+        return 500;
+      case "SEVEN_MILLION":
+        return 700;
       case "TEN_MILLION":
         return 1000;
+      case "FIFTEEN_MILLION":
+        return 1500;
       case "TWENTY_MILLION":
         return 2000;
       case "THIRTY_MILLION":
