@@ -22,7 +22,7 @@ const UserListPage = () => {
 
     useEffect(() => {
         loadUsers(searchEmail);
-    }, [page, searchEmail, loadUsers]); // 'loadUsers' 추가
+    }, [page, searchEmail, loadUsers]);
 
     const handlePageChange = (newPage) => {
         if (newPage >= 0) {
@@ -59,7 +59,7 @@ const UserListPage = () => {
                             <tr 
                                 key={user.id} 
                                 onClick={() => handleRowClick(user.id)}
-                                className={user.isSuspended ? 'suspended-user' : ''}
+                                className={user.suspended ? 'suspended-user' : ''}
                             >
                                 <td>{index + 1 + page * size}</td>
                                 <td>{user.nickname}</td>
