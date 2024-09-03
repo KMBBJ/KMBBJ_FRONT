@@ -51,6 +51,7 @@ function Dashboard() {
       }
       console.error("Failed to create room:", error);
     }
+    setLoading(false);
   }, [searchTerm, currentPage, sortField, sortOrder]);
 
   useEffect(() => {
