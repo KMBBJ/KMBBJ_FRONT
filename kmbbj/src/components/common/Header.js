@@ -184,6 +184,10 @@ const Header = () => {
           {user ? (
             <>
               <li ref={dropdownRef} className="nav-item">
+                {/* 공지사항 버튼 추가 */}
+                <Link to="/announcements" className="nav-button no-border-button">
+                  공지사항
+                </Link>
                 <button
                   className="nav-button no-border-button"
                   onClick={toggleDropdown}

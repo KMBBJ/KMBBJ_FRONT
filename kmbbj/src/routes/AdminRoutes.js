@@ -11,6 +11,7 @@ const AdminRoutes = () => {
       <Route path=":id" element={<UserDetailsPage />} /> {/* 유저 상세 정보를 위한 경로 */}
        <Route path="user_search" element={<UserListPage />} />
        <Route path="" element={<UserMainPage />} />
+       
     </Routes>
   );
 };
