@@ -83,9 +83,9 @@ const Header = () => {
             }
       
             // gameId를 사용하여 특정 페이지로 리디렉션
-            window.location.href = `/games/status/${gameId}/balance/${data}`;
+            window.location.href = `/games/status/${gameId}/balance/${user.id}`;
       
-            console.log(`Redirect to /games/status/${gameId}/balance/${data}`);
+            console.log(`Redirect to /games/status/${gameId}/balance/${user.id}`);
           } catch (error) {
             console.error('게임 시작 중 오류 발생:', error);
           }
