@@ -51,6 +51,8 @@ const Header = () => {
       newEventSource.addEventListener("roomNotification", (event) => {
         const data = JSON.parse(event.data);
         if (data) {
+          localStorage.removeItem("isMatching");
+          localStorage.removeItem("matchingStartTime");
           setIsMatching(false);
           setTimeout(() => {
             navigate(`/matching/enter/${data}`); // 자동 리디렉션
@@ -60,32 +62,34 @@ const Header = () => {
 
       newEventSource.addEventListener("gameNotification", async (event) => {
         console.log("Event received:", event);
-        
+
         // 이벤트로부터 데이터 파싱
         const data = JSON.parse(event.data);
         console.log("Parsed data:", data);
-      
+
         if (data) {
           try {
             // API 호출로 암호화된 게임 ID (gameId) 가져오기
             const response = await api.post(`/games/start/${data}`);
-            console.log('API response:', response.data);
-      
+            console.log("API response:", response.data);
+
             const { gameId } = response.data.data;
-      
+
             if (!gameId) {
-              throw new Error('게임 ID를 받지 못했습니다.');
+              throw new Error("게임 ID를 받지 못했습니다.");
             }
-      
+
             // gameId를 사용하여 특정 페이지로 리디렉션
             window.location.href = `/games/status/${gameId}/balance/${user.id}`;
-      
-            console.log(`Redirect to /games/status/${gameId}/balance/${user.id}`);
+
+            console.log(
+              `Redirect to /games/status/${gameId}/balance/${user.id}`
+            );
           } catch (error) {
-            console.error('게임 시작 중 오류 발생:', error);
+            console.error("게임 시작 중 오류 발생:", error);
           }
         }
-      
+
         console.log("done");
       });
 
@@ -108,6 +112,20 @@ const Header = () => {
   }, [user, navigate, accessToken, isMatching]);
 
   useEffect(() => {
+    // 로컬 스토리지에서 매칭 상태 확인
+    const isMatchingStored = localStorage.getItem("isMatching") === "true";
+    setIsMatching(isMatchingStored);
+
+    if (isMatchingStored) {
+      const storedMatchStartTime = localStorage.getItem("matchStartTime");
+      if (storedMatchStartTime) {
+        setMatchStartTime(new Date(storedMatchStartTime));
+        initializeTimer(new Date(storedMatchStartTime));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     console.log("Matching state updated:", isMatching);
   }, [isMatching]); // isMatching 상태 변화 로깅
 
@@ -127,8 +145,11 @@ const Header = () => {
     try {
       const response = await api.post("/matching/start/random");
       if (response.data.status === "OK") {
+        const now = new Date();
         setIsMatching(true);
-        setMatchStartTime(Date.now());
+        setMatchStartTime(now);
+        localStorage.setItem("isMatching", "true");
+        localStorage.setItem("matchStartTime", now.toISOString());
       } else {
         alert("매칭 시작에 실패했습니다.");
       }
@@ -154,6 +175,8 @@ const Header = () => {
       if (response.data.status === "OK") {
         setIsMatching(false);
         setMatchStartTime(null);
+        localStorage.removeItem("isMatching");
+        localStorage.removeItem("matchStartTime");
       } else {
         alert("매칭 취소에 실패했습니다.");
       }
@@ -171,6 +194,23 @@ const Header = () => {
       }
       console.error("Failed to cancel match:", error);
     }
+  };
+
+  const initializeTimer = (startTime) => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const difference = now - startTime;
+
+      if (difference >= 0) {
+        clearInterval(interval);
+        if (isMatching) {
+          setIsMatching(false);
+          localStorage.removeItem("isMatching");
+          localStorage.removeItem("matchStartTime");
+        }
+      }
+    }, 1000);
+    return () => clearInterval(interval);
   };
 
   const logout = async () => {
