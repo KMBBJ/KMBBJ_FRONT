@@ -80,6 +80,7 @@ function RoomDetail() {
         setCountdown("게임이 시작되었습니다.");
         clearInterval(timer);
         localStorage.removeItem("gameStartTime"); // 게임 시작 후 카운트다운 삭제
+        localStorage.removeItem("gameStarted");
       }
     }, 1000);
 
