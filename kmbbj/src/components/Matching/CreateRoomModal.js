@@ -15,13 +15,13 @@ const CreateRoomModal = ({ onClose, onCreateRoom }) => {
     let seedMoneyValue = "";
 
     switch (startSeedMoney) {
-      case '1000만':
+      case "1000만":
         seedMoneyValue = "TEN_MILLION";
         break;
-      case '2000만':
+      case "2000만":
         seedMoneyValue = "TWENTY_MILLION";
         break;
-      case '3000만':
+      case "3000만":
         seedMoneyValue = "THIRTY_MILLION";
         break;
       default:
@@ -46,17 +46,27 @@ const CreateRoomModal = ({ onClose, onCreateRoom }) => {
 
     try {
       const response = await api.post("/room/create", payload);
-      if (response.data.status === "OK") {
+      if (response.status === 200) {
         alert(`${response.data.message}`);
-        onClose();
+        onClose(); // 모달 닫기 함수 또는 다른 UI 처리
         const { roomId } = response.data.data;
         navigate(`/matching/enter/${roomId}`);
       } else {
-        alert("방 생성에 실패했습니다.");
+        alert("방 생성에 실패했습니다: " + response.data.message);
       }
     } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.exception
+      ) {
+        // 백엔드에서 전달된 오류 메시지를 표시
+        alert(`${error.response.data.exception.errorMessage}`);
+      } else {
+        // 기타 네트워크 또는 예상치 못한 오류 메시지 표시
+        alert("방 생성 중 오류가 발생했습니다.");
+      }
       console.error("Failed to create room:", error);
-      alert("방 생성 중 오류가 발생했습니다.");
     }
   };
 

@@ -111,8 +111,18 @@ const Header = () => {
         alert("매칭 시작에 실패했습니다.");
       }
     } catch (error) {
-      console.error("Random Matching Error:", error);
-      alert("매칭 시작 중 오류가 발생했습니다.");
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.exception
+      ) {
+        // 백엔드에서 전달된 오류 메시지를 표시
+        alert(`${error.response.data.exception.errorMessage}`);
+      } else {
+        // 기타 네트워크 또는 예상치 못한 오류 메시지 표시
+        alert("매칭 시작 중 오류가 발생했습니다.");
+      }
+      console.error("Failed to random matching:", error);
     }
   };
 
@@ -126,8 +136,18 @@ const Header = () => {
         alert("매칭 취소에 실패했습니다.");
       }
     } catch (error) {
-      console.error("Cancel Matching Error:", error);
-      alert("매칭 취소 중 오류가 발생했습니다.");
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.exception
+      ) {
+        // 백엔드에서 전달된 오류 메시지를 표시
+        alert(`${error.response.data.exception.errorMessage}`);
+      } else {
+        // 기타 네트워크 또는 예상치 못한 오류 메시지 표시
+        alert("매칭 취소 중 오류가 발생했습니다.");
+      }
+      console.error("Failed to cancel match:", error);
     }
   };
 
