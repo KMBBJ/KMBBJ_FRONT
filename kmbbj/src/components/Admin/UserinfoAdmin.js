@@ -1,9 +1,11 @@
+// src/components/Admin/UserinfoAdmin.js
 import React from 'react';
-import '../../assets/styles/Admin/UserInfo.css';
+import '../../assets/styles/Admin/UserInfo.css'; // 경로 확인
 
 const UserinfoAdmin = ({ userInfo }) => {
-  const { name, type, email, suspensionEndDate } = userInfo; // name과 type으로 변경
+  const { name, type, email, suspensionEndDate } = userInfo;
 
+  // suspensionEndDate가 올바르게 평가되는지 확인
   const isSuspended = suspensionEndDate && suspensionEndDate.trim() !== '' && suspensionEndDate !== "null";
 
   return (

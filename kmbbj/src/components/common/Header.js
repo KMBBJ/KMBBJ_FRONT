@@ -58,13 +58,35 @@ const Header = () => {
         }
       });
 
-      newEventSource.addEventListener("gameNotification", (event) => {
+      newEventSource.addEventListener("gameNotification", async (event) => {
+        console.log("Event received:", event);
+        
+        // 이벤트로부터 데이터 파싱
         const data = JSON.parse(event.data);
+        console.log("Parsed data:", data);
+      
         if (data) {
-          setTimeout(() => {
-            navigate(`/games/start/${data}`); // 자동 리디렉션
-          }, 100);
+          try {
+            // API 호출로 암호화된 게임 ID (gameId) 가져오기
+            const response = await api.post(`/games/start/${data}`);
+            console.log('API response:', response.data);
+      
+            const { gameId } = response.data.data;
+      
+            if (!gameId) {
+              throw new Error('게임 ID를 받지 못했습니다.');
+            }
+      
+            // gameId를 사용하여 특정 페이지로 리디렉션
+            window.location.href = `/games/status/${gameId}/balance/${user.id}`;
+      
+            console.log(`Redirect to /games/status/${gameId}/balance/${user.id}`);
+          } catch (error) {
+            console.error('게임 시작 중 오류 발생:', error);
+          }
         }
+      
+        console.log("done");
       });
 
       newEventSource.addEventListener("adminNotification", (event) => {

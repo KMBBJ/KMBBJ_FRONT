@@ -6,7 +6,6 @@ const ProfileEdit = ({ onAction }) => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  // "user list" 버튼 클릭 시 admin/user_search로 이동하는 함수
   const handleUserListClick = (event) => {
     event.preventDefault();
     navigate('/admin/user_search');
@@ -37,7 +36,7 @@ const ProfileEdit = ({ onAction }) => {
           onChange={(e) => setEmail(e.target.value)} 
           placeholder="Enter user email" 
         />
-        <button type="submit" onClick={handleRewardClick}>보상</button>
+        <button type="button" onClick={handleRewardClick}>보상</button>
       </form>
 
       <form onSubmit={handleSuspendClick}>
