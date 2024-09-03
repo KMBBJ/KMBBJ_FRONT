@@ -15,6 +15,18 @@ const CreateRoomModal = ({ onClose, onCreateRoom }) => {
     let seedMoneyValue = "";
 
     switch (startSeedMoney) {
+      case "300만":
+        seedMoneyValue = "THREE_MILLION";
+        break;
+      case "500만":
+        seedMoneyValue = "FIVE_MILLION";
+        break;
+      case "700만":
+        seedMoneyValue = "SEVEN_MILLION";
+        break;
+      case "1500만":
+        seedMoneyValue = "FIFTEEN_MILLION";
+        break;
       case "1000만":
         seedMoneyValue = "TEN_MILLION";
         break;
@@ -91,7 +103,11 @@ const CreateRoomModal = ({ onClose, onCreateRoom }) => {
             required
           >
             <option value="">선택하세요</option>
+            <option value="300만">300만</option>
+            <option value="500만">500만</option>
+            <option value="700만">700만</option>
             <option value="1000만">1000만</option>
+            <option value="1500만">1500만</option>
             <option value="2000만">2000만</option>
             <option value="3000만">3000만</option>
           </select>
