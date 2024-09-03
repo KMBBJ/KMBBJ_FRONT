@@ -5,7 +5,7 @@ import GameRanking from "../../components/Games/GameRanking";
 import "../../assets/styles/Games/GameRound.css";
 
 function GameRound() {
-  const { encryptedGameId } = useParams();
+  const { gameId } = useParams();
   const navigate = useNavigate();
   const [gameStatus, setGameStatus] = useState(null);
   const [remainingSeconds, setRemainingSeconds] = useState(0);
@@ -21,16 +21,16 @@ function GameRound() {
       if (currentRound > totalRounds) {
         try {
           // 게임 종료 API 호출
-          await api.post(`/games/${encryptedGameId}/end`);
+          await api.post(`/games/${gameId}/end`);
           // GameOver 페이지로 이동
-          navigate(`/gameOver/${encryptedGameId}`);
+          navigate(`/gameOver/${gameId}`);
         } catch (error) {
           console.error("Failed to end game:", error);
           setError("Failed to end game");
         }
       }
     }
-  }, [encryptedGameId, navigate]);
+  }, [gameId, navigate]);
 
   const fetchGameStatus = useCallback(async (gameId) => {
     if (!gameId) {
@@ -98,9 +98,9 @@ function GameRound() {
   useEffect(() => {
     const storedGameId = localStorage.getItem('encryptedGameId');
     
-    if (encryptedGameId) {
-      localStorage.setItem('encryptedGameId', encryptedGameId);
-      fetchGameStatus(encryptedGameId);
+    if (gameId) {
+      localStorage.setItem('gameId', gameId);
+      fetchGameStatus(gameId);
     } else if (storedGameId) {
       navigate(`/games/status/${storedGameId}`);
     } else {
@@ -127,7 +127,7 @@ function GameRound() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [encryptedGameId, fetchGameStatus, startNewRound, navigate]);
+  }, [gameId, fetchGameStatus, startNewRound, navigate]);
 
   useEffect(() => {
     if (gameStatus && gameStatus.results.length > 0) {
@@ -230,7 +230,7 @@ function GameRound() {
         <div className="mid-ranking-popup">
           <div className="popup-content">
             <h3>중간 순위</h3>
-            <GameRanking encryptedGameId={encryptedGameId} />
+            <GameRanking encryptedGameId={gameId} />
             <button onClick={() => setShowMidRanking(false)}>닫기</button>
           </div>
         </div>

@@ -13,7 +13,7 @@ import OrderForm from '../../components/Transaction/OrderForm';
 
 const GamePage = () => {
   const navigate = useNavigate();
-  const { encryptedGameId, userId } = useParams();
+  const { gameId, userId } = useParams();
   const { coins, currentPage, totalPages, setCurrentPage, handleSort, sortConfig, handleSearch } = useCoinData();
 
   const [selectedSymbol, setSelectedSymbol] = useState('BTC'); // selectedSymbol이 coinId 역할
@@ -58,7 +58,7 @@ const GamePage = () => {
           </div>
         </div>
         <div className="game-page__round">
-          <GameRound encryptedGameId={encryptedGameId} />
+          <GameRound gameId={gameId} />
         </div>
         <div className="game-page__order">
           <div className="game-page__order-balance">
