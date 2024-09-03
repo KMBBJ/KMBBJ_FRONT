@@ -7,6 +7,7 @@ import api from "../../api/api";
 import "../../assets/styles/common/Header.css";
 import logo from "../../assets/images/logo.png";
 import EventSourcePolyfill from "eventsource-polyfill";
+import { gameService } from "../../services/Games/gameService";
 
 const Header = () => {
   const { user, handleLogout } = useAuth();
@@ -61,36 +62,35 @@ const Header = () => {
       });
 
       newEventSource.addEventListener("gameNotification", async (event) => {
-        console.log("Event received:", event);
+        console.log("gameNotification event received");
+        console.log("Event data:", event.data);
 
-        // 이벤트로부터 데이터 파싱
-        const data = JSON.parse(event.data);
-        console.log("Parsed data:", data);
+        try {
+          const eventData = event.data;
+          console.log("Received event data:", eventData);
 
-        if (data) {
-          try {
-            // API 호출로 암호화된 게임 ID (gameId) 가져오기
-            const response = await api.post(`/games/start/${data}`);
-            console.log("API response:", response.data);
+          // 서버에 게임 시작 요청
+          const gameId = await gameService.startGame(eventData);
+          console.log("Game started with ID:", gameId);
 
-            const { gameId } = response.data.data;
+          // 강제로 모든 브라우저에 gameId 설정
+          localStorage.setItem("gameId", gameId);
 
-            if (!gameId) {
-              throw new Error("게임 ID를 받지 못했습니다.");
-            }
-
-            // gameId를 사용하여 특정 페이지로 리디렉션
-            window.location.href = `/games/status/${gameId}/balance/${user.id}`;
-
-            console.log(
-              `Redirect to /games/status/${gameId}/balance/${user.id}`
-            );
-          } catch (error) {
-            console.error("게임 시작 중 오류 발생:", error);
+          const userId = localStorage.getItem("userId");
+          if (!userId) {
+            throw new Error("User ID를 로컬 스토리지에서 찾을 수 없습니다.");
           }
+
+          const redirectUrl = `/games/status/${gameId}/balance/${userId}`;
+          console.log(`Redirect to ${redirectUrl}`);
+
+          // 즉시 리다이렉트
+          window.location.href = redirectUrl;
+        } catch (error) {
+          console.error("게임 시작 및 리다이렉션 중 오류 발생:", error);
         }
 
-        console.log("done");
+        console.log("Event processing done");
       });
 
       newEventSource.addEventListener("adminNotification", (event) => {
@@ -226,6 +226,17 @@ const Header = () => {
     navigate("/coins/list"); // 코인 리스트로 이동
   };
 
+  const enterGame = () => {
+    const gameId = localStorage.getItem("gameId");
+    const userId = localStorage.getItem("userId");
+
+    if (gameId && userId) {
+      navigate(`/games/status/${gameId}/balance/${userId}`);
+    } else {
+      alert("게임 ID 또는 사용자 ID가 없습니다.");
+    }
+  };
+
   const friends = async () => {
     navigate("/friends/list");
   };
@@ -244,6 +255,13 @@ const Header = () => {
           {user ? (
             <>
               <li ref={dropdownRef} className="nav-item">
+                {/* 공지사항 버튼 추가 */}
+                <Link
+                  to="/announcements"
+                  className="nav-button no-border-button"
+                >
+                  공지사항
+                </Link>
                 <button
                   className="nav-button no-border-button"
                   onClick={toggleDropdown}
@@ -269,6 +287,11 @@ const Header = () => {
                         onClick={startRandomMatching}
                       >
                         랜덤 매칭
+                      </button>
+                    </li>
+                    <li>
+                      <button className="no-border-button" onClick={enterGame}>
+                        게임 입장
                       </button>
                     </li>
                   </ul>

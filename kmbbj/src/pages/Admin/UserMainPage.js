@@ -5,6 +5,7 @@ import '../../assets/styles/Admin/ProfileAdminPage.css';
 import ProfileEdit from '../../components/Admin/ProfileEdit';
 import SuspendUser from '../../components/Admin/SuspendUser';
 import RewardUser from '../../components/Admin/RewardUser';
+import AdminSignup from '../../components/Admin/AdminSignup';  // AdminSignup 컴포넌트 추가
 import { fetchAdminAnnouncementsAndUserInfo, fetchUserIdByEmail } from '../../services/Admin/userService';
 
 const UserMainPage = () => {
@@ -27,7 +28,7 @@ const UserMainPage = () => {
     };
 
     loadData();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const loadUserId = async () => {
@@ -50,7 +51,7 @@ const UserMainPage = () => {
     };
 
     loadUserId();
-  }, [selectedUserEmail]); 
+  }, [selectedUserEmail]);
 
   return (
     <div className="profile-page">
@@ -64,6 +65,7 @@ const UserMainPage = () => {
             setAction(actionType);
           }}
         />
+        <AdminSignup /> {/* AdminSignup 컴포넌트 추가 */}
       </div>
       <div className="right-column">
         <UserInfo1 user={user} />
