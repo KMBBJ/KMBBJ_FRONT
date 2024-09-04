@@ -99,6 +99,8 @@ function RoomDetail() {
     try {
       const response = await api.post(`/room/quit/${roomId}`);
       if (response.data.status === "OK") {
+        localStorage.removeItem("gameStartTime"); // 게임 시작 후 카운트다운 삭제
+        localStorage.removeItem("gameStarted");
         navigate("/matching/list");
       } else {
         console.error("Failed to leave room");
