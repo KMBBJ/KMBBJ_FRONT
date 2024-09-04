@@ -73,10 +73,6 @@ const GamePage = () => {
           <div className="game-page__orders-half">
             <OrderForm userId={userId} coinId={selectedSymbol} />
           </div>
-          <div className="game-page__orders-half">
-            <h2>추가 정보</h2>
-            {/* 추가 정보 또는 기능 컴포넌트 삽입 */}
-          </div>
         </div>
         <div className="game-page__chat">
           <h2>실시간 채팅</h2>

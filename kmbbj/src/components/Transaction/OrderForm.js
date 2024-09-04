@@ -89,14 +89,6 @@ const OrderForm = () => {
     }
   }, [amount, price]);
 
-  const incrementPrice = () => {
-    setPrice((prevPrice) => parseInt(prevPrice) + 1);
-  };
-
-  const decrementPrice = () => {
-    setPrice((prevPrice) => (parseInt(prevPrice) > 0 ? parseInt(prevPrice) - 1 : 0));
-  };
-
   const resetForm = () => {
     setAmount('');
     setPrice(parseInt(localStorage.getItem('coinPrice'), 10));
