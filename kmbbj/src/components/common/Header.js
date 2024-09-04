@@ -242,23 +242,24 @@ const Header = () => {
   };
 
   const enterGame = async () => {
-    const userId = localStorage.getItem('userId');
-  
+    const userId = localStorage.getItem("userId");
+    const gameId = localStorage.getItem("gameId");
+
     if (userId) {
       try {
-        const response = await api.get(`/games/${userId}`);
-        console.log('게임 정보:', response.data);
-        
-        const gameId = response.data.gameId;
-  
-        if (gameId) {
+        const response = await api.get(`/games/participating`);
+        console.log("게임 정보:", response.data.data);
+
+        const roomId = response.data.data;
+
+        if (roomId !== 0) {
           // 가져온 gameId로 페이지 이동
-          navigate(`/games/status/${gameId}/balance/${userId}`);
+          navigate(`/matching/enter/${roomId}`);
         } else {
-          alert("현재 진행 중인 게임이 없습니다.");
+          navigate(`/games/status/${gameId}/balance/${userId}`);
         }
       } catch (error) {
-        console.error('게임 정보를 가져오는 데 실패했습니다:', error);
+        console.error("게임 정보를 가져오는 데 실패했습니다:", error);
         alert("게임 정보를 불러오는 데 실패했습니다.");
       }
     } else {
