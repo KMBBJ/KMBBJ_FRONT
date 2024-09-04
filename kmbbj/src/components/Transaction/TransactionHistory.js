@@ -10,7 +10,7 @@ const TransactionHistory = () => {
     const fetchTransactions = async () => {
       try {
         const response = await transactionService.getTransactionsByUserId({ userId });
-        setTransactions(response);
+        setTransactions(response.data);
       } catch (error) {
         console.error('Failed to fetch transactions:', error);
       }

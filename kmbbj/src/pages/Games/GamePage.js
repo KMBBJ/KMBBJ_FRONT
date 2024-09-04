@@ -23,11 +23,11 @@ const GamePage = () => {
   };
 
   const navigateToUserAssets = () => {
-    navigate(`/user-assets`, { state: { userId } }); // UserAssetPage로 이동
+    navigate(`/games/user-assets`, { state: { userId } }); // UserAssetPage로 이동
   };
 
   const navigateToTransactionHistory = () => {
-    navigate(`/transaction-history`, { state: { userId } }); // TransactionHistoryPage로 이동
+    navigate(`/games/transaction-history`, { state: { userId } }); // TransactionHistoryPage로 이동
   };
 
   return (
