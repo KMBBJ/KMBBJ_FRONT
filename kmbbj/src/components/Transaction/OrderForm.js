@@ -133,16 +133,17 @@ const OrderForm = () => {
 
       <div className="price-quantity-container">
         <label>가격(KRW):</label>
-        <div className="increment-decrement-buttons">
-          <button onClick={decrementPrice}>-</button>
           <input
-            type="number"
+            type="text"  // 숫자만 입력되게 하려면 text 타입을 사용
             value={price}
-            step="1"
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              // 숫자만 필터링
+              if (/^\d*$/.test(value)) {
+                setPrice(value); // 숫자만 입력되도록 설정
+              }
+            }}
           />
-          <button onClick={incrementPrice}>+</button>
-        </div>
       </div>
 
       <label>수량:</label>
