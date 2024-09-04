@@ -46,9 +46,18 @@ const OrderForm = () => {
   const handleOrder = async () => {
     const totalOrderPrice = parseFloat(amount) * parseInt(price);
 
-    if (!availableAmount || totalOrderPrice > availableAmount) {
-      setError('총 주문 금액/수량이 보유한 자산을 초과할 수 없습니다.');
-      return;
+    if (mode === 'buy') {
+      // 매수 시: 총 주문 금액이 보유한 자산을 초과하면 안 됨
+      if (!availableAmount || totalOrderPrice > availableAmount) {
+        setError('총 주문 금액이 보유한 자산을 초과할 수 없습니다.');
+        return;
+      }
+    } else if (mode === 'sell') {
+      // 매도 시: 판매 수량이 보유한 코인 수량을 초과하면 안 됨
+      if (!availableCoin || amount > availableCoin) {
+        setError('매도 수량이 보유한 코인 수량을 초과할 수 없습니다.');
+        return;
+      }
     }
 
     try {
@@ -56,6 +65,7 @@ const OrderForm = () => {
         transactionType: mode === 'buy' ? 'BUY' : 'SELL',
         amount: parseFloat(amount),
         price: parseInt(price),
+        privateGameId : localStorage.getItem("gameId"),
         totalPrice: totalOrderPrice,
         userId: parseInt(userId),
         coinId: parseInt(coinId),
@@ -206,7 +216,10 @@ const OrderForm = () => {
           type="submit"
           className={mode === 'buy' ? '' : 'sell'}
           onClick={handleOrder}
-          disabled={!amount || !price || totalPrice > availableAmount}
+          disabled={
+            (mode === 'buy' && (!amount || !price || totalPrice > availableAmount)) ||
+            (mode === 'sell' && (!amount || !price || availableAmount >= amount))
+          }
         >
           {mode === 'buy' ? '매수' : '매도'}
         </button>
