@@ -4,9 +4,10 @@ import "../../assets/styles/GameCharts/CoinChart.css";
 const CoinChart = ({ coins, onSort, sortConfig, onSelectSymbol }) => {
     const [selectedSymbol, setSelectedSymbol] = useState(null);
     
-    const handleSymbolClick = (symbol) => {
-        setSelectedSymbol(symbol);
-        onSelectSymbol(symbol);
+    const handleSymbolClick = (coin) => {
+        setSelectedSymbol(coin.symbol);
+        onSelectSymbol(coin.symbol);
+        localStorage.setItem('coinId', coin.coinId);
     };
 
     const getSortDirection = (key) => {
@@ -35,7 +36,7 @@ const CoinChart = ({ coins, onSort, sortConfig, onSelectSymbol }) => {
             </thead>
             <tbody>
                 {coins.map(coin => (
-                    <tr key={coin.symbol} onClick={() => handleSymbolClick(coin.symbol)}>
+                    <tr key={coin.symbol} onClick={() => handleSymbolClick(coin)}>
                         <td>
                             <div>
                                 <span className='coinName'>{coin.coinName}</span> <span className='coinSymbol'>{coin.symbol}</span>
