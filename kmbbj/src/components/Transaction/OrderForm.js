@@ -8,12 +8,24 @@ const OrderForm = () => {
   const coinId = localStorage.getItem('coinId');
 
   const [amount, setAmount] = useState('');
-  const [price, setPrice] = useState('');
+  let [price, setPrice] = useState(() => {
+    const storedPrice = localStorage.getItem('coinPrice');
+    return storedPrice ? parseInt(storedPrice, 10) : 0; // 문자열을 숫자로 변환
+  });
   const [totalPrice, setTotalPrice] = useState('');
   let [availableAmount, setAvailableAmount] = useState(0); // 매도 가능한 코인 수량 or 매수 가능한 자산(원)
   let [availableCoin, setAvailableCoin] = useState();
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    // coinId가 변경될 때 price를 로컬 저장소에서 다시 불러오기
+    const fetchPrice = () => {
+      const storedPrice = localStorage.getItem('coinPrice');
+      setPrice(storedPrice ? parseInt(storedPrice, 10) : 0);
+    };
+    fetchPrice();
+  }, [coinId]);
+  
   const fetchAvailableAmount = async () => {
     try {
       setError('');
@@ -58,7 +70,7 @@ const OrderForm = () => {
       }
 
       setAmount('');
-      setPrice('');
+      setPrice(localStorage.getItem("coinPrice"));
       setTotalPrice('');
       setError('');
     } catch (error) {
@@ -69,7 +81,11 @@ const OrderForm = () => {
 
   useEffect(() => {
     if (amount && price) {
-      setTotalPrice(parseFloat(amount) * parseInt(price));
+      // 총액을 정수로 처리하기 위해 먼저 계산 후 내림 처리
+      const total = Math.floor(amount * price);
+      
+      // 계산된 총액을 설정
+      setTotalPrice(total);
     }
   }, [amount, price]);
 
@@ -83,7 +99,7 @@ const OrderForm = () => {
 
   const resetForm = () => {
     setAmount('');
-    setPrice('');
+    setPrice(parseInt(localStorage.getItem('coinPrice'), 10));
     setTotalPrice('');
     setError('');
   };
@@ -122,6 +138,7 @@ const OrderForm = () => {
           <input
             type="number"
             value={price}
+            step="1"
             onChange={(e) => setPrice(e.target.value)}
           />
           <button onClick={incrementPrice}>+</button>
@@ -137,10 +154,53 @@ const OrderForm = () => {
       />
 
       <div className="percentage-buttons">
-        <button onClick={() => setAmount((availableAmount * 0.1).toFixed(8))}>10%</button>
-        <button onClick={() => setAmount((availableAmount * 0.25).toFixed(8))}>25%</button>
-        <button onClick={() => setAmount((availableAmount * 0.5).toFixed(8))}>50%</button>
-        <button onClick={() => setAmount((availableAmount * 1).toFixed(8))}>100%</button>
+        <button onClick={() => {
+          if (mode === 'buy') {
+            let maxTotalPrice = availableAmount * 0.1;
+            let totalPrice = Math.floor(maxTotalPrice);
+            let calculatedAmount = totalPrice / price;
+            setAmount(calculatedAmount.toFixed(8));
+          } else {
+            let calculatedAmount = availableCoin * 0.1; // 매도 가능 코인 10%
+            setAmount(calculatedAmount.toFixed(8));
+          }
+        }}>10%</button>
+
+        <button onClick={() => {
+          if (mode === 'buy') {
+            let maxTotalPrice = availableAmount * 0.25;
+            let totalPrice = Math.floor(maxTotalPrice);
+            let calculatedAmount = totalPrice / price;
+            setAmount(calculatedAmount.toFixed(8));
+          } else {
+            let calculatedAmount = availableCoin * 0.25; // 매도 가능 코인 25%
+            setAmount(calculatedAmount.toFixed(8));
+          }
+        }}>25%</button>
+
+        <button onClick={() => {
+          if (mode === 'buy') {
+            let maxTotalPrice = availableAmount * 0.5;
+            let totalPrice = Math.floor(maxTotalPrice);
+            let calculatedAmount = totalPrice / price;
+            setAmount(calculatedAmount.toFixed(8));
+          } else {
+            let calculatedAmount = availableCoin * 0.5; // 매도 가능 코인 50%
+            setAmount(calculatedAmount.toFixed(8));
+          }
+        }}>50%</button>
+
+        <button onClick={() => {
+          if (mode === 'buy') {
+            let maxTotalPrice = availableAmount;
+            let totalPrice = Math.floor(maxTotalPrice);
+            let calculatedAmount = totalPrice / price;
+            setAmount(calculatedAmount.toFixed(8));
+          } else {
+            let calculatedAmount = availableCoin; // 매도 가능 코인 100%
+            setAmount(calculatedAmount.toFixed(8));
+          }
+        }}>100%</button>
       </div>
 
       <div className="order-summary">
