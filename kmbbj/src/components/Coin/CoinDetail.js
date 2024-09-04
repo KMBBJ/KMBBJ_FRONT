@@ -49,13 +49,13 @@ const CoinDetail = ( {symbol} ) => {
     return (
         <div>
             {coinData && (
-            <div class="coin-info">
-                <span class="coin-name">{coinData.coinName} ({coinData.symbol}USDC)</span>
-                <span class="coin-price" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}>{coinData.price}</span>
-                <span class="coin-price-change-percent" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}> {coinData.priceChangePercent}%</span>
-                <span class="coin-price-change" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}>{coinData.priceChange}</span>
-                <span class="coin-volume">거래량 {coinData.volume}</span>
-                <span class="coin-totalValue">거래대금 {coinData.totalValue}</span>
+            <div className="coin-info">
+                <span className="coin-name">{coinData.coinName} ({coinData.symbol}USDC)</span>
+                <span className="coin-price" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}>{coinData.price}</span>
+                <span className="coin-price-change-percent" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}> {coinData.priceChangePercent}%</span>
+                <span className="coin-price-change" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}>{coinData.priceChange}</span>
+                <span className="coin-volume">거래량 {coinData.volume}</span>
+                <span className="coin-totalValue">거래대금 {coinData.totalValue}</span>
             </div>
             )}
         </div>

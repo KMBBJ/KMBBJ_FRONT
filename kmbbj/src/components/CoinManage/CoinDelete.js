@@ -1,5 +1,6 @@
 import React from 'react';
 import { deleteCoin } from '../../services/Coin/CoinService';
+import "../../assets/styles/Charts/CoinUpdate.css";
 
 const CoinDelete = ({ symbol }) => {
     const handleDelete = async () => {
@@ -12,9 +13,11 @@ const CoinDelete = ({ symbol }) => {
     };
 
     return (
-        <div>
-            <h2>Delete Coin</h2>
-            <button onClick={handleDelete}>Delete Coin</button>
+        <div className='delete-coin-container'>
+        <h2>코인 삭제</h2>
+            <div className='delete-coin-button'>
+                <button className='beautiful-button' onClick={handleDelete}>삭제</button>
+            </div>
         </div>
     );
 };

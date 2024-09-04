@@ -31,30 +31,32 @@
 .game-coin-table th:nth-child(1), .game-coin-table td:nth-child(1) {
     width: 20%; /* Name 열 */
     text-align: left;
-    font-size: 8px;
+    font-size: 10px;
 }
 
 .game-coin-table th:nth-child(2), .game-coin-table td:nth-child(2),
 .game-coin-table th:nth-child(3), .game-coin-table td:nth-child(3),
 .game-coin-table th:nth-child(4), .game-coin-table td:nth-child(4) {
     width: 20%; /* 각 열 너비를 동일하게 설정 */
-    font-size: 8px;
+    height: 30px;
+    font-size: 10px;
 }
-
 .coinName {
     color: black;
-    font-size: 8px;
+    font-size: 10px;
     font-weight: bold;
+    margin: 0;
 }
 
 .coinSymbol {
-    font-size: 7px;
+    font-size: 9px;
     color: gray;
+    margin: 0;
 }
 
 .game-coin-pagination {
     display: flex;
     justify-content: center;
     list-style-type: none;
-    font-size: 8px;
+    font-size: 9px;
 }

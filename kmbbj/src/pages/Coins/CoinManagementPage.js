@@ -10,7 +10,6 @@ const CoinManagementPage = () => {
 
     return (
         <div>
-            <h1>코인 관리</h1>
             <CoinAdd />
             <div className="container">
             <SearchBar onSearch={handleSearch} />

@@ -1,0 +1,51 @@
+.add-coin-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-input-wrapper input {
+    background-color: #eee;
+    border: none;
+    padding: 1rem;
+    font-size: 1rem;
+    width: 13em;
+    border-radius: 1rem;
+    color: 54A9B3;
+    box-shadow: 0 0.4rem #dfd9d9;
+    cursor: pointer;
+}
+
+.add-input-wrapper input:focus {
+    outline-color: 54A9B3;
+}
+
+.add-button {
+    border: none;
+    padding: 0.75rem 1.5rem;
+    background-color: #54A9B3;
+    color: #ffffff;
+    font-size: 0.75rem;
+    line-height: 40px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    align-items: center;
+    border-radius: 0.5rem;
+    user-select: none;
+    gap: 0.75rem;
+    box-shadow: 0 4px 6px -1px #488aec31, 0 2px 4px -1px #488aec17;
+    transition: all 0.6s ease;
+}
+
+.add-button:hover {
+    box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
+}
+
+.add-button:focus,
+.add-button:active {
+    opacity: 0.85;
+    box-shadow: none;
+}
