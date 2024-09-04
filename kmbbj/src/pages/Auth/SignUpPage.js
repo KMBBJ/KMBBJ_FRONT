@@ -4,7 +4,7 @@ import '../../assets/styles/Auth/SignUpPage.css'
 
 const SignUpPage = () => {
   return (
-    <div className="auth-page">
+    <div className="auth-page1">
       <SignUp />
     </div>
   );

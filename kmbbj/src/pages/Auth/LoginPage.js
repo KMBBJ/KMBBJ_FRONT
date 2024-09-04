@@ -4,7 +4,7 @@ import '../../assets/styles/Auth/LoginPage.css'
 
 const LoginPage = () => {
   return (
-    <div className="auth-page">
+    <div className="auth-page1">
       <Login />
     </div>
   );

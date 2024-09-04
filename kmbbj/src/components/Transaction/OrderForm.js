@@ -15,6 +15,7 @@ const OrderForm = () => {
 
   const fetchAvailableAmount = async () => {
     try {
+      setError('');
       if (mode === 'buy') {
         const response = await transactionService.getAvailableFunds({ userId });
         setAvailableAmount(response.availableAsset);
@@ -24,7 +25,7 @@ const OrderForm = () => {
       }
     } catch (error) {
       console.error('Failed to fetch available amount:', error);
-      setError('사용 가능한 자산을 조회하는데 실패했습니다.');
+      setError(error.message || '사용 가능한 자산을 조회하는데 실패했습니다.');
     }
   };
 
@@ -88,10 +89,10 @@ const OrderForm = () => {
   return (
     <div className="order-form-container">
       <div className="mode-switch">
-        <button onClick={() => setMode('buy')} disabled={mode === 'buy'}>
+        <button onClick={() => {setMode('buy'); setError('');}} disabled={mode === 'buy'}>
           매수
         </button>
-        <button onClick={() => setMode('sell')} disabled={mode === 'sell'}>
+        <button onClick={() => {setMode('sell'); setError('');}} disabled={mode === 'sell'}>
           매도
         </button>
       </div>
