@@ -10,7 +10,8 @@ const OrderForm = () => {
   const [amount, setAmount] = useState('');
   const [price, setPrice] = useState('');
   const [totalPrice, setTotalPrice] = useState('');
-  const [availableAmount, setAvailableAmount] = useState(null); // 매도 가능한 코인 수량 or 매수 가능한 자산(원)
+  let [availableAmount, setAvailableAmount] = useState(0); // 매도 가능한 코인 수량 or 매수 가능한 자산(원)
+  let [availableCoin, setAvailableCoin] = useState();
   const [error, setError] = useState('');
 
   const fetchAvailableAmount = async () => {
@@ -18,10 +19,11 @@ const OrderForm = () => {
       setError('');
       if (mode === 'buy') {
         const response = await transactionService.getAvailableFunds({ userId });
-        setAvailableAmount(response.availableAsset);
+        setAvailableAmount(response.data.availableAsset);
+        console.log('Available Funds', availableAmount);
       } else if (mode === 'sell') {
         const response = await transactionService.getAvailableCoins({ userId, coinId });
-        setAvailableAmount(response.availableCoin);
+        setAvailableCoin(response.data.availableCoin);
       }
     } catch (error) {
       console.error('Failed to fetch available amount:', error);
@@ -106,9 +108,9 @@ const OrderForm = () => {
       {availableAmount !== null && (
         <div className="order-details">
           {mode === 'buy' ? (
-            <p>보유: 0 KRW<br/>매수 가능: {availableAmount} KRW</p>
+            <p>매수 가능: {availableAmount} KRW</p>
           ) : (
-            <p>보유: 0.00000000 BTC<br/>매도 가능: {availableAmount}</p>
+            <p>매도 가능: {availableCoin}</p>
           )}
         </div>
       )}
