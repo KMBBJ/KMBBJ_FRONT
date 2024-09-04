@@ -34,7 +34,7 @@ const GamePage = () => {
     <div className="game-page">
       <div className="game-page__container">
         <div className="game-page__coin-list">
-          <div className="container">
+          <div className="container1">
             <div className="search-bar">
               <GameCoinSearchBar onSearch={handleSearch} />
             </div>
