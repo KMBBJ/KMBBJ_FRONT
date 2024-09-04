@@ -1,6 +1,6 @@
 const express = require('express');
 // CORS 설정
-const cors=require("cors");
+const cors = require("cors");
 const app = express();
 
 const APP_FRONT_URL = process.env.REACT_APP_FRONT_URL;
@@ -8,6 +8,8 @@ const APP_FRONT_URL = process.env.REACT_APP_FRONT_URL;
 const corsOptions ={
     origin: APP_FRONT_URL,
     credentials:true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     optionSuccessStatus:200,
 }
 
