@@ -1,8 +1,12 @@
 var express = require('express')
 var cors = require('cors')
 var app = express()
+
+const REACT_ORIGIN_URL = process.env.REACT_APP_FRONT_URL; 
  
-app.use(cors())
+app.use(cors({
+    origin: REACT_ORIGIN_URL
+  }));
  
 app.get('/products/:id', function (req, res, next) {
   res.json({msg: 'This is CORS-enabled for all origins!'})

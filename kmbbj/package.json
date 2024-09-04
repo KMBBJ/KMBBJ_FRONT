@@ -25,8 +25,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"react-scripts start\"",
+    "start": "concurrently \"react-scripts start\" \"node server.js\"",
     "build": "react-scripts build",
+    "start:prod": "node server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --write server.js"
