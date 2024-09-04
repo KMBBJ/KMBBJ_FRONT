@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { addCoin } from '../../services/Coin/CoinService';
-import "../../assets/styles/Charts/CoinManagePage.css";
+import "../../assets/styles/Charts/CoinAdd.css";
 
 
 const CoinAdd = () => {
@@ -17,23 +17,25 @@ const CoinAdd = () => {
     };
 
     return (
-        <div className="container">
-        <div className="input-container">
-            <input
-                type="text"
-                placeholder="Symbol"
-                value={symbol}
-                onChange={(e) => setSymbol(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="Coin Name"
-                value={coinName}
-                onChange={(e) => setCoinName(e.target.value)}
-            />
-            <button onClick={handleAdd}>Add Coin</button>
-        </div>
-        </div>
+            <div className="add-coin-container">
+                <div className="add-input-container">
+                    <div class="add-input-wrapper">
+                    <input type="text"
+                        placeholder="Symbol"
+                        value={symbol}
+                        onChange={(e) => setSymbol(e.target.value)} 
+                        className="input" />
+                    <input
+                        type="text"
+                        placeholder="Coin Name"
+                        value={coinName}
+                        onChange={(e) => setCoinName(e.target.value)}
+                        className="input"
+                    />
+                    <button className="add-button" onClick={handleAdd}>Add Coin</button>
+                    </div>
+                </div>
+            </div>
     );
 };
 

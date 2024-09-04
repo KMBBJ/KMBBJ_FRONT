@@ -3,7 +3,7 @@ import { getKlineData } from '../../services/Charts/ChartService';
 export const fetchKlineData = async (symbol) => {
     try {
         // 5분 간격의 Kline 데이터 가져오기
-        const klineData5m = await getKlineData(symbol, '5m');
+        const klineData5m = await getKlineData(symbol, '30m');
 
         // 1일 간격의 Kline 데이터 가져오기 (MA와 Bollinger Bands 데이터 포함)
         const klineData1d = await getKlineData(symbol, '1d');

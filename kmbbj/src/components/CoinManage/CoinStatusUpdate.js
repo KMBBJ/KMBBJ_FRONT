@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { updateCoinStatus } from '../../services/Coin/CoinService';
-
+import "../../assets/styles/Charts/CoinUpdate.css";
 
 const CoinStatusUpdate = ({ symbol }) => {
     const [status, setStatus] = useState('');
@@ -16,12 +16,32 @@ const CoinStatusUpdate = ({ symbol }) => {
 
     return (
         <div>
-            <h2>Update Coin Status</h2>
-            <select value={status} onChange={(e) => setStatus(e.target.value)}>
-                <option value="TRADING">TRADING</option>
-                <option value="DELETED">DELETED</option>
-            </select>
-            <button onClick={handleUpdate}>Update Status</button>
+            <h2>코인 상태 변경</h2>
+            <div className="radio-input">
+                <label className="label">
+                    <input
+                        type="radio"
+                        name="coin-status"
+                        value="TRADING"
+                        checked={status === "TRADING"}
+                        onChange={(e) => setStatus(e.target.value)}
+                    />
+                    <p className="text">TRADING</p>
+                </label>
+                <label className="label">
+                    <input
+                        type="radio"
+                        name="coin-status"
+                        value="DELETED"
+                        checked={status === "DELETED"}
+                        onChange={(e) => setStatus(e.target.value)}
+                    />
+                    <p className="text">DELETED</p>
+                </label>
+            </div>
+            <div className="update-button-container">
+                <button className="beautiful-button" onClick={handleUpdate}>상태 업데이트</button>
+            </div>
         </div>
     );
 };
