@@ -79,6 +79,8 @@ const Header = () => {
       newEventSource.addEventListener("gameNotification", async (event) => {
         console.log("gameNotification event received");
         console.log("Event data:", event.data);
+        localStorage.removeItem("isMatching");
+        localStorage.removeItem("matchingStartTime");
 
         try {
           const eventData = event.data;
