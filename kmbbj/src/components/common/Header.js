@@ -7,6 +7,9 @@ import api from "../../api/api";
 import "../../assets/styles/common/Header.css";
 import logo from "../../assets/images/logo.png";
 import EventSourcePolyfill from "eventsource-polyfill";
+import { fetchAdminAnnouncementsAndUserInfo } from "../../services/Admin/userService"; // 함수 임포트
+import { gameService } from "../../services/Games/gameService";
+
 
 const Header = () => {
   const { user, handleLogout } = useAuth();
@@ -14,6 +17,7 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [adminNotification, setAdminNotification] = useState(null); // 공지사항 상태 추가
+  const [isAdmin, setIsAdmin] = useState(false); // 관리자 여부 상태 추가
   const dropdownRef = useRef(null);
   const [isMatching, setIsMatching] = useState(false);
   const [matchStartTime, setMatchStartTime] = useState(null);
@@ -58,14 +62,41 @@ const Header = () => {
         }
       });
 
-      newEventSource.addEventListener("gameNotification", (event) => {
-        const data = JSON.parse(event.data);
-        if (data) {
-          setTimeout(() => {
-            navigate(`/games/start/${data}`); // 자동 리디렉션
-          }, 100);
+      newEventSource.addEventListener("gameNotification", async (event) => {
+        console.log("gameNotification event received");
+        console.log("Event data:", event.data);
+        
+        try {
+            const eventData = event.data;
+            console.log("Received event data:", eventData);
+    
+            // 서버에 게임 시작 요청
+            const gameId = await gameService.startGame(eventData);
+            console.log("Game started with ID:", gameId);
+    
+            // 강제로 모든 브라우저에 gameId 설정
+            localStorage.setItem('gameId', gameId);
+            
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                throw new Error('User ID를 로컬 스토리지에서 찾을 수 없습니다.');
+            }
+    
+            const redirectUrl = `/games/status/${gameId}/balance/${userId}`;
+            console.log(`Redirect to ${redirectUrl}`);
+    
+            // 즉시 리다이렉트
+            window.location.href = redirectUrl;
+        } catch (error) {
+            console.error('게임 시작 및 리다이렉션 중 오류 발생:', error);
         }
-      });
+        
+        console.log("Event processing done");
+    });
+    
+    
+    
+    
 
       newEventSource.addEventListener("adminNotification", (event) => {
         const data = JSON.parse(event.data);
@@ -111,8 +142,18 @@ const Header = () => {
         alert("매칭 시작에 실패했습니다.");
       }
     } catch (error) {
-      console.error("Random Matching Error:", error);
-      alert("매칭 시작 중 오류가 발생했습니다.");
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.exception
+      ) {
+        // 백엔드에서 전달된 오류 메시지를 표시
+        alert(`${error.response.data.exception.errorMessage}`);
+      } else {
+        // 기타 네트워크 또는 예상치 못한 오류 메시지 표시
+        alert("매칭 시작 중 오류가 발생했습니다.");
+      }
+      console.error("Failed to random matching:", error);
     }
   };
 
@@ -126,8 +167,18 @@ const Header = () => {
         alert("매칭 취소에 실패했습니다.");
       }
     } catch (error) {
-      console.error("Cancel Matching Error:", error);
-      alert("매칭 취소 중 오류가 발생했습니다.");
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.exception
+      ) {
+        // 백엔드에서 전달된 오류 메시지를 표시
+        alert(`${error.response.data.exception.errorMessage}`);
+      } else {
+        // 기타 네트워크 또는 예상치 못한 오류 메시지 표시
+        alert("매칭 취소 중 오류가 발생했습니다.");
+      }
+      console.error("Failed to cancel match:", error);
     }
   };
 
@@ -144,6 +195,17 @@ const Header = () => {
     navigate("/coins/list"); // 코인 리스트로 이동
   };
 
+  const enterGame = () => {
+    const gameId = localStorage.getItem('gameId');
+    const userId = localStorage.getItem('userId');
+
+    if (gameId && userId) {
+      navigate(`/games/status/${gameId}/balance/${userId}`);
+    } else {
+      alert("게임 ID 또는 사용자 ID가 없습니다.");
+    }
+  };
+
   const friends = async () => {
     navigate("/friends/list");
   };
@@ -151,6 +213,25 @@ const Header = () => {
   const information = async () => {
     navigate("/");
   };
+
+  useEffect(() => {
+    const checkIfAdmin = async () => {
+      try {
+        const { alarms, userInfo } = await fetchAdminAnnouncementsAndUserInfo();
+        if (userInfo && userInfo.type === "admin") {
+          setIsAdmin(true); // 관리자 여부 상태 설정
+        } else {
+          setIsAdmin(false);
+        }
+      } catch (error) {
+        console.error("Error fetching admin info:", error);
+      }
+    };
+
+    if (user) {
+      checkIfAdmin();
+    }
+  }, [user]);
 
   return (
     <header>
@@ -162,6 +243,15 @@ const Header = () => {
           {user ? (
             <>
               <li ref={dropdownRef} className="nav-item">
+                {/* 공지사항 버튼 추가 */}
+                <Link to="/announcements" className="nav-button no-border-button">
+                  공지사항
+                </Link>
+                {isAdmin && (
+                  <Link to="/admin" className="nav-button no-border-button">
+                    Admin
+                  </Link>
+                )}
                 <button
                   className="nav-button no-border-button"
                   onClick={toggleDropdown}
@@ -187,6 +277,14 @@ const Header = () => {
                         onClick={startRandomMatching}
                       >
                         랜덤 매칭
+                      </button>
+                    </li>
+                    <li>
+                    <button
+                        className="no-border-button"
+                        onClick={enterGame}
+                      >
+                        게임 입장
                       </button>
                     </li>
                   </ul>

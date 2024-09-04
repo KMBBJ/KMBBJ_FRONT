@@ -1,7 +1,6 @@
 // src/services/Admin/userService.js
 import api from '../../api/api';
 
-
 // 유저 리스트 함수
 export const fetchUsers = async (page, size, email = '') => {
   try {
@@ -20,7 +19,7 @@ export const fetchUsers = async (page, size, email = '') => {
   }
 };
 
-// 유저 정지 메서드 
+// 유저 정지 메서드
 export const suspendUser = async (id, suspendDate) => {
   try {
     const formattedDate = new Date(suspendDate).toISOString();
@@ -33,7 +32,7 @@ export const suspendUser = async (id, suspendDate) => {
   }
 };
 
-// 유저 정지 해제 메서드 0
+// 유저 정지 해제 메서드
 export const unsuspendUser = async (id) => {
   try {
     const response = await api.post(`/admin/unsuspend/${id}`);
@@ -44,10 +43,10 @@ export const unsuspendUser = async (id) => {
   }
 };
 
-// 사용자 보상 지급 요청 0
+// 사용자 보상 지급 요청
 export const rewardUser = async (id, amount) => {
   try {
-    const response = await api.post(`/admin/rewards/${id}`, { amount }); // changeType 제거
+    const response = await api.post(`/admin/rewards/${id}`, { amount });
     return response.data;
   } catch (error) {
     console.error('Error rewarding user:', error.response ? error.response.data : error.message);
@@ -55,17 +54,16 @@ export const rewardUser = async (id, amount) => {
   }
 };
 
-// 사용자 상세 정보 가져오기 0
+// 사용자 상세 정보 가져오기
 export const fetchUserDetails = async (id) => {
   try {
     if (!id) throw new Error('User ID is required');
 
     const response = await api.get(`/admin/${id}`);
 
-    // response.data만 반환하도록 수정
     if (response.data) {
       console.log('User details fetched:', response.data);
-      return response.data; // userInfo 객체를 반환
+      return response.data;
     } else {
       throw new Error('Invalid response structure for fetchUserDetails');
     }
@@ -75,10 +73,7 @@ export const fetchUserDetails = async (id) => {
   }
 };
 
-
-
 // 자산 및 거래 내역을 가져오는 함수
-
 export const fetchUserBalanceAndTransactions = async (userId, page = 0, size = 10) => {
   try {
     const response = await api.get(`/admin/balance/${userId}`, {
@@ -87,7 +82,7 @@ export const fetchUserBalanceAndTransactions = async (userId, page = 0, size = 1
 
     if (response && response.data && response.data.data) {
       console.log('Balance and transactions fetched:', response.data.data);
-      return response.data.data; // 데이터를 제대로 반환하기 위해 .data를 추가
+      return response.data.data;
     } else {
       throw new Error('Invalid response structure for fetchUserBalanceAndTransactions');
     }
@@ -104,13 +99,10 @@ export const fetchUserBalanceAndTransactions = async (userId, page = 0, size = 1
   }
 };
 
-
-
 // 관리자 공지사항 가져오기
 export const fetchAdminAnnouncements = async () => {
   try {
-    const response = await api.get('/admin');
-    
+    const response = await api.get('/announcements'); // 수정된 경로로 호출
     if (response.data && response.data.data && response.data.data.alarms) {
       return response.data.data.alarms;
     } else {
@@ -141,8 +133,7 @@ export const fetchAdminAnnouncementsAndUserInfo = async () => {
   }
 };
 
-
-// 공지사항 저장 
+// 공지사항 저장
 export const addAnnouncement = async (announcement) => {
   try {
     if (!announcement || typeof announcement !== 'object' || !announcement.title || !announcement.content) {
@@ -157,7 +148,6 @@ export const addAnnouncement = async (announcement) => {
       throw new Error('Invalid response structure for addAnnouncement');
     }
   } catch (error) {
-    // 응답 상태에 따른 에러 메시지 출력
     if (error.response) {
       console.error('Error status:', error.response.status);
       console.error('Error data:', error.response.data);
@@ -173,7 +163,7 @@ export const fetchUserIdByEmail = async (email) => {
   try {
     const response = await api.get(`/admin/email/${email}`);
     if (response.data && response.data.data) {
-      return response.data.data; // ID를 반환
+      return response.data.data;
     } else {
       throw new Error('Invalid response structure for fetchUserIdByEmail');
     }
@@ -183,18 +173,48 @@ export const fetchUserIdByEmail = async (email) => {
   }
 };
 
+// 관리자 회원가입 요청을 처리하는 함수입니다.
+export const join = async (email, password, passwordCheck) => {
+  try {
+    const response = await api.post('/admin/join', { email, password, password_check: passwordCheck });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Registration failed');
+  }
+};
 
+// ROLE_ADMIN 권한을 가진 사용자 목록 조회 함수
+export const fetchAdmins = async (page = 0, size = 10) => {
+  try {
+    const response = await api.get('/admin/role_admin', {
+      params: { page, size }
+    });
+
+    if (response.data && response.data.data) {
+      return response.data.data;
+    } else {
+      throw new Error('Invalid response structure for fetchAdmins');
+    }
+  } catch (error) {
+    console.error('Error fetching admins:', error);
+    throw error;
+  }
+};
+
+// 기존 userService 내보내기에서 추가
 const userService = {
   fetchUsers,
   fetchUserDetails,
   suspendUser,
   unsuspendUser,
-  rewardUser, 
+  rewardUser,
   fetchUserBalanceAndTransactions,
-  fetchAdminAnnouncementsAndUserInfo,
   fetchAdminAnnouncements,
+  fetchAdminAnnouncementsAndUserInfo,
   addAnnouncement,
   fetchUserIdByEmail,
+  join,
+  fetchAdmins, // 추가된 부분
 };
 
 export default userService;

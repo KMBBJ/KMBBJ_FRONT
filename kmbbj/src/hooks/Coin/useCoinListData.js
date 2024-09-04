@@ -31,6 +31,7 @@ export const useCoinData = () => {
             
             if (response && response.data && response.data.content) {
                 const formattedCoins = response.data.content.map(coin => ({
+                    coinId: coin.coin.coinId,
                     symbol: coin.coin.symbol,
                     coinName: coin.coin.coinName,
                     price: addCommas(coin.coin24hDetail.price),

@@ -1,4 +1,4 @@
-/* UserListPage.css */
+/* src/assets/styles/Admin/UserListPage.css */
 
 .user-list-container {
   width: 80%;
@@ -73,7 +73,6 @@
 
 /* 정지된 유저의 행에 적용할 스타일 */
 .suspended-user {
-  color: #f29f9f !important; /* 빨간색 글자 색상 */
-  background-color: #fef0f0 !important; /* 연한 빨간색 배경 */
-  border-bottom: 1px solid #f29f9f !important; /* 빨간색 경계선 */
+  color:  #f29f9f; /* 글자 색상 빨간색 */
+  /* 배경색 없음 */
 }

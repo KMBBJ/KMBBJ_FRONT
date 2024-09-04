@@ -9,7 +9,7 @@ import TransactionHistoryPage from '../pages/Games/TransactionHistoryPage';
 const GameRoutes = () => {
   return (
     <Routes>
-      <Route path="status/:encryptedGameId/balance/:userId" element={<GamePage />} />
+      <Route path="status/:gameId/balance/:userId" element={<GamePage />} />
       <Route path="result/:encryptedGameId" element={<GameResult />} />
       <Route path="GameOver/:encryptedGameId" element={<GameOver />} />
       <Route path="user-assets" element={<UserAssetPage />} /> 

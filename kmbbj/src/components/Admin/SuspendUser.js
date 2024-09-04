@@ -1,18 +1,35 @@
-// src/components/Admin/SuspendUser.js
 import React, { useState } from 'react';
-import { suspendUser } from '../../services/Admin/userService'; // 서비스 모듈 가져오기
-import '../../assets/styles/Admin/RewardUser.css'; // 스타일 관련 코드
+import { suspendUser } from '../../services/Admin/userService';
+import '../../assets/styles/Admin/RewardUser.css'; // 기존의 CSS 스타일 사용
 
 const SuspendUser = ({ userId }) => {
   const [suspendDate, setSuspendDate] = useState('');
+  const [showModal, setShowModal] = useState(false); // 모달 상태 추가
 
   const handleSuspend = async () => {
     try {
       await suspendUser(userId, suspendDate);
-      alert('User suspended successfully.');
+      window.location.reload(); // 작업 완료 후 페이지 새로고침
     } catch (error) {
       alert('Failed to suspend user.');
     }
+  };
+
+  const handleConfirm = () => {
+    setShowModal(false);
+    handleSuspend(); // 정지 작업 실행
+  };
+
+  const handleCancel = () => {
+    setShowModal(false); // 모달 닫기
+  };
+
+  const handleSubmit = () => {
+    if (!suspendDate) {
+      alert('Please select a suspension date.');
+      return;
+    }
+    setShowModal(true); // 모달 열기
   };
 
   return (
@@ -24,7 +41,18 @@ const SuspendUser = ({ userId }) => {
         onChange={(e) => setSuspendDate(e.target.value)}
         placeholder="Select suspension date"
       />
-      <button onClick={handleSuspend}>정지</button>
+      <button onClick={handleSubmit}>정지</button>
+
+      {/* 모달 창 */}
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>정말로 {suspendDate}까지 유저를 정지하시겠습니까?</p>
+            <button onClick={handleConfirm}>확인</button>
+            <button onClick={handleCancel}>취소</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

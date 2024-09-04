@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../assets/styles/Admin/ProfileEdit.css';
+import '../../assets/styles/Admin/ProfileEdit1.css';
 
 const ProfileEdit = ({ onAction }) => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  // "user list" 버튼 클릭 시 admin/user_search로 이동하는 함수
   const handleUserListClick = (event) => {
     event.preventDefault();
     navigate('/admin/user_search');
@@ -27,6 +26,11 @@ const ProfileEdit = ({ onAction }) => {
     navigate('/coins/manageCoin');
   };
 
+  const handleAddAdminClick = (event) => {
+    event.preventDefault();
+    navigate('/admin/addAdmin');
+  };
+
   return (
     <div className="profile-edit">
       <h2>설정</h2>
@@ -37,7 +41,7 @@ const ProfileEdit = ({ onAction }) => {
           onChange={(e) => setEmail(e.target.value)} 
           placeholder="Enter user email" 
         />
-        <button type="submit" onClick={handleRewardClick}>보상</button>
+        <button type="button" onClick={handleRewardClick}>보상</button>
       </form>
 
       <form onSubmit={handleSuspendClick}>
@@ -46,6 +50,10 @@ const ProfileEdit = ({ onAction }) => {
 
       <form onSubmit={handleManageCoinClick}>
         <button type="submit">코인 관리</button>
+      </form>
+
+      <form onSubmit={handleAddAdminClick}>
+        <button type="submit">관리자 추가</button>
       </form>
 
       <form onSubmit={handleUserListClick}>

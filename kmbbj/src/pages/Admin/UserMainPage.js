@@ -13,6 +13,7 @@ const UserMainPage = () => {
   const [selectedUserEmail, setSelectedUserEmail] = useState('');
   const [action, setAction] = useState(null); // 'suspend' 또는 'reward'
   const [userId, setUserId] = useState(null); // 유저 ID 상태 추가
+  const [userNotFound, setUserNotFound] = useState(false); // 유저 없음 상태 추가
 
   useEffect(() => {
     const loadData = async () => {
@@ -26,23 +27,30 @@ const UserMainPage = () => {
     };
 
     loadData();
-  }, []); 
+  }, []);
 
-  // 이메일로 유저 ID 가져오는 함수
   useEffect(() => {
     const loadUserId = async () => {
       if (selectedUserEmail) {
         try {
           const id = await fetchUserIdByEmail(selectedUserEmail);
-          setUserId(id); // 가져온 유저 ID를 상태로 설정
+          if (id) {
+            setUserId(id); // 가져온 유저 ID를 상태로 설정
+            setUserNotFound(false); // 유저 없음 상태 초기화
+          } else {
+            setUserId(null);
+            setUserNotFound(true); // 유저 없음 상태 설정
+          }
         } catch (error) {
           console.error('Error fetching user ID:', error);
+          setUserId(null);
+          setUserNotFound(true); // 유저 없음 상태 설정
         }
       }
     };
 
     loadUserId();
-  }, [selectedUserEmail]); // selectedUserEmail이 변경될 때마다 호출
+  }, [selectedUserEmail]);
 
   return (
     <div className="profile-page">
@@ -56,9 +64,11 @@ const UserMainPage = () => {
             setAction(actionType);
           }}
         />
+      
       </div>
       <div className="right-column">
         <UserInfo1 user={user} />
+        {userNotFound && <div className="user-not-found">해당 이메일에 대한 유저가 없습니다.</div>}
         {action === 'suspend' && userId && <SuspendUser userId={userId} />}
         {action === 'reward' && userId && <RewardUser userId={userId} />}
       </div>
