@@ -25,7 +25,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 .table th, td {
@@ -65,7 +65,7 @@
 
 .link-detail p {
     color: gray;
-    font-size: 11px;
+    font-size: 13px;
 }
 
 .table th:nth-child(2), .table td:nth-child(2) {

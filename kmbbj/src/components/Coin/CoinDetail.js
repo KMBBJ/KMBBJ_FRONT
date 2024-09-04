@@ -6,18 +6,20 @@ const CoinDetail = ( {symbol} ) => {
     const [coinData, setCoinData] = useState(null);
 
     function formatToMillion(value) {
-        if (value >= 1e5) { // 십만 이상인 경우
-            const millionValue = (value / 1e5).toFixed(2); // 소수점 2자리까지 표시
-            return `${parseFloat(millionValue).toLocaleString()}M`; // M 단위로 반환하고 세 자리마다 쉼표 추가
+        if (value >= 1e6) { // 백만 이상인 경우
+            const millionValue = (value / 1e6).toFixed(1); // 소수점 2자리까지 표시
+            return `${parseFloat(millionValue).toLocaleString()}백만`; // M 단위로 반환하고 세 자리마다 쉼표 추가
         }
         return value.toLocaleString(); // 십만 미만인 경우 그대로 반환하고 세 자리마다 쉼표 추가
     }
 
     function addCommas(value) {
         if (value >= 1000) {
-            return `${value.toLocaleString()}`;
-        }
-        return value;
+            return `${parseFloat(value.toFixed(1)).toLocaleString()}`;
+        } else if(value % 1 === 0) {
+            return value;
+        } else
+        return value.toFixed(4);
     }
 
     useEffect(() => {
@@ -30,7 +32,7 @@ const CoinDetail = ( {symbol} ) => {
                 symbol: formattedCoin.coin.symbol,
                 coinName: formattedCoin.coin.coinName,
                 price: addCommas(formattedCoin.coin24hDetail.price),
-                priceChange: formattedCoin.coin24hDetail.priceChange,
+                priceChange: addCommas(formattedCoin.coin24hDetail.priceChange),
                 priceChangePercent: formattedCoin.coin24hDetail.priceChangePercent,
                 volume: formatToMillion(formattedCoin.coin24hDetail.volume),
                 totalValue: formatToMillion(formattedCoin.coin24hDetail.totalValue)
@@ -51,12 +53,23 @@ const CoinDetail = ( {symbol} ) => {
         <div>
             {coinData && (
             <div className="coin-info">
-                <span className="coin-name">{coinData.coinName} ({coinData.symbol}USDC)</span>
-                <span className="coin-price" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}>{coinData.price}</span>
-                <span className="coin-price-change-percent" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}> {coinData.priceChangePercent}%</span>
-                <span className="coin-price-change" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}>{coinData.priceChange}</span>
-                <span className="coin-volume">거래량 {coinData.volume}</span>
-                <span className="coin-totalValue">거래대금 {coinData.totalValue}</span>
+                <div className="coin-name-div">
+                    <div><span className="coin-name">{coinData.coinName}</span></div>
+                    <div><span className="coin-symbol">({coinData.symbol}/KRW)</span></div>
+                </div>
+                <div className="coin-price-div">
+                    <span className="coin-price" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}>{coinData.price}/KRW</span>
+                    <div className="coin-price-change-div">
+                        <span className="coin-price-change-percent" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}> {coinData.priceChangePercent}%</span>
+                        <span className="coin-price-change" style={{ color: coinData.priceChange >= 0 ? 'palegreen' : 'salmon' }}>{coinData.priceChange}</span>
+                    </div>
+                </div>
+                <div className="coin-24h-div-container">
+                    <div className="coin-24h-div">
+                        <div className="coin-volume"><span>거래량(24h) {coinData.volume} {coinData.symbol}</span></div>
+                        <div className="coin-totalValue"><span>거래대금(24H) {coinData.totalValue} KRW</span></div>
+                    </div>
+                </div>
             </div>
             )}
         </div>

@@ -13,19 +13,19 @@ const CoinTable = ({ coins, onSort, sortConfig }) => {
             <thead>
                 <tr>
                     <th onClick={() => onSort('coinName')}>
-                        Name {getSortDirection('coinName') === 'asc' ? '↑' : '↓'}
+                        코인명 {getSortDirection('coinName') === 'asc' ? '↑' : '↓'}
                     </th>
                     <th onClick={() => onSort('price')}>
-                        Price {getSortDirection('price') === 'asc' ? '↑' : '↓'}
+                        현재가 {getSortDirection('price') === 'asc' ? '↑' : '↓'}
                     </th>
                     <th onClick={() => onSort('priceChange')}>
-                        24h Change {getSortDirection('priceChange') === 'asc' ? '↑' : '↓'}
+                        전일대비 {getSortDirection('priceChange') === 'asc' ? '↑' : '↓'}
                     </th>
                     <th onClick={() => onSort('volume')}>
-                        24h Volume {getSortDirection('volume') === 'asc' ? '↑' : '↓'}
+                        거래량(24h) {getSortDirection('volume') === 'asc' ? '↑' : '↓'}
                     </th>
                     <th onClick={() => onSort('totalValue')}>
-                        Market Cap {getSortDirection('totalValue') === 'asc' ? '↑' : '↓'}
+                        거래대금 {getSortDirection('totalValue') === 'asc' ? '↑' : '↓'}
                     </th>
                 </tr>
             </thead>
@@ -34,14 +34,14 @@ const CoinTable = ({ coins, onSort, sortConfig }) => {
                     <tr key={coin.symbol}>
                         <td className="link-detail">
                             <p>
-                            <Link to={`/charts/${coin.symbol}`} style={{ textDecoration: "none", color: 'black', fontSize: '13px', paddingRight: '5px'}}>
+                            <Link to={`/charts/${coin.symbol}`} style={{ textDecoration: "none", color: 'black', fontSize: '16px', paddingRight: '5px', fontWeight: 'bold' }}>
                                 {coin.coinName}
                             </Link>
                             {coin.symbol}</p>
                         </td>
-                        <td>${coin.price}</td>
+                        <td>{coin.price}/KRW</td>
                         <td style={{ color: coin.priceChange >= 0 ? 'palegreen' : 'salmon' }}>
-                            {coin.priceChange}%
+                            {coin.priceChangePercent}%
                         </td>
                         <td>{coin.volume}</td>
                         <td>{coin.totalValue}</td>
