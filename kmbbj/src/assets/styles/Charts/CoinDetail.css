@@ -12,8 +12,13 @@
 }
 
 .coin-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
+    margin-right: 10px;
+}
+
+.coin-symbol {
+    font-size: 13px;
     margin-right: 10px;
 }
 
@@ -28,10 +33,23 @@
 }
 
 .coin-volume {
-    font-size: 14px;
-    color: #666;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.coin-totalValue {
+    font-size: 15px;
+    border-top: 0.5px solid gray;
+    padding-top: 5px;
 }
 
 span {
     margin: 5px;
+}
+
+.coin-24h-div-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-left: auto;
 }

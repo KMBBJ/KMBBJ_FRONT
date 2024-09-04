@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/Auth/AuthContext";
 import CreateRoomModal from "../../components/Matching/CreateRoomModal";
 import AdminNotificationModal from "../../components/Admin/AdminNotificationModal"; // 새로 만든 모달 컴포넌트 임포트
@@ -10,10 +10,10 @@ import EventSourcePolyfill from "eventsource-polyfill";
 import { fetchAdminAnnouncementsAndUserInfo } from "../../services/Admin/userService"; // 함수 임포트
 import { gameService } from "../../services/Games/gameService";
 
-
 const Header = () => {
   const { user, handleLogout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation(); // 현재 경로를 가져오기 위해 useLocation 훅 사용
   const [showDropdown, setShowDropdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [adminNotification, setAdminNotification] = useState(null); // 공지사항 상태 추가
@@ -22,6 +22,18 @@ const Header = () => {
   const [isMatching, setIsMatching] = useState(false);
   const [matchStartTime, setMatchStartTime] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
+
+  const hiddenPaths = [
+    /\/games\/status\/.+\/balance\/.+/, // 게임 상태 및 잔액 페이지
+    /\/games\/result\/.+/, // 게임 결과 페이지
+    /\/GameOver\/.+/, // 게임 오버 페이지
+    /\/user-assets/, // 사용자 자산 페이지
+    /\/transaction-history/, // 거래 내역 페이지
+  ];
+
+  const shouldHideButton = hiddenPaths.some((pattern) =>
+    pattern.test(location.pathname)
+  );
 
   const toggleDropdown = () => {
     setShowDropdown((prev) => !prev);
@@ -229,14 +241,29 @@ const Header = () => {
     navigate("/coins/list"); // 코인 리스트로 이동
   };
 
-  const enterGame = () => {
-    const gameId = localStorage.getItem("gameId");
+  const enterGame = async () => {
     const userId = localStorage.getItem("userId");
+    const gameId = localStorage.getItem("gameId");
 
-    if (gameId && userId) {
-      navigate(`/games/status/${gameId}/balance/${userId}`);
+    if (userId) {
+      try {
+        const response = await api.get(`/games/participating`);
+        console.log("게임 정보:", response.data.data);
+
+        const roomId = response.data.data;
+
+        if (roomId !== 0) {
+          // 가져온 gameId로 페이지 이동
+          navigate(`/matching/enter/${roomId}`);
+        } else {
+          navigate(`/games/status/${gameId}/balance/${userId}`);
+        }
+      } catch (error) {
+        console.error("게임 정보를 가져오는 데 실패했습니다:", error);
+        alert("게임 정보를 불러오는 데 실패했습니다.");
+      }
     } else {
-      alert("게임 ID 또는 사용자 ID가 없습니다.");
+      alert("사용자 ID가 없습니다.");
     }
   };
 
@@ -289,39 +316,46 @@ const Header = () => {
                     Admin
                   </Link>
                 )}
-                <button
-                  className="nav-button no-border-button"
-                  onClick={toggleDropdown}
-                >
-                  게임 시작
-                </button>
-                {showDropdown && (
-                  <ul className="dropdown-menu">
-                    <li>
-                      <button
-                        className="no-border-button"
-                        onClick={toggleModal}
-                      >
-                        방 생성하기
-                      </button>
-                    </li>
-                    <li>
-                      <Link to="/matching/list">방 목록보기</Link>
-                    </li>
-                    <li>
-                      <button
-                        className="no-border-button"
-                        onClick={startRandomMatching}
-                      >
-                        랜덤 매칭
-                      </button>
-                    </li>
-                    <li>
-                      <button className="no-border-button" onClick={enterGame}>
-                        게임 입장
-                      </button>
-                    </li>
-                  </ul>
+                {!shouldHideButton && (
+                  <>
+                    <button
+                      className="nav-button no-border-button"
+                      onClick={toggleDropdown}
+                    >
+                      게임 시작
+                    </button>
+                    {showDropdown && (
+                      <ul className="dropdown-menu">
+                        <li>
+                          <button
+                            className="no-border-button"
+                            onClick={toggleModal}
+                          >
+                            방 생성하기
+                          </button>
+                        </li>
+                        <li>
+                          <Link to="/matching/list">방 목록보기</Link>
+                        </li>
+                        <li>
+                          <button
+                            className="no-border-button"
+                            onClick={startRandomMatching}
+                          >
+                            랜덤 매칭
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="no-border-button"
+                            onClick={enterGame}
+                          >
+                            게임 입장
+                          </button>
+                        </li>
+                      </ul>
+                    )}
+                  </>
                 )}
               </li>
               {isModalOpen && <CreateRoomModal onClose={closeModal} />}
