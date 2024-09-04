@@ -135,8 +135,7 @@ function RoomDetail() {
           `현재 시간: ${currentTime}을 기준으로 ${response.data.data}분 뒤에 게임이 시작됩니다.`
         );
       } else {
-        console.error("Failed to start game");
-        setError("Failed to start game");
+        alert("게임이 이미 시작됐습니다.");
       }
     } catch (error) {
       if (
