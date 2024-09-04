@@ -10,6 +10,7 @@
     "cors": "^2.8.5",
     "eventsource": "^2.0.2",
     "eventsource-polyfill": "^0.9.6",
+    "express": "^4.19.2",
     "highcharts": "^11.4.8",
     "highcharts-react-official": "^3.2.1",
     "i": "^0.3.7",
@@ -24,11 +25,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"npm run server\"",
+    "start": "concurrently \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "node server.js"
+    "prettier": "prettier --write server.js"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +50,7 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "prettier": "^3.3.3"
   }
 }
