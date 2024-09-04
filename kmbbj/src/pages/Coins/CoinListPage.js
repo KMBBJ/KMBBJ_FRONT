@@ -8,7 +8,7 @@ const CoinListPage = () => {
     const { coins, currentPage, totalPages, setCurrentPage, handleSort, sortConfig, handleSearch } = useCoinData();
 
     return (
-        <div className="container">
+        <div className="coint-list-container">
             <SearchBar onSearch={handleSearch} />
             <CoinTable coins={coins} onSort={handleSort} sortConfig={sortConfig} />
             <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />

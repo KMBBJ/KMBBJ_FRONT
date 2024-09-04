@@ -12,21 +12,23 @@ const CoinTable = ({ coins, onSort, sortConfig }) => {
         <table className="table">
             <thead>
                 <tr>
+                <tr>
                     <th onClick={() => onSort('coinName')}>
-                        Name {getSortDirection('coinName') === 'asc' ? '↑' : '↓'}
+                        코인명 {getSortDirection('coinName') === 'asc' ? '↑' : '↓'}
                     </th>
                     <th onClick={() => onSort('price')}>
-                        Price {getSortDirection('price') === 'asc' ? '↑' : '↓'}
+                        현재가 {getSortDirection('price') === 'asc' ? '↑' : '↓'}
                     </th>
                     <th onClick={() => onSort('priceChange')}>
-                        24h Change {getSortDirection('priceChange') === 'asc' ? '↑' : '↓'}
+                        전일대비 {getSortDirection('priceChange') === 'asc' ? '↑' : '↓'}
                     </th>
                     <th onClick={() => onSort('volume')}>
-                        24h Volume {getSortDirection('volume') === 'asc' ? '↑' : '↓'}
+                        거래량(24h) {getSortDirection('volume') === 'asc' ? '↑' : '↓'}
                     </th>
                     <th onClick={() => onSort('totalValue')}>
-                        Market Cap {getSortDirection('totalValue') === 'asc' ? '↑' : '↓'}
+                        거래대금 {getSortDirection('totalValue') === 'asc' ? '↑' : '↓'}
                     </th>
+                </tr>
                 </tr>
             </thead>
             <tbody>
@@ -39,7 +41,7 @@ const CoinTable = ({ coins, onSort, sortConfig }) => {
                             </Link>
                             {coin.coinName}</p>
                         </td>
-                        <td>${coin.price}</td>
+                        <td>{coin.price}/KRW</td>
                         <td style={{ color: coin.priceChange >= 0 ? 'palegreen' : 'salmon' }}>
                             {coin.priceChange}%
                         </td>

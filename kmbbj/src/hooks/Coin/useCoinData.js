@@ -9,18 +9,20 @@ export const useCoinData = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     function formatToMillion(value) {
-        if (value >= 1e5) { // 십만 이상인 경우
-            const millionValue = (value / 1e5).toFixed(2); // 소수점 2자리까지 표시
-            return `${parseFloat(millionValue).toLocaleString()}M`; // M 단위로 반환하고 세 자리마다 쉼표 추가
+        if (value >= 1e6) {
+            const millionValue = (value / 1e6).toFixed(1);
+            return `${parseFloat(millionValue).toLocaleString()}백만`; // 백만 단위로 반환하고 세 자리마다 쉼표 추가
         }
         return value.toLocaleString(); // 십만 미만인 경우 그대로 반환하고 세 자리마다 쉼표 추가
     }
 
     function addCommas(value) {
         if (value >= 1000) {
-            return `${value.toLocaleString()}`;
-        }
-        return value;
+            return `${parseFloat(value.toFixed(1)).toLocaleString()}`;
+        } else if(value % 1 === 0) {
+            return value;
+        } else
+        return value.toFixed(4);
     }
 
 
@@ -34,7 +36,8 @@ export const useCoinData = () => {
                     symbol: coin.coin.symbol,
                     coinName: coin.coin.coinName,
                     price: addCommas(coin.coin24hDetail.price),
-                    priceChange: coin.coin24hDetail.priceChangePercent,
+                    priceChange: coin.coin24hDetail.priceChange,
+                    priceChangePercent: addCommas(coin.coin24hDetail.priceChangePercent),
                     volume: formatToMillion(coin.coin24hDetail.volume),
                     totalValue: formatToMillion(coin.coin24hDetail.totalValue)
                 }));

@@ -11,7 +11,7 @@ const CoinManagementPage = () => {
     return (
         <div>
             <CoinAdd />
-            <div className="container">
+            <div className="coin-management-container">
             <SearchBar onSearch={handleSearch} />
             <CoinTable coins={coins} onSort={handleSort} sortConfig={sortConfig} />
             <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
