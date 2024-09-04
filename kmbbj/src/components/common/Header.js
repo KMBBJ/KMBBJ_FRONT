@@ -55,6 +55,8 @@ const Header = () => {
       newEventSource.addEventListener("roomNotification", (event) => {
         const data = JSON.parse(event.data);
         if (data) {
+          localStorage.removeItem("isMatching");
+          localStorage.removeItem("matchingStartTime");
           setIsMatching(false);
           setTimeout(() => {
             navigate(`/matching/enter/${data}`); // 자동 리디렉션
@@ -65,38 +67,34 @@ const Header = () => {
       newEventSource.addEventListener("gameNotification", async (event) => {
         console.log("gameNotification event received");
         console.log("Event data:", event.data);
-        
+
         try {
-            const eventData = event.data;
-            console.log("Received event data:", eventData);
-    
-            // 서버에 게임 시작 요청
-            const gameId = await gameService.startGame(eventData);
-            console.log("Game started with ID:", gameId);
-    
-            // 강제로 모든 브라우저에 gameId 설정
-            localStorage.setItem('gameId', gameId);
-            
-            const userId = localStorage.getItem('userId');
-            if (!userId) {
-                throw new Error('User ID를 로컬 스토리지에서 찾을 수 없습니다.');
-            }
-    
-            const redirectUrl = `/games/status/${gameId}/balance/${userId}`;
-            console.log(`Redirect to ${redirectUrl}`);
-    
-            // 즉시 리다이렉트
-            window.location.href = redirectUrl;
+          const eventData = event.data;
+          console.log("Received event data:", eventData);
+
+          // 서버에 게임 시작 요청
+          const gameId = await gameService.startGame(eventData);
+          console.log("Game started with ID:", gameId);
+
+          // 강제로 모든 브라우저에 gameId 설정
+          localStorage.setItem("gameId", gameId);
+
+          const userId = localStorage.getItem("userId");
+          if (!userId) {
+            throw new Error("User ID를 로컬 스토리지에서 찾을 수 없습니다.");
+          }
+
+          const redirectUrl = `/games/status/${gameId}/balance/${userId}`;
+          console.log(`Redirect to ${redirectUrl}`);
+
+          // 즉시 리다이렉트
+          window.location.href = redirectUrl;
         } catch (error) {
-            console.error('게임 시작 및 리다이렉션 중 오류 발생:', error);
+          console.error("게임 시작 및 리다이렉션 중 오류 발생:", error);
         }
-        
+
         console.log("Event processing done");
-    });
-    
-    
-    
-    
+      });
 
       newEventSource.addEventListener("adminNotification", (event) => {
         const data = JSON.parse(event.data);
@@ -115,6 +113,20 @@ const Header = () => {
       };
     }
   }, [user, navigate, accessToken, isMatching]);
+
+  useEffect(() => {
+    // 로컬 스토리지에서 매칭 상태 확인
+    const isMatchingStored = localStorage.getItem("isMatching") === "true";
+    setIsMatching(isMatchingStored);
+
+    if (isMatchingStored) {
+      const storedMatchStartTime = localStorage.getItem("matchStartTime");
+      if (storedMatchStartTime) {
+        setMatchStartTime(new Date(storedMatchStartTime));
+        initializeTimer(new Date(storedMatchStartTime));
+      }
+    }
+  }, []);
 
   useEffect(() => {
     console.log("Matching state updated:", isMatching);
@@ -136,8 +148,11 @@ const Header = () => {
     try {
       const response = await api.post("/matching/start/random");
       if (response.data.status === "OK") {
+        const now = new Date();
         setIsMatching(true);
-        setMatchStartTime(Date.now());
+        setMatchStartTime(now);
+        localStorage.setItem("isMatching", "true");
+        localStorage.setItem("matchStartTime", now.toISOString());
       } else {
         alert("매칭 시작에 실패했습니다.");
       }
@@ -163,6 +178,8 @@ const Header = () => {
       if (response.data.status === "OK") {
         setIsMatching(false);
         setMatchStartTime(null);
+        localStorage.removeItem("isMatching");
+        localStorage.removeItem("matchStartTime");
       } else {
         alert("매칭 취소에 실패했습니다.");
       }
@@ -182,6 +199,23 @@ const Header = () => {
     }
   };
 
+  const initializeTimer = (startTime) => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const difference = now - startTime;
+
+      if (difference >= 0) {
+        clearInterval(interval);
+        if (isMatching) {
+          setIsMatching(false);
+          localStorage.removeItem("isMatching");
+          localStorage.removeItem("matchStartTime");
+        }
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  };
+
   const logout = async () => {
     try {
       await handleLogout();
@@ -196,8 +230,8 @@ const Header = () => {
   };
 
   const enterGame = () => {
-    const gameId = localStorage.getItem('gameId');
-    const userId = localStorage.getItem('userId');
+    const gameId = localStorage.getItem("gameId");
+    const userId = localStorage.getItem("userId");
 
     if (gameId && userId) {
       navigate(`/games/status/${gameId}/balance/${userId}`);
@@ -244,7 +278,10 @@ const Header = () => {
             <>
               <li ref={dropdownRef} className="nav-item">
                 {/* 공지사항 버튼 추가 */}
-                <Link to="/announcements" className="nav-button no-border-button">
+                <Link
+                  to="/announcements"
+                  className="nav-button no-border-button"
+                >
                   공지사항
                 </Link>
                 {isAdmin && (
@@ -280,10 +317,7 @@ const Header = () => {
                       </button>
                     </li>
                     <li>
-                    <button
-                        className="no-border-button"
-                        onClick={enterGame}
-                      >
+                      <button className="no-border-button" onClick={enterGame}>
                         게임 입장
                       </button>
                     </li>
