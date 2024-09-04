@@ -229,14 +229,28 @@ const Header = () => {
     navigate("/coins/list"); // 코인 리스트로 이동
   };
 
-  const enterGame = () => {
-    const gameId = localStorage.getItem("gameId");
-    const userId = localStorage.getItem("userId");
-
-    if (gameId && userId) {
-      navigate(`/games/status/${gameId}/balance/${userId}`);
+  const enterGame = async () => {
+    const userId = localStorage.getItem('userId');
+  
+    if (userId) {
+      try {
+        const response = await api.get(`/games/${userId}`);
+        console.log('게임 정보:', response.data);
+        
+        const gameId = response.data.gameId;
+  
+        if (gameId) {
+          // 가져온 gameId로 페이지 이동
+          navigate(`/games/status/${gameId}/balance/${userId}`);
+        } else {
+          alert("현재 진행 중인 게임이 없습니다.");
+        }
+      } catch (error) {
+        console.error('게임 정보를 가져오는 데 실패했습니다:', error);
+        alert("게임 정보를 불러오는 데 실패했습니다.");
+      }
     } else {
-      alert("게임 ID 또는 사용자 ID가 없습니다.");
+      alert("사용자 ID가 없습니다.");
     }
   };
 
