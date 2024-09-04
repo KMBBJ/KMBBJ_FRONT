@@ -37,7 +37,6 @@ const CoinDetail = ( {symbol} ) => {
                 volume: formatToMillion(formattedCoin.coin24hDetail.volume),
                 totalValue: formatToMillion(formattedCoin.coin24hDetail.totalValue)
             });
-            localStorage.setItem('coinPrice', formattedCoin.coin24hDetail.price);
             } else {
                 console.error('응답 데이터가 예상한 형식이 아닙니다.', response);
             }

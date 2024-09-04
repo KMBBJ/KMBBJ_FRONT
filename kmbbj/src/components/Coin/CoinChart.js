@@ -8,6 +8,7 @@ const CoinChart = ({ coins, onSort, sortConfig, onSelectSymbol }) => {
         setSelectedSymbol(coin.symbol);
         onSelectSymbol(coin.symbol);
         localStorage.setItem('coinId', coin.coinId);
+        localStorage.setItem('coinPrice', coin.price);
     };
 
     const getSortDirection = (key) => {
