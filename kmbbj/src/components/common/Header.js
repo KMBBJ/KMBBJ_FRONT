@@ -7,7 +7,6 @@ import api from "../../api/api";
 import "../../assets/styles/common/Header.css";
 import logo from "../../assets/images/logo.png";
 import EventSourcePolyfill from "eventsource-polyfill";
-import { fetchAdminAnnouncementsAndUserInfo } from "../../services/Admin/userService"; // 함수 임포트
 import { gameService } from "../../services/Games/gameService";
 
 const Header = () => {
@@ -17,7 +16,7 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [adminNotification, setAdminNotification] = useState(null); // 공지사항 상태 추가
-  const [isAdmin, setIsAdmin] = useState(false); // 관리자 여부 상태 추가
+  const [isAdmin] = useState(false); // 관리자 여부 상태 추가
   const dropdownRef = useRef(null);
   const [isMatching, setIsMatching] = useState(false);
   const [matchStartTime, setMatchStartTime] = useState(null);
@@ -278,24 +277,7 @@ const Header = () => {
     navigate("/");
   };
 
-  useEffect(() => {
-    const checkIfAdmin = async () => {
-      try {
-        const { alarms, userInfo } = await fetchAdminAnnouncementsAndUserInfo();
-        if (userInfo && userInfo.type === "admin") {
-          setIsAdmin(true); // 관리자 여부 상태 설정
-        } else {
-          setIsAdmin(false);
-        }
-      } catch (error) {
-        console.error("Error fetching admin info:", error);
-      }
-    };
-
-    if (user) {
-      checkIfAdmin();
-    }
-  }, [user]);
+  
 
   return (
     <header>
