@@ -57,7 +57,8 @@ const Header = () => {
 
   useEffect(() => {
     if (user) {
-      const url = `http://localhost:8080/api/sse/subscribe/${user.id}`;
+      const apiUrl = process.env.REACT_APP_API_BASE_URL;
+      const url = `${apiUrl}api/sse/subscribe/${user.id}`;
       const newEventSource = new EventSourcePolyfill(url, {
         headers: {
           Authorization: `Bearer ${accessToken}`, // 사용자 인증 토큰
@@ -88,7 +89,7 @@ const Header = () => {
 
           // 서버에 게임 시작 요청
           const gameId = await gameService.startGame(eventData);
-          console.log("Game started with ID:", gameId);
+          // console.log("Game started with ID:", gameId);
 
           // 강제로 모든 브라우저에 gameId 설정
           localStorage.setItem("gameId", gameId);
@@ -99,7 +100,7 @@ const Header = () => {
           }
 
           const redirectUrl = `/games/status/${gameId}/balance/${userId}`;
-          console.log(`Redirect to ${redirectUrl}`);
+          // console.log(`Redirect to ${redirectUrl}`);
 
           // 즉시 리다이렉트
           window.location.href = redirectUrl;
@@ -118,7 +119,7 @@ const Header = () => {
       });
 
       newEventSource.onerror = (error) => {
-        console.error("SSE Error:", error);
+        // console.error("SSE Error:", error);
         newEventSource.close(); // Ensure the connection is closed properly
       };
 
