@@ -140,7 +140,7 @@ export const addAnnouncement = async (announcement) => {
       throw new Error('Invalid announcement data');
     }
 
-    const response = await api.post('/admin/add', announcement);
+    const response = await api.post('/add', announcement);
 
     if (response.data && response.data.data) {
       return response.data.data;
