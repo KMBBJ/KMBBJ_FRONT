@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     const initializeUser = async () => {
       setLoading(true); // 로딩 상태 시작
       const refreshToken = localStorage.getItem('refreshToken');
-      const accessToken = document.cookie.split('; ').find(row => row.startsWith('Access-Token='));
+      const accessToken = localStorage.getItem('accessToken');
   
       if (accessToken) {
         // Access Token이 존재하고 유효하면 사용자 설정
@@ -52,20 +52,6 @@ const handleLogin = async (email, password) => {
     const userData = await login(email, password);
     
     console.log('Login successful. User data received:', userData); // 로그인 성공 후 받은 데이터 출력
-    
-    // 쿠키에 저장된 Access-Token 확인
-    const accessToken = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('Access-Token='))
-      ?.split('=')[1];
-    console.log('Access-Token in cookie:', accessToken);
-
-    // 로컬 스토리지에 저장된 RefreshToken 및 userId 확인
-    const refreshToken = localStorage.getItem('refreshToken');
-    const userId = localStorage.getItem('userId');
-    
-    console.log('RefreshToken in localStorage:', refreshToken);
-    console.log('UserId in localStorage:', userId);
 
     setUser(userData); // 로그인 성공 시 사용자 상태 설정
     
