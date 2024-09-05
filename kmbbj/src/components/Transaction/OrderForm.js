@@ -218,7 +218,7 @@ const OrderForm = () => {
           onClick={handleOrder}
           disabled={
             (mode === 'buy' && (!amount || !price || totalPrice > availableAmount)) ||
-            (mode === 'sell' && (!amount || !price || availableAmount >= amount))
+            (mode === 'sell' && (!amount || !price || availableAmount < amount))
           }
         >
           {mode === 'buy' ? '매수' : '매도'}

@@ -8,6 +8,22 @@ const api = axios.create({
   withCredentials: true, // 모든 요청에 대해 withCredentials: true 설정
 });
 
+// 요청 인터셉터 설정
+api.interceptors.request.use(
+  (config) => {
+    // localStorage에서 Access-Token 가져오기
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      // Access-Token을 헤더에 추가
+      config.headers['Access-Token'] = accessToken;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 // 응답 인터셉터 설정
 api.interceptors.response.use(
   response => {
@@ -15,6 +31,10 @@ api.interceptors.response.use(
     const refreshToken = response.headers['refresh-token'];
     if (refreshToken) {
       localStorage.setItem('refreshToken', refreshToken);
+    }
+    const accessToken = response.headers['access-token'];
+    if (accessToken) {
+      localStorage.setItem('accessToken', accessToken)
     }
     return response;
   },
