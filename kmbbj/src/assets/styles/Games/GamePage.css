@@ -225,3 +225,46 @@
     font-size: 5px;
     cursor: pointer;
   }
+
+.game-page__chat {
+    grid-area: chat;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-button {
+    margin: 10px 0;
+    padding: 15px 0;
+    font-size: 16px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #347dcb, #a2e9e9);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    width: 100%; /* 부모 요소의 너비 채우기 */
+    height: 100%; /* 부모 요소의 높이 채우기 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-transform: none;
+    letter-spacing: 0.5px;
+}
+
+.order-button:hover {
+    background: linear-gradient(135deg, #347dcb, #a2e9e9);
+    transform: translateY(-3px);
+}
+
+.order-button:active {
+    background: linear-gradient(135deg, #347dcb, #a2e9e9);
+    transform: translateY(0);
+}
