@@ -26,10 +26,6 @@ const GamePage = () => {
     navigate(`/games/user-assets`, { state: { userId } }); // UserAssetPage로 이동
   };
 
-  const navigateToTransactionHistory = () => {
-    navigate(`/games/transaction-history`, { state: { userId } }); // TransactionHistoryPage로 이동
-  };
-
   return (
     <div className="game-page">
       <div className="game-page__container">
@@ -61,13 +57,7 @@ const GamePage = () => {
           <GameRound gameId={gameId} />
         </div>
         <div className="game-page__order">
-          <div className="game-page__order-balance">
             <GameBalance userId={userId} />
-          </div>
-          <div className="game-page__order-buttons">
-            <button className="order-button" onClick={navigateToUserAssets}>자산 조회</button> {/* UserAssetPage로 이동 */}
-            <button className="order-button" onClick={navigateToTransactionHistory}>거래 내역</button> {/* TransactionHistoryPage로 이동 */}
-          </div>
         </div>
         <div className="game-page__orders">
           <div className="game-page__orders-half">
@@ -75,8 +65,7 @@ const GamePage = () => {
           </div>
         </div>
         <div className="game-page__chat">
-          <h2>실시간 채팅</h2>
-          {/* 실시간 채팅 컴포넌트 삽입 */}
+         <button className="order-button" onClick={navigateToUserAssets}>자산 조회</button> {/* UserAssetPage로 이동 */}
         </div>
       </div>
     </div>
