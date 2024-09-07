@@ -51,6 +51,7 @@ pipeline {
                                 -e NODE_ENV=production \
                                 -e REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL} \
                                 -p 3000:3000 $DOCKER_IMAGE:$DOCKER_TAG && \
+                                docker network connect my-network kmbbj-frontend && \
                                 rm /home/kmbbj123/front/$DOCKER_IMAGE.tar
                                 "
                             '''
@@ -64,6 +65,42 @@ pipeline {
     post {
         always {
             cleanWs()  // 빌드 후 워크스페이스 정리
+        }
+        success {
+            echo "빌드 성공 후 알림 전송 시작"
+            script {
+                withCredentials([string(credentialsId: 'kmbbj_jenkins_build_alarm', variable: 'DISCORD')]) {
+                    def changeLog = ""
+                    for (changeSet in currentBuild.changeSets) {
+                        for (entry in changeSet.items) {
+                            def shortMsg = entry.msg.take(50)
+                            changeLog += "* ${shortMsg} [${entry.author}]\n"
+                        }
+                    }
+                    if (!changeLog) {
+                        changeLog = "No changes in this build."
+                    }
+                    discordSend description: "${changeLog}",
+                    footer: "내 코드가 돌아 간다고? 거짓말 하지마",
+                    link: env.BUILD_URL, result: currentBuild.currentResult,
+                    title: "KMBBJ_CI/CD \nSUCCESS",
+                    webhookURL: "$DISCORD"
+                }
+            }
+        }
+
+        failure {
+            echo "빌드 실패 후 알림 전송 시작"  // 디버깅을 위한 메시지
+            withCredentials([string(credentialsId: 'kmbbj_jenkins_build_alarm', variable: 'DISCORD')]) {
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                link: env.BUILD_URL, result: currentBuild.currentResult,
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패",
+                webhookURL: "$DISCORD"
+            }
         }
     }
 }
