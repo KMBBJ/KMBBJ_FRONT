@@ -33,9 +33,9 @@ pipeline {
                             string(credentialsId: 'REACT_APP_API_BASE_URL', variable: 'REACT_APP_API_BASE_URL')
                         ]){
                         sshagent(credentials: ['kmbbj123']) {
-                            sh 'scp $DOCKER_IMAGE.tar kmbbj123@${GCP_IP}:/home/kmbbj123/front/'
+                            sh 'scp -o StrictHostKeyChecking=no $DOCKER_IMAGE.tar kmbbj123@${GCP_IP}:/home/kmbbj123/front/'
                             sh '''
-                                ssh kmbbj123@${GCP_IP} "
+                                ssh -o StrictHostKeyChecking=no kmbbj123@${GCP_IP} "
                                 docker load -i /home/kmbbj123/front/$DOCKER_IMAGE.tar && \
                                 docker stop kmbbj-frontend || true && \
                                 docker rm kmbbj-frontend || true && \
