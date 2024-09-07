@@ -59,11 +59,6 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup Docker Images') {
-            steps {
-                sh 'docker rmi $DOCKER_IMAGE:$DOCKER_TAG'  // 로컬 Docker 이미지 정리
-            }
-        }
     }
 
     post {
