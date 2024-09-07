@@ -50,11 +50,18 @@ pipeline {
                                 docker run -d --name kmbbj-frontend \
                                 -e NODE_ENV=production \
                                 -e REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL} \
-                                -p 3000:3000 $DOCKER_IMAGE:$DOCKER_TAG"
+                                -p 3000:3000 $DOCKER_IMAGE:$DOCKER_TAG && \
+                                rm /home/kmbbj123/front/$DOCKER_IMAGE.tar
+                                "
                             '''
                         }
                     }
                 }
+            }
+        }
+        stage('Cleanup Docker Images') {
+            steps {
+                sh 'docker rmi $DOCKER_IMAGE:$DOCKER_TAG'  // 로컬 Docker 이미지 정리
             }
         }
     }
