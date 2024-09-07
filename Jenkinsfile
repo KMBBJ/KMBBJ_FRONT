@@ -7,6 +7,12 @@ pipeline {
     }
 
     stages {
+        stage('Cleanup Workspace') {
+            steps {
+                cleanWs()  // 빌드 시작 전에 워크스페이스 정리
+            }
+        }
+
         stage('Git Clone') {
             steps {
                 git branch: 'main', url: 'https://github.com/KMBBJ/KMBBJ_FRONT.git'
